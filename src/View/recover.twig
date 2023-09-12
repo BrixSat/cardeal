@@ -1,0 +1,42 @@
+{% extends "base.twig" %}
+
+
+{% block head %}
+
+    <title>Recover &mdash; Slim</title>
+
+    {{ parent() }}
+{% endblock %}
+
+{% block preloader %} {% endblock %}
+{% block sidebar %} {% endblock %}
+{% block topbar %} {% endblock %}
+
+{% block content %}
+
+
+<div class="row min-h-fullscreen center-vh p-20 m-0">
+
+    <div class="col-12">
+        <div class="card card-shadowed px-50 py-30 w-400px mx-auto" style="max-width: 100%">
+            <h5 class="text-uppercase">Recover password</h5>
+            <br>
+
+            <form class="form-type-material" method="post" action="api/login/recover">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="email" name="email">
+                    <label for="email">Email address</label>
+                </div>
+
+                <input type="hidden" name="{{csrf.keys.name}}" value="{{csrf.name}}">
+                <input type="hidden" name="{{csrf.keys.value}}" value="{{csrf.value}}">
+
+                <br>
+                <button class="btn btn-bold btn-block btn-primary" type="submit">Reset</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
