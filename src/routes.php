@@ -64,7 +64,7 @@ return function (App $app) {
 
     $app->group('', function (RouteCollectorProxy $group) {
         $group->get('/dashboard', function (Request $request, Response $response, Environment $twig) {
-            $response->getBody()->write($twig->render('main.twig'));
+            $response->getBody()->write($twig->render('dashboard.twig'));
             return $response->withHeader('Content-Type', 'text/html');
         })->setName('dashboard')
             ->add(Guard::class)

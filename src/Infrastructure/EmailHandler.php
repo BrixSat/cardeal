@@ -61,9 +61,9 @@ class EmailHandler
     public static function SendRecoverEmail(User $to, string $url, Environment $twig): void
     {
         $handler = new EmailHandler();
-        $handler->withHTMLBody($twig->render('reset-password-email.twig', ['url' => $url]));
+        $handler->withHTMLBody($twig->render('emails/login/reset-password-email.twig', ['url' => $url]));
         try {
-            $handler->sendSingleUser($to, 'Slim -skeleton | Recover Password');
+            $handler->sendSingleUser($to, APP_NAME . ' | Recover Password');
         } catch (\Exception $exception) {
             die($exception->getMessage());
         }
@@ -77,10 +77,10 @@ class EmailHandler
     public static function SendWelcomeEmail(User $to, string $url, Environment $twig): void
     {
         $handler = new EmailHandler();
-        $handler->withHTMLBody($twig->render('welcome-email.twig', ['url' => $url]));
+        $handler->withHTMLBody($twig->render('emails/login/welcome-email.twig', ['url' => $url]));
 
         try {
-            $handler->sendSingleUser($to, 'Slim -skeleton | Welcome');
+            $handler->sendSingleUser($to,   APP_NAME . ' | Welcome');
         } catch (\Exception $exception) {
             die($exception->getMessage());
         }
@@ -94,10 +94,10 @@ class EmailHandler
     public static function SendVerifyEmail(User $to, string $url, Environment $twig): void
     {
         $handler = new EmailHandler();
-        $handler->withHTMLBody($twig->render('verify-email.twig', ['url' => $url]));
+        $handler->withHTMLBody($twig->render('emails/login/verify-email.twig', ['url' => $url]));
 
         try {
-            $handler->sendSingleUser($to, 'Slim -skeleton | Verify');
+            $handler->sendSingleUser($to, APP_NAME . ' | Verify');
         } catch (\Exception $exception) {
             die($exception->getMessage());
         }

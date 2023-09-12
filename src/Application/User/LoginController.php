@@ -30,7 +30,7 @@ class LoginController
      */
     public function viewLoginAuth(Request $request, Response $response, Environment $twig): Response|Message
     {
-        $response->getBody()->write($twig->render('login.twig', []));
+        $response->getBody()->write($twig->render('pages/login/login.twig', []));
         return $response->withHeader('Content-Type', 'text/html');
     }
 
@@ -41,7 +41,7 @@ class LoginController
      */
     public function viewLoginRecover(Request $request, Response $response, Environment $twig): Response|Message
     {
-        $response->getBody()->write($twig->render('recover.twig', []));
+        $response->getBody()->write($twig->render('pages/login/recover.twig', []));
         return $response->withHeader('Content-Type', 'text/html');
     }
 
@@ -71,7 +71,7 @@ class LoginController
         $passwordHash = password_hash($recoverPassword, null);
         $this->userRepository->updateUserRecoverPassword($user, $passwordHash);
 
-        $response->getBody()->write($twig->render('reset-password.twig', [
+        $response->getBody()->write($twig->render('pages/login/reset-password.twig', [
             'userId' => $user->id,
             'recoverHash' => $recoverPassword
         ]));
