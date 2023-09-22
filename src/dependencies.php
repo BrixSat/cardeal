@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Infrastructure\Persistence\DatabaseConnection;
 use App\Infrastructure\Slim\CsrfExtension;
+use App\Infrastructure\Slim\Handlers\HttpErrorHandler;
 use DI\ContainerBuilder;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -11,6 +12,7 @@ use Monolog\Processor\UidProcessor;
 use Psr\Log\LoggerInterface;
 use Slim\App;
 use Slim\Csrf\Guard;
+use Slim\Interfaces\ErrorHandlerInterface;
 use Slim\Interfaces\RouteParserInterface;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -33,17 +35,29 @@ $containerBuilder->addDefinitions(
             return $logger;
         },
 
+        ErrorHandlerInterface::class => fn(App $app, LoggerInterface $logger) => new HttpErrorHandler($app->getCallableResolver(), $app->getResponseFactory(), $logger),
+
+        Guard::class => function (App $app, LoggerInterface $logger)
+        {
+            $guard = new Guard($app->getResponseFactory(), persistentTokenMode: true);
+            $guard->setFailureHandler(function () use ($logger, $app)
+            {
+                $logger->warning("Invalid csrf token");
+                return $app->getResponseFactory()->createResponse(400);
+            });
+
+            return $guard;
+        },
+
         // Configure Twig
         Environment::class => function (Guard $guard) {
             $loader = new FilesystemLoader(__DIR__ . '/../src/View');
             $twig = new Environment($loader);
-            //$twig->addGlobal('project_owner_url', PROJECT_OWNER_URL);
-            //$twig->addGlobal('project_owner_name', PROJECT_OWNER_NAME);
-            $twig->addGlobal('base_path', BASE_PATH);
+            $twig->addGlobal('project_owner_url', PROJECT_OWNER_URL);
+            $twig->addGlobal('project_owner_name', PROJECT_OWNER_NAME);
+            $twig->addGlobal('base_path',  rtrim($this->app->getBasePath(), '/'));
             $twig->addGlobal('app_name', APP_NAME);
             $twig->addGlobal('app_description', APP_DESCRIPTION);
-            $twig->addGlobal('app_lang', APP_LANG);
-            $twig->addGlobal('app_keywords', APP_KEYWORDS);
 
             $twig->addExtension(new CsrfExtension($guard));
 
@@ -51,8 +65,6 @@ $containerBuilder->addDefinitions(
         },
 
         DatabaseConnection::class => fn(LoggerInterface $logger) => new DatabaseConnection($logger),
-
-        Guard::class => fn(App $app) => new Guard($app->getResponseFactory(), persistentTokenMode: true),
 
         RouteParserInterface::class => fn(App $app) => $app->getRouteCollector()->getRouteParser()
     ]);

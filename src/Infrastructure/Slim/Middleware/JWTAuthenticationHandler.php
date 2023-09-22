@@ -10,10 +10,13 @@ use Slim\Interfaces\RouteParserInterface;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 
-readonly class JWTAuthenticationHandler
+class JWTAuthenticationHandler
 {
 
-    public function __construct(private LoggerInterface $logger, private RouteParserInterface $router) { }
+    public function __construct(private LoggerInterface $logger, private RouteParserInterface $router)
+    {
+        $this->logger->debug(self::class . " :: __construct");
+    }
 
     /**
      *
@@ -24,6 +27,8 @@ readonly class JWTAuthenticationHandler
      */
     public function __invoke(Request $request, RequestHandler $handler): Response
     {
+        $this->logger->debug(self::class . " :: __invoke");
+
         $token = $request->getCookieParams()['token'] ?? null;
 
         try {

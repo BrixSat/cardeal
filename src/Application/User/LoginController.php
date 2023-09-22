@@ -8,6 +8,7 @@ use App\Infrastructure\EmailHandler;
 use App\Infrastructure\Slim\Authentication\Token;
 use App\Infrastructure\Slim\HttpResponse;
 use Psr\Log\LoggerInterface;
+use Slim\App;
 use Slim\Interfaces\RouteParserInterface;
 use Slim\Psr7\Message;
 use Slim\Psr7\Request;
@@ -20,8 +21,14 @@ use Twig\Error\SyntaxError;
 class LoginController
 {
     use HttpResponse;
+    private App $app;
 
-    public function __construct(public LoggerInterface $logger, public UserRepository $userRepository) { }
+    public function __construct(
+        App $app,
+        public LoggerInterface $logger,
+        public UserRepository $userRepository) {
+        $this->app = $app;
+    }
 
     /**
      * @throws RuntimeError
@@ -55,7 +62,7 @@ class LoginController
     {
         $userId = (int)$request->getAttribute('id');
         $recoverPassword = $request->getAttribute('recoverPassword');
-        $user = $this->userRepository->findUserById($userId);
+        $user = $this->userRepository->findById($userId);
 
         if(empty($user->recoverPassword) || !password_verify($recoverPassword,$user->recoverPassword)) {
             $response->getBody()->write($twig->render('error/flow-end.twig', [
@@ -93,7 +100,7 @@ class LoginController
     public function doLoginRecover(Request $request, Response $response, Environment $twig, RouteParserInterface $router): Response|Message
     {
         $email = $request->getParsedBody()['email'];
-        $user = $this->userRepository->findUserByEmail($email);
+        $user = $this->userRepository->findByEmail($email);
 
         $recoverPassword = rand_string(32);
         $passwordHash = password_hash($recoverPassword, null);
@@ -124,7 +131,7 @@ class LoginController
         $userId = $request->getParsedBody()['code'];
         $recoverPassword = $request->getParsedBody()['recoverHash'];
 
-        $user = $this->userRepository->findUserById($userId);
+        $user = $this->userRepository->findById($userId);
 
         if (password_verify($recoverPassword, $user->recoverPassword)) {
 
@@ -146,13 +153,14 @@ class LoginController
         $username = $request->getParsedBody()['username'];
         $password = $request->getParsedBody()['password'];
 
-        $user = $this->userRepository->findUserByUsername($username);
+        $user = $this->userRepository->findByUsername($username);
         if (password_verify($password, $user->password)) {
             $token = new Token($user->getUsername());
             $token->encode();
-            setcookie("token", $token->token, time() + 3600, BASE_PATH);
-            return $response->withStatus(301)->withHeader('Location', $router->urlFor('dashboard'));
+            setcookie("token", $token->token, time() + 3600, empty($this->app->getBasePath()) ? '/' : $this->app->getBasePath());
+            return $response->withStatus(301)->withHeader('Location', $router->urlFor('home'));
         } else {
+            $this->logger->warning("Invalid login user password");
             return $response->withStatus(403);
         }
     }
@@ -163,3 +171,4 @@ class LoginController
         return $response->withStatus(301)->withHeader('Location', $router->urlFor('viewLoginAuth'));
     }
 }
+
