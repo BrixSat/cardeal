@@ -1,5 +1,8 @@
-Options All -Indexes
+<FilesMatch \.php$>
+#	SetHandler application/x-httpd-php82
+</FilesMatch>
 
+Options All -Indexes
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
