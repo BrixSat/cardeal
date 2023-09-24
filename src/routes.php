@@ -92,6 +92,26 @@ return function (App $app) {
 
         });
 
+        $group->group('/planning', function (RouteCollectorProxy $group)
+        {
+
+            $group->get('/add', [AdminController::class, 'viewAddUserForm'])
+                ->setName('viewAddUserForm');
+
+            $group->get('/list', [AdminController::class, 'viewUsersList'])
+                ->setName('viewUsersList');
+        });
+
+        $group->group('/clients', function (RouteCollectorProxy $group)
+        {
+
+            $group->get('/add', [AdminController::class, 'viewAddUserForm'])
+                ->setName('viewAddUserForm');
+
+            $group->get('/list', [AdminController::class, 'viewUsersList'])
+                ->setName('viewUsersList');
+        });
+
         $group->get('/profile/{id}', [UserController::class, 'viewUserProfile'])
               ->setName('viewUserProfile');
 
