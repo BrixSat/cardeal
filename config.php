@@ -2,18 +2,18 @@
 
 use Monolog\Level;
 
-defined('APP_NAME')			or define('APP_NAME', 'Quinta Cardeal');
-defined('APP_DESCRIPTION')		or define('APP_DESCRIPTION', 'Quinta Cardeal');
-defined('PROJECT_OWNER_NAME')		or define('PROJECT_OWNER_NAME', 'slim-skeleton');
-defined('PROJECT_OWNER_URL')		or define('PROJECT_OWNER_URL', '');
-defined('PRODUCTION')			or define('PRODUCTION', false);
-defined('APP_LANG')			or define('APP_LANG', 'en');
-defined('APP_KEYWORDS')			or define('APP_KEYWORDS', 'Quinta Cardeal');
+defined('APP_NAME')                         or define('APP_NAME', 'Quinta Cardeal');
+defined('APP_DESCRIPTION')                  or define('APP_DESCRIPTION', 'Quinta Cardeal');
+defined('PROJECT_OWNER_NAME')               or define('PROJECT_OWNER_NAME', 'César Araújo');
+defined('PROJECT_OWNER_URL')                or define('PROJECT_OWNER_URL', 'https://CesarAraujo.net');
+defined('PRODUCTION')                       or define('PRODUCTION', false);
+defined('APP_LANG')                         or define('APP_LANG', 'en');
+defined('APP_KEYWORDS')                     or define('APP_KEYWORDS', 'Quinta Cardeal');
 
 
 // SLIM
 // Should be set to false in production
-defined('DISPLAY_ERRORS')   or define('DISPLAY_ERRORS', false);
+defined('DISPLAY_ERRORS')                   or define('DISPLAY_ERRORS', false);
 
 // logger
 defined('LOGGER_REGISTER_ERRORS')           or define('LOGGER_REGISTER_ERRORS', true);
@@ -25,11 +25,11 @@ defined('LOGGER_INTERNAL_CONFIGS')          or define('LOGGER_INTERNAL_CONFIGS',
 ]);
 
 // db
-defined('DATABASE_HOST')		or define('DATABASE_HOST', '127.0.0.1');
-defined('DATABASE_NAME')		or define('DATABASE_NAME', 'cardeal');
-defined('DATABASE_USER')		or define('DATABASE_USER', 'xarevision');
-defined('DATABASE_PASSWORD')		or define('DATABASE_PASSWORD', '123.123.');
-defined('DATABASE_PORT')		or define('DATABASE_PORT', 3306);
+defined('DATABASE_HOST')		            or define('DATABASE_HOST', '127.0.0.1');
+defined('DATABASE_NAME')		            or define('DATABASE_NAME', 'cardeal');
+defined('DATABASE_USER')		            or define('DATABASE_USER', 'xarevision');
+defined('DATABASE_PASSWORD')		        or define('DATABASE_PASSWORD', '123.123.');
+defined('DATABASE_PORT')		            or define('DATABASE_PORT', 3306);
 
 // JWT
 defined('ALGORITHM')			or define('ALGORITHM', 'HS256');
