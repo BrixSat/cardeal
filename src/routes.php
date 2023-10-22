@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use App\Application\Admin\AdminController;
+use App\Application\Client\ClientController;
+use App\Application\Planning\PlanningController;
 use App\Application\User\UserController;
 use App\Application\User\LoginController;
 use App\Infrastructure\Slim\Middleware\JWTAuthenticationHandler;
@@ -95,20 +97,20 @@ return function (App $app) {
         $group->group('/planning', function (RouteCollectorProxy $group)
         {
 
-            $group->get('/add', [AdminController::class, 'viewAddUserForm'])
+            $group->get('/add', [PlanningController::class, 'viewAddUserForm'])
                 ->setName('viewAddUserForm');
 
-            $group->get('/list', [AdminController::class, 'viewUsersList'])
+            $group->get('/list', [PlanningController::class, 'viewUsersList'])
                 ->setName('viewUsersList');
         });
 
         $group->group('/clients', function (RouteCollectorProxy $group)
         {
 
-            $group->get('/add', [AdminController::class, 'viewAddUserForm'])
+            $group->get('/add', [ClientController::class, 'viewAddUserForm'])
                 ->setName('viewAddUserForm');
 
-            $group->get('/list', [AdminController::class, 'viewUsersList'])
+            $group->get('/list', [ClientController::class, 'viewUsersList'])
                 ->setName('viewUsersList');
         });
 
