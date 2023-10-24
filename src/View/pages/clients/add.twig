@@ -150,6 +150,40 @@
                                     </div>
                                 </div>
 
+                                <div class="row">
+                                    <div class="form-group col-md-3">
+                                        <div class="custom-control custom-control-lg custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="lights" name="lights">
+                                            <label class="custom-control-label" for="lights">Lights</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <div class="custom-control custom-control-lg custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="rooms" name="rooms">
+                                            <label class="custom-control-label" for="rooms">Quartos</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <div class="custom-control custom-control-lg custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="menu" name="menu">
+                                            <label class="custom-control-label" for="menu">Ementa</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <div class="custom-control custom-control-lg custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="fireworks" name="fireworks">
+                                            <label class="custom-control-label" for="menu">Fogo</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <label for="observations" class="text-fader">Observações</label>
+                                        <textarea id="observations" name="observations" data-provide="summernote" data-min-height="150"></textarea>
+                                    </div>
+                                </div>
+
                                 <input type="hidden" name="{{csrf.keys.name}}" value="{{csrf.name}}">
                                 <input type="hidden" name="{{csrf.keys.value}}" value="{{csrf.value}}">
 
