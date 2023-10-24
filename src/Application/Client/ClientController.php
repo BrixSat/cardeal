@@ -27,9 +27,9 @@ class ClientController
      * @throws SyntaxError
      * @throws LoaderError
      */
-    public function viewAddUserForm(Request $request, Response $response, Environment $twig): Response|Message
+    public function viewAddClientForm(Request $request, Response $response, Environment $twig): Response|Message
     {
-        $response->getBody()->write($twig->render('pages/admin/add-user.twig', []));
+        $response->getBody()->write($twig->render('pages/clients/add.twig', []));
         return $response->withHeader('Content-Type', 'text/html');
     }
 
@@ -38,7 +38,7 @@ class ClientController
      * @throws SyntaxError
      * @throws LoaderError
      */
-    public function viewUsersList(Request $request, Response $response, Environment $twig): Response|Message
+    public function viewClientsList(Request $request, Response $response, Environment $twig): Response|Message
     {
         $userList = $this->userRepository->findAll();
 
