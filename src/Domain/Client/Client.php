@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\User;
+namespace App\Domain\Client;
 
 
 use DateTime;
 use JsonSerializable;
-use phpDocumentor\Reflection\Types\Boolean;
 
 class Client implements JsonSerializable
 {
@@ -25,27 +24,25 @@ class Client implements JsonSerializable
     private string     $brideAddress;
     private int        $typeOfEvent;
     private int        $civilOrChurch;
-    private DateTime   $eventYear;
     private DateTime   $eventDate;
     private DateTime   $closedDate;
+    private String     $alternativeDates;
     private DateTime   $tastingDate;
     private string     $nif;
     private string     $signalAmount;
     private bool       $lights;
     private bool       $rooms;
     private bool       $menu;
-    private bool       $fire;
+    private bool       $fireworks;
     private string     $fireType;
     private string     $observations;
     private ?\DateTime $createdAt;
     private ?\DateTime $updatedAt;
 
     public function __construct(
-             readonly ?int       $id,
+                      readonly ?int       $id,
                       string     $groomName,
-                      string     $groomSurname,
                       string     $brideName,
-                      string     $brideSurname,
                       DateTime   $groomBirthDate,
                       DateTime   $brideBirthDate,
                       string     $groomEmail,
@@ -56,8 +53,8 @@ class Client implements JsonSerializable
                       string     $brideAddress,
                       int        $typeOfEvent,
                       int        $civilOrChurch,
-                      DateTime   $eventYear,
                       DateTime   $eventDate,
+                      string     $alternativeDates,
                       DateTime   $closedDate,
                       DateTime   $tastingDate,
                       string     $nif,
@@ -65,7 +62,7 @@ class Client implements JsonSerializable
                       bool       $lights,
                       bool       $rooms,
                       bool       $menu,
-                      bool       $fire,
+                      bool       $fireworks,
                       string     $fireType,
                       string     $observations,
                       DateTime   $createdAt,
@@ -73,15 +70,9 @@ class Client implements JsonSerializable
 
     {
         $this->setGroomName($groomName);
-        $this->setGroomSurname($groomSurname);
         $this->setBrideName($brideName);
-        $this->setBrideSurname($brideSurname);
         $this->setGroomBirthDate($groomBirthDate);
         $this->setBrideBirthDate($brideBirthDate);
-        $this->setEventYear($eventYear);
-        $this->setEventDate($eventDate);
-        $this->setClosedDate($closedDate);
-        $this->setTastingDate($tastingDate);
         $this->setGroomEmail($groomEmail);
         $this->setBrideEmail($brideEmail);
         $this->setGroomPhone($groomPhone);
@@ -90,12 +81,16 @@ class Client implements JsonSerializable
         $this->setBrideAddress($brideAddress);
         $this->setTypeOfEvent($typeOfEvent);
         $this->setCivilOrChurch($civilOrChurch);
+        $this->setEventDate($eventDate);
+        $this->setAlternativeDates($alternativeDates);
+        $this->setClosedDate($closedDate);
+        $this->setTastingDate($tastingDate);
         $this->setNif($nif);
         $this->setSignalAmount($signalAmount);
         $this->setLights($lights);
         $this->setRooms($rooms);
         $this->setMenu($menu);
-        $this->setFire($fire);
+        $this->setFire($fireworks);
         $this->setFireType($fireType);
         $this->setObservations($observations);
         $this->setUpdatedAt($createdAt);
@@ -106,17 +101,9 @@ class Client implements JsonSerializable
     {
         return $this->groomName;
     }
-    public function getGroomSurname(): string
-    {
-        return $this->groomSurname;
-    }
     public function getBrideName(): string
     {
         return $this->brideName;
-    }
-    public function getBrideSurname(): string
-    {
-        return $this->brideSurname;
     }
     public function getGroomBirthDate(): DateTime
     {
@@ -158,10 +145,7 @@ class Client implements JsonSerializable
     {
         return $this->civilOrChurch;
     }
-    public function getEventYear(): DateTime
-    {
-        return $this->eventYear;
-    }
+
     public function getEventDate(): DateTime
     {
         return $this->eventDate;
@@ -169,6 +153,10 @@ class Client implements JsonSerializable
     public function getClosedDate(): DateTime
     {
         return $this->closedDate;
+    }
+    public function getAlternativeDates(): String
+    {
+        return $this->alternativeDates;
     }
     public function getTastingDate(): DateTime
     {
@@ -194,9 +182,9 @@ class Client implements JsonSerializable
     {
         return $this->menu;
     }
-    public function getFire(): bool
+    public function getFireworks(): bool
     {
-        return $this->fire;
+        return $this->fireworks;
     }
     public function getFireType(): string
     {
@@ -338,17 +326,18 @@ class Client implements JsonSerializable
         $this->civilOrChurch = $civilOrChurch;
     }
 
-    public function setEventYear(DateTime $eventYear): void
-    {
-        $this->validateDate($eventYear, 'eventYear');
-        $this->eventYear = $eventYear;
-    }
 
     public function setEventDate(DateTime $eventDate): void
     {
         $this->validateDate($eventDate, 'eventDate');
         $this->eventDate = $eventDate;
     }
+
+    public function setAlternativeDates(String $alternativeDates): void
+    {
+        $this->alternativeDates = $alternativeDates;
+    }
+
 
     public function setClosedDate(DateTime $closedDate): void
     {
@@ -392,10 +381,10 @@ class Client implements JsonSerializable
         $this->menu = $menu;
     }
 
-    public function setFire(bool $fire): void
+    public function setFireworks(bool $fireworks): void
     {
         // Validation logic for fire, if needed
-        $this->fire = $fire;
+        $this->fireworks = $fireworks;
     }
 
     public function setFireType(string $fireType): void

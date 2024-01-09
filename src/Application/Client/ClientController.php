@@ -1,9 +1,8 @@
 <?php
 namespace App\Application\Client;
 
-use App\Domain\User\User;
-use App\Domain\User\UserNotFoundException;
-use App\Domain\User\UserRepository;
+use App\Domain\Client\ClientNotFoundException;
+use App\Domain\Client\ClientRepository;
 use App\Infrastructure\Slim\HttpResponse;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
@@ -20,7 +19,7 @@ class ClientController
 {
     use HttpResponse;
 
-    public function __construct(public LoggerInterface $logger, public UserRepository $userRepository) { }
+    public function __construct(public LoggerInterface $logger, public ClientRepository $clientRepository) { }
 
     /**
      * @throws RuntimeError
@@ -40,42 +39,77 @@ class ClientController
      */
     public function viewClientsList(Request $request, Response $response, Environment $twig): Response|Message
     {
-        $userList = $this->userRepository->findAll();
+        $userList = $this->clientRepository->findAll();
 
         $response->getBody()->write($twig->render('pages/admin/list-users.twig', ["userList" => $userList]));
         return $response->withHeader('Content-Type', 'text/html');
     }
 
 
-    public function addUser(Request              $request,
+    public function addClient(Request              $request,
                             Response             $response,
                             Environment          $twig,
                             RouteParserInterface $router): Response|Message
     {
-        $firstName = $request->getParsedBody()['firstName'];
-        $lastName = $request->getParsedBody()['lastName'];
-        $email = $request->getParsedBody()['email'];
-        $password = $request->getParsedBody()['password'];
+        $groomName = $request->getParsedBody()['groomName'];
+        $groomBirthDate = $request->getParsedBody()['groomBirthdate'];
+        $groomEmail = $request->getParsedBody()['groomEmail'];
+        $groomPhone = $request->getParsedBody()['groomPhone'];
+        $groomAddress = $request->getParsedBody()['groomAddress'];
+        $brideName = $request->getParsedBody()['brideName'];
+        $brideBirthDate = $request->getParsedBody()['brideBirthdate'];
+        $brideEmail = $request->getParsedBody()['brideEmail'];
+        $bridePhone = $request->getParsedBody()['bridePhone'];
+        $brideAddress = $request->getParsedBody()['brideAddress'];
+        $typeOfEvent = $request->getParsedBody()['typeOfEvent'];
+        $civilOrChurch = $request->getParsedBody()['civilOrChurch'];
+        $eventDate = $request->getParsedBody()['eventDate'];
+        $alternativeDates = $request->getParsedBody()['alternativeDates'];
+        $closedDate = $request->getParsedBody()['closedDate'];
+        $tastingDate = $request->getParsedBody()['tastingDate'];
+        $nif = $request->getParsedBody()['nif'];
+        $signalAmmount = $request->getParsedBody()['signalAmmount'];
+        $lights = $request->getParsedBody()['lights'];
+        $rooms = $request->getParsedBody()['rooms'];
+        $menu = $request->getParsedBody()['menu'];
+        $fireworks = $request->getParsedBody()['fireworks'];
+        $fireType = $request->getParsedBody()['fireType'];
+        $observations = $request->getParsedBody()['observations'];
 
         try {
-            $this->userRepository->findByEmail($email);
-            throw new InvalidArgumentException("User Already exist");
-        } catch (UserNotFoundException $ignore) {
+            $this->clientRepository->findByEmail($groomEmail);
+            throw new InvalidArgumentException("Client Already exist");
+        } catch (ClientNotFoundException $ignore) {
         }
 
 
-        $passwordHash = password_hash($password, null);
-
-        $user = $this->userRepository->add(
+        $user = $this->clientRepository->add(
             new User(
-                id:              -1,
-                username:        $firstName . '.' . $lastName,
-                firstName:       $firstName,
-                lastName:        $lastName,
-                password:        $passwordHash,
-                recoverPassword: '',
-                email:           $email,
-                jobTitle:        '',
+                id: -1,
+                groomFirstName: $groomName,
+                groomBirthdate: $groomBirthDate,
+                groomEmail: $groomEmail,
+                groomPhone: $groomPhone,
+                groomAddress: $groomAddress,
+                brideFirstName: $brideName,
+                brideBirthdate: $brideBirthDate,
+                brideEmail: $brideEmail,
+                bridePhone: $bridePhone,
+                brideAddress: $brideAddress,
+                typeOfEvent: $typeOfEvent,
+                civilOrChurch: $civilOrChurch,
+                eventDate: $eventDate,
+                alternativeDates: $alternativeDates,
+                nif: $nif,
+                signalAmmount: $signalAmmount,
+                closedDate: $closedDate,
+                tastingDate: $tastingDate,
+                lights: $lights,
+                rooms: $rooms,
+                menu: $menu,
+                fireworks: $fireworks,
+                fireType: $fireType,
+                observations: $observations,
                 createdAt:       null,
                 updatedAt:       null
             )

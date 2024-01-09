@@ -138,7 +138,12 @@ return function (App $app) {
             $group->post('', [AdminController::class, 'addUser']);
         });
 
+        $group->group('/clients/add', function (RouteCollectorProxy $group) {
+            $group->post('', [ClientController::class, 'addClient']);
+        });
+
         $group->delete('/admin/user/{id}', [UserController::class, 'deleteUserProfile'])->setName('deleteUserProfile');
+
 
     })->add(JWTAuthenticationHandler::class)
         ->add(NoCacheMiddleware::class);

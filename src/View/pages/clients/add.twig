@@ -11,7 +11,7 @@
     <div class="main-content">
         <div class="row">
             <div class="col-12">
-                <form class="card" method="post" action="secure/api/users">
+                <form class="card" method="post" action="secure/api/clients/add">
                     <h4 class="card-title"><strong>Novo cliente</strong></h4>
 
                     <div class="card-body">
@@ -22,37 +22,32 @@
                                 <hr class="hr-sm mb-2">
 
                                 <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <label for="groomFirstName" class="text-fader">Nome</label>
-                                        <input class="form-control" type="text" name="groomFirstName" id="groomFirstName">
-                                    </div>
-
-                                    <div class="form-group col-md-6">
-                                        <label for="groomLastName" class="text-fader">Último nome</label>
-                                        <input class="form-control" type="text" name="groomLastName" id="groomLastName">
+                                    <div class="form-group col-md-12">
+                                        <label for="groomName" class="text-fader required">Nome</label>
+                                        <input class="form-control required" type="text" name="groomName" id="groomName">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-6">
-                                        <label for="groomBirthdate" class="text-fader">Data nascimento</label>
-                                        <input class="form-control" type="text" name="groomBirthdate" id="groomBirthdate"  data-provide="datepicker" data-date-today-highlight="true">
+                                        <label for="groomBirthdate" class="text-fader required">Data nascimento</label>
+                                        <input class="form-control required" type="text" name="groomBirthdate" id="groomBirthdate"  data-provide="datepicker" data-date-today-highlight="true">
                                     </div>
 
                                     <div class="form-group col-md-6">
-                                        <label for="groomEmail" class="text-fader">Email</label>
-                                        <input class="form-control" type="email" name="groomEmail" id="groomEmail">
+                                        <label for="groomEmail" class="text-fader required">Email</label>
+                                        <input class="form-control required" type="email" name="groomEmail" id="groomEmail">
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="form-group col-md-6">
-                                        <label for="groomPhone" class="text-fader">Telemóvel</label>
-                                        <input class="form-control" type="tel" name="groomPhone" id="groomPhone">
+                                        <label for="groomPhone" class="text-fader required">Telemóvel</label>
+                                        <input class="form-control required" type="tel" name="groomPhone" id="groomPhone">
                                     </div>
 
                                     <div class="form-group col-md-6">
-                                        <label for="groomAddress" class="text-fader">Morada</label>
-                                        <input class="form-control" type="text" name="groomAddress" id="groomAddress">
+                                        <label for="groomAddress" class="text-fader required">Morada</label>
+                                        <input class="form-control required" type="text" name="groomAddress" id="groomAddress">
                                     </div>
                                 </div>
 
@@ -60,32 +55,27 @@
                                 <hr class="hr-sm mb-2">
 
                                 <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <label for="brideFirstName" class="text-fader">Nome</label>
-                                        <input class="form-control" type="text" name="brideFirstName" id="brideFirstName">
-                                    </div>
-
-                                    <div class="form-group col-md-6">
-                                        <label for="brideLastName" class="text-fader">Último nome</label>
-                                        <input class="form-control" type="text" name="brideLastName" id="brideLastName">
+                                    <div class="form-group col-md-12">
+                                        <label for="brideName" class="text-fader required">Nome</label>
+                                        <input class="form-control required" type="text" name="brideName" id="brideName">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-6">
-                                        <label for="brideBirthdate" class="text-fader">Data nascimento</label>
-                                        <input class="form-control" type="text" name="brideBirthdate" id="brideBirthdate"  data-provide="datepicker" data-date-today-highlight="true">
+                                        <label for="brideBirthdate" class="text-fader required">Data nascimento</label>
+                                        <input class="form-control required" type="text" name="brideBirthdate" id="brideBirthdate"  data-provide="datepicker" data-date-today-highlight="true">
                                     </div>
 
                                     <div class="form-group col-md-6">
-                                        <label for="brideEmail" class="text-fader">Email</label>
-                                        <input class="form-control" type="email" name="brideEmail" id="brideEmail">
+                                        <label for="brideEmail" class="text-fader required">Email</label>
+                                        <input class="form-control required" type="email" name="brideEmail" id="brideEmail">
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="form-group col-md-6">
-                                        <label for="bridePhone" class="text-fader">Telemóvel</label>
-                                        <input class="form-control" type="tel" name="bridePhone" id="bridePhone">
+                                        <label for="bridePhone" class="text-fade required">Telemóvel</label>
+                                        <input class="form-control required" type="tel" name="bridePhone" id="bridePhone">
                                     </div>
 
                                     <div class="form-group col-md-6">
@@ -99,8 +89,8 @@
 
                                 <div class="row">
                                     <div class="form-group col-md-6">
-                                        <label for="eventType" class="text-fader">Tipo de evento</label>
-                                          <select class="form-control" data-provide="selectpicker" id="eventType" name="eventType">
+                                        <label for="typeOfEvent" class="text-fader required">Tipo de evento</label>
+                                          <select class="form-control required" data-provide="selectpicker" id="typeOfEvent" name="typeOfEvent">
                                             <option selected>Selecione uma opção</option>
                                             <option>Casamento</option>
                                             <option>Batizado</option>
@@ -122,8 +112,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-6">
-                                        <label for="dateOfEvent" class="text-fader">Data do evento</label>
-                                        <input class="form-control" type="text" name="dateOfEvent" id="dateOfEvent"  data-provide="datepicker" data-date-today-highlight="true">
+                                        <label for="eventDate" class="text-fader required">Data do evento</label>
+                                        <input class="form-control required" type="text" name="eventDate" id="eventDate"  data-provide="datepicker" data-date-today-highlight="true">
                                     </div>
 
                                     <div class="form-group col-md-6">
@@ -134,8 +124,8 @@
 
                                 <div class="row">
                                     <div class="form-group col-md-6">
-                                        <label for="closeDate" class="text-fader">Data Fecho</label>
-                                        <input class="form-control" type="text" name="closeDate" id="closeDate"  data-provide="datepicker" data-date-today-highlight="true">
+                                        <label for="closedDate" class="text-fader">Data Fecho</label>
+                                        <input class="form-control" type="text" name="closedDate" id="closedDate"  data-provide="datepicker" data-date-today-highlight="true">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="tastingDate" class="text-fader">Data Degustação</label>
@@ -154,7 +144,7 @@
                                     <div class="form-group col-md-3">
                                         <div class="custom-control custom-control-lg custom-checkbox">
                                             <input type="checkbox" class="custom-control-input" id="lights" name="lights">
-                                            <label class="custom-control-label" for="lights">Lights</label>
+                                            <label class="custom-control-label" for="lights">Luzes</label>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-3">
@@ -194,7 +184,7 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <button class="btn btn-block btn-primary" id="save"
-                                                type="submit" disabled>Save Changes</button>
+                                                type="submit" disabled>Gaurdar alterações</button>
                                     </div>
                                 </div>
 
@@ -210,5 +200,43 @@
 
 {% endblock %}
 {% block script %}
-    <script src="{{ base_path() }}/assets/js/admin/add-user.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Function to check if all required fields are filled
+            function validateForm() {
+                var isValid = true;
+                $(".required").each(function() {
+                    if (!$(this).is("label") && !$(this).is("div"))
+                    {
+                        if ( $( this ).val().trim() === "" )
+                        {
+                            isValid = false;
+                            console.log( this );
+                            console.log( $( this ).val() );
+                            return false; // Exit the loop early if any field is empty
+                        }
+                    }
+                });
+                return isValid;
+            }
+
+            // Attach an event handler to the input elements with class "required" to check validity when losing focus
+            $(".required").on("blur", function() {
+                if (!validateForm()) {
+                    $("#save").prop("disabled", true);
+                } else {
+                    $("#save").prop("disabled", false);
+                }
+            });
+
+            // Prevent the form from submitting if not valid
+            $("form").submit(function(event) {
+                if (!validateForm()) {
+                    event.preventDefault();
+                    alert("Please fill in all required fields before submitting.");
+                }
+            });
+        });
+    </script>
 {% endblock %}
