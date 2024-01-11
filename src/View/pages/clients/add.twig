@@ -92,12 +92,12 @@
                                         <label for="typeOfEvent" class="text-fader required">Tipo de evento</label>
                                           <select class="form-control required" data-provide="selectpicker" id="typeOfEvent" name="typeOfEvent">
                                             <option selected>Selecione uma opção</option>
-                                            <option>Casamento</option>
-                                            <option>Batizado</option>
-                                            <option>Comunhão</option>
-                                            <option>Festa Corporativa</option>
-                                            <option>Festa Privativa</option>
-                                            <option>Aniversário</option>
+                                            <option value="1">Casamento</option>
+                                            <option value="2">Batizado</option>
+                                            <option value="3">Comunhão</option>
+                                            <option value="4">Festa Corporativa</option>
+                                            <option value="5">Festa Privativa</option>
+                                            <option value="6">Aniversário</option>
                                         </select>
                                     </div>
 
@@ -105,8 +105,8 @@
                                         <label for="civilOrChurch" class="text-fader">Civil ou religioso</label>
                                         <select class="form-control" data-provide="selectpicker" id="civilOrChurch" name="civilOrChurch">
                                             <option selected>Selecione uma opção</option>
-                                            <option>Civil</option>
-                                            <option>Religioso</option>
+                                            <option value="1">Civil</option>
+                                            <option value="2">Religioso</option>
                                           </select>
                                     </div>
                                 </div>
@@ -135,8 +135,12 @@
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-6">
-                                        <label for="alternativeDates" class="text-fader">Valor do Sinal</label>
-                                        <input class="form-control" type="text" name="alternativeDates" id="alternativeDates">
+                                        <label for="signalAmmount" class="text-fader">Valor do Sinal</label>
+                                        <input class="form-control" type="text" name="signalAmmount" id="signalAmmount">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="nif" class="text-fader">N.I.F.</label>
+                                        <input class="form-control" type="text" name="nif" id="nif">
                                     </div>
                                 </div>
 

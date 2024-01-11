@@ -73,7 +73,7 @@ readonly class SqlClientRepository implements ClientRepository
                 $client->getClosedDate(),
                 $client->getTastingDate(),
                 $client->getNif(),
-                $client->getSignalAmount(),
+                $client->getSignalAmmount(),
                 $client->getLights(),
                 $client->getRooms(),
                 $client->getMenu(),
@@ -233,7 +233,7 @@ readonly class SqlClientRepository implements ClientRepository
 
     public function findByEmail(string $email): Client
     {
-        $result = $this->db->runWithParams("SELECT * FROM client where groomEmail or brideEmail= ? limit 1;", [$email, $email]);
+        $result = $this->db->runWithParams("SELECT * FROM clients where groomEmail = ? or brideEmail= ? limit 1;", [$email, $email]);
 
         if (!isset($result[0])) {
             throw new ClientNotFoundException();

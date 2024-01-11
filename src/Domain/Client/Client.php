@@ -14,8 +14,8 @@ class Client implements JsonSerializable
     private string     $groomSurname;
     private string     $brideName;
     private string     $brideSurname;
-    private DateTime   $groomBirthDate;
-    private DateTime   $brideBirthDate;
+    private DateTime   $groomBirthdate;
+    private DateTime   $brideBirthdate;
     private string     $groomEmail;
     private string     $brideEmail;
     private string     $groomPhone;
@@ -29,7 +29,7 @@ class Client implements JsonSerializable
     private String     $alternativeDates;
     private DateTime   $tastingDate;
     private string     $nif;
-    private string     $signalAmount;
+    private string     $signalAmmount;
     private bool       $lights;
     private bool       $rooms;
     private bool       $menu;
@@ -43,8 +43,8 @@ class Client implements JsonSerializable
                       readonly ?int       $id,
                       string     $groomName,
                       string     $brideName,
-                      DateTime   $groomBirthDate,
-                      DateTime   $brideBirthDate,
+                      DateTime   $groomBirthdate,
+                      DateTime   $brideBirthdate,
                       string     $groomEmail,
                       string     $brideEmail,
                       string     $groomPhone,
@@ -58,7 +58,7 @@ class Client implements JsonSerializable
                       DateTime   $closedDate,
                       DateTime   $tastingDate,
                       string     $nif,
-                      string     $signalAmount,
+                      string     $signalAmmount,
                       bool       $lights,
                       bool       $rooms,
                       bool       $menu,
@@ -71,8 +71,8 @@ class Client implements JsonSerializable
     {
         $this->setGroomName($groomName);
         $this->setBrideName($brideName);
-        $this->setGroomBirthDate($groomBirthDate);
-        $this->setBrideBirthDate($brideBirthDate);
+        $this->setGroomBirthdate($groomBirthdate);
+        $this->setBrideBirthdate($brideBirthdate);
         $this->setGroomEmail($groomEmail);
         $this->setBrideEmail($brideEmail);
         $this->setGroomPhone($groomPhone);
@@ -86,11 +86,11 @@ class Client implements JsonSerializable
         $this->setClosedDate($closedDate);
         $this->setTastingDate($tastingDate);
         $this->setNif($nif);
-        $this->setSignalAmount($signalAmount);
+        $this->setSignalAmmount($signalAmmount);
         $this->setLights($lights);
         $this->setRooms($rooms);
         $this->setMenu($menu);
-        $this->setFire($fireworks);
+        $this->setFireworks($fireworks);
         $this->setFireType($fireType);
         $this->setObservations($observations);
         $this->setUpdatedAt($createdAt);
@@ -105,13 +105,13 @@ class Client implements JsonSerializable
     {
         return $this->brideName;
     }
-    public function getGroomBirthDate(): DateTime
+    public function getGroomBirthdate(): DateTime
     {
-        return $this->groomBirthDate;
+        return $this->groomBirthdate;
     }
-    public function getBrideBirthDate(): DateTime
+    public function getBrideBirthdate(): DateTime
     {
-        return $this->brideBirthDate;
+        return $this->brideBirthdate;
     }
     public function getGroomEmail(): string
     {
@@ -166,9 +166,9 @@ class Client implements JsonSerializable
     {
         return $this->nif;
     }
-    public function getSignalAmount(): string
+    public function getSignalAmmount(): string
     {
-        return $this->signalAmount;
+        return $this->signalAmmount;
     }
     public function getLights(): bool
     {
@@ -189,6 +189,10 @@ class Client implements JsonSerializable
     public function getFireType(): string
     {
         return $this->fireType;
+    }
+    public function getSignalAmmount(): string
+    {
+        return $this->signalAmmount;
     }
     public function getObservations(): string
     {
@@ -227,7 +231,7 @@ class Client implements JsonSerializable
     private function validatePhone(string $phone, string $fieldName): void
     {
         // Basic validation for demonstration, adjust as needed
-        if (!preg_match('/^[0-9]{10,15}$/', $phone)) {
+        if (!preg_match('/^[0-9]{8,15}$/', $phone)) {
             throw new \InvalidArgumentException("$fieldName must be a valid phone number.");
         }
     }
@@ -266,16 +270,16 @@ class Client implements JsonSerializable
         $this->brideSurname = $brideSurname;
     }
 
-    public function setGroomBirthDate(DateTime $groomBirthDate): void
+    public function setGroomBirthdate(DateTime $groomBirthdate): void
     {
-        $this->validateDate($groomBirthDate, 'groomBirthDate');
-        $this->groomBirthDate = $groomBirthDate;
+        $this->validateDate($groomBirthdate, 'groomBirthdate');
+        $this->groomBirthdate = $groomBirthdate;
     }
 
-    public function setBrideBirthDate(DateTime $brideBirthDate): void
+    public function setBrideBirthdate(DateTime $brideBirthdate): void
     {
-        $this->validateDate($brideBirthDate, 'brideBirthDate');
-        $this->brideBirthDate = $brideBirthDate;
+        $this->validateDate($brideBirthdate, 'brideBirthdate');
+        $this->brideBirthdate = $brideBirthdate;
     }
 
     public function setGroomEmail(string $groomEmail): void
@@ -357,10 +361,10 @@ class Client implements JsonSerializable
         $this->nif = $nif;
     }
 
-    public function setSignalAmount(string $signalAmount): void
+    public function setSignalAmmount(string $signalAmmount): void
     {
-        // Validation logic for signalAmount, if needed
-        $this->signalAmount = $signalAmount;
+        // Validation logic for signalAmmount, if needed
+        $this->signalAmmount = $signalAmmount;
     }
 
     public function setLights(bool $lights): void
@@ -421,8 +425,8 @@ class Client implements JsonSerializable
             'groomSurname' => $this->groomSurname,
             'brideName' => $this->brideName,
             'brideSurname' => $this->brideSurname,
-            'groomBirthDate' => $this->groomBirthDate->format(\DateTime::ATOM),
-            'brideBirthDate' => $this->brideBirthDate->format(\DateTime::ATOM),
+            'groomBirthdate' => $this->groomBirthdate->format(\DateTime::ATOM),
+            'brideBirthdate' => $this->brideBirthdate->format(\DateTime::ATOM),
             'groomEmail' => $this->groomEmail,
             'brideEmail' => $this->brideEmail,
             'groomPhone' => $this->groomPhone,
@@ -436,7 +440,7 @@ class Client implements JsonSerializable
             'closedDate' => $this->closedDate->format(\DateTime::ATOM),
             'tastingDate' => $this->tastingDate->format(\DateTime::ATOM),
             'nif' => $this->nif,
-            'signalAmount' => $this->signalAmount,
+            'signalAmmount' => $this->signalAmmount,
             'lights' => $this->lights,
             'rooms' => $this->rooms,
             'menu' => $this->menu,

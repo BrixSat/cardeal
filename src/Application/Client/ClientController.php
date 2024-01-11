@@ -3,6 +3,7 @@ namespace App\Application\Client;
 
 use App\Domain\Client\ClientNotFoundException;
 use App\Domain\Client\ClientRepository;
+use App\Domain\Client\Client;
 use App\Infrastructure\Slim\HttpResponse;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
@@ -14,6 +15,7 @@ use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
+use function PHPUnit\Framework\isNull;
 
 class ClientController
 {
@@ -52,21 +54,21 @@ class ClientController
                             RouteParserInterface $router): Response|Message
     {
         $groomName = $request->getParsedBody()['groomName'];
-        $groomBirthDate = $request->getParsedBody()['groomBirthdate'];
+        $groomBirthDate = new \DateTime($request->getParsedBody()['groomBirthdate']);
         $groomEmail = $request->getParsedBody()['groomEmail'];
         $groomPhone = $request->getParsedBody()['groomPhone'];
         $groomAddress = $request->getParsedBody()['groomAddress'];
         $brideName = $request->getParsedBody()['brideName'];
-        $brideBirthDate = $request->getParsedBody()['brideBirthdate'];
+        $brideBirthDate = new \DateTime($request->getParsedBody()['brideBirthdate']);
         $brideEmail = $request->getParsedBody()['brideEmail'];
         $bridePhone = $request->getParsedBody()['bridePhone'];
         $brideAddress = $request->getParsedBody()['brideAddress'];
         $typeOfEvent = $request->getParsedBody()['typeOfEvent'];
         $civilOrChurch = $request->getParsedBody()['civilOrChurch'];
-        $eventDate = $request->getParsedBody()['eventDate'];
+        $eventDate = new \DateTime($request->getParsedBody()['eventDate']);
         $alternativeDates = $request->getParsedBody()['alternativeDates'];
-        $closedDate = $request->getParsedBody()['closedDate'];
-        $tastingDate = $request->getParsedBody()['tastingDate'];
+        $closedDate = new \DateTime($request->getParsedBody()['closedDate']);
+        $tastingDate =new \DateTime( $request->getParsedBody()['tastingDate']);
         $nif = $request->getParsedBody()['nif'];
         $signalAmmount = $request->getParsedBody()['signalAmmount'];
         $lights = $request->getParsedBody()['lights'];
@@ -75,7 +77,10 @@ class ClientController
         $fireworks = $request->getParsedBody()['fireworks'];
         $fireType = $request->getParsedBody()['fireType'];
         $observations = $request->getParsedBody()['observations'];
-
+        if(isNull($fireType))
+        {
+            $fireType="";
+        }
         try {
             $this->clientRepository->findByEmail($groomEmail);
             throw new InvalidArgumentException("Client Already exist");
@@ -84,34 +89,34 @@ class ClientController
 
 
         $user = $this->clientRepository->add(
-            new User(
+            new Client(
                 id: -1,
-                groomFirstName: $groomName,
+                groomName: $groomName,
+                brideName: $brideName,
                 groomBirthdate: $groomBirthDate,
-                groomEmail: $groomEmail,
-                groomPhone: $groomPhone,
-                groomAddress: $groomAddress,
-                brideFirstName: $brideName,
                 brideBirthdate: $brideBirthDate,
+                groomEmail: $groomEmail,
                 brideEmail: $brideEmail,
+                groomPhone: $groomPhone,
                 bridePhone: $bridePhone,
+                groomAddress: $groomAddress,
                 brideAddress: $brideAddress,
                 typeOfEvent: $typeOfEvent,
                 civilOrChurch: $civilOrChurch,
                 eventDate: $eventDate,
                 alternativeDates: $alternativeDates,
-                nif: $nif,
-                signalAmmount: $signalAmmount,
                 closedDate: $closedDate,
                 tastingDate: $tastingDate,
+                nif: $nif,
+                signalAmmount: $signalAmmount,
                 lights: $lights,
                 rooms: $rooms,
                 menu: $menu,
                 fireworks: $fireworks,
                 fireType: $fireType,
                 observations: $observations,
-                createdAt:       null,
-                updatedAt:       null
+                createdAt:       new \DateTime(),
+                updatedAt:       new \DateTime()
             )
         );
         //$this->logger->info("New user added", ["id" => $user->id]);
