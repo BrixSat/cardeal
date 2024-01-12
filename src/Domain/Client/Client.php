@@ -7,6 +7,7 @@ namespace App\Domain\Client;
 
 use DateTime;
 use JsonSerializable;
+use function PHPUnit\Framework\isNull;
 
 class Client implements JsonSerializable
 {
@@ -30,14 +31,12 @@ class Client implements JsonSerializable
     private DateTime   $tastingDate;
     private string     $nif;
     private string     $signalAmmount;
-    private bool       $lights;
-    private bool       $rooms;
-    private bool       $menu;
-    private bool       $fireworks;
+    private int       $lights;
+    private int       $rooms;
+    private int       $menu;
+    private int       $fireworks;
     private string     $fireType;
     private string     $observations;
-    private ?\DateTime $createdAt;
-    private ?\DateTime $updatedAt;
 
     public function __construct(
                       readonly ?int       $id,
@@ -59,14 +58,14 @@ class Client implements JsonSerializable
                       DateTime   $tastingDate,
                       string     $nif,
                       string     $signalAmmount,
-                      bool       $lights,
-                      bool       $rooms,
-                      bool       $menu,
-                      bool       $fireworks,
+                      int        $lights,
+                      int        $rooms,
+                      int        $menu,
+                      int        $fireworks,
                       string     $fireType,
                       string     $observations,
-                      DateTime   $createdAt,
-                      DateTime   $updatedAt)
+                      public readonly ?Datetime $createdAt = new DateTime('now'),
+                      public readonly ?Datetime $updatedAt = new DateTime('now'))
 
     {
         $this->setGroomName($groomName);
@@ -93,8 +92,6 @@ class Client implements JsonSerializable
         $this->setFireworks($fireworks);
         $this->setFireType($fireType);
         $this->setObservations($observations);
-        $this->setUpdatedAt($createdAt);
-        $this->setCreatedAt($updatedAt);
     }
 
     public function getGroomName(): string
@@ -166,23 +163,19 @@ class Client implements JsonSerializable
     {
         return $this->nif;
     }
-    public function getSignalAmmount(): string
-    {
-        return $this->signalAmmount;
-    }
-    public function getLights(): bool
+    public function getLights(): int
     {
         return $this->lights;
     }
-    public function getRooms(): bool
+    public function getRooms(): int
     {
         return $this->rooms;
     }
-    public function getMenu(): bool
+    public function getMenu(): int
     {
         return $this->menu;
     }
-    public function getFireworks(): bool
+    public function getFireworks(): int
     {
         return $this->fireworks;
     }
@@ -238,6 +231,10 @@ class Client implements JsonSerializable
 
     private function validateNif(string $nif, string $fieldName): void
     {
+        if (isNull($nif) || $nif == "")
+        {
+            return ;
+        }
         // Basic validation for demonstration, adjust as needed
         if (!preg_match('/^[0-9]{9}$/', $nif)) {
             throw new \InvalidArgumentException("$fieldName must be a valid fiscal number (NIF).");
@@ -367,25 +364,25 @@ class Client implements JsonSerializable
         $this->signalAmmount = $signalAmmount;
     }
 
-    public function setLights(bool $lights): void
+    public function setLights(int $lights): void
     {
         // Validation logic for lights, if needed
         $this->lights = $lights;
     }
 
-    public function setRooms(bool $rooms): void
+    public function setRooms(int $rooms): void
     {
         // Validation logic for rooms, if needed
         $this->rooms = $rooms;
     }
 
-    public function setMenu(bool $menu): void
+    public function setMenu(int $menu): void
     {
         // Validation logic for menu, if needed
         $this->menu = $menu;
     }
 
-    public function setFireworks(bool $fireworks): void
+    public function setFireworks(int $fireworks): void
     {
         // Validation logic for fire, if needed
         $this->fireworks = $fireworks;
@@ -402,19 +399,6 @@ class Client implements JsonSerializable
         // Validation logic for observations, if needed
         $this->observations = $observations;
     }
-
-    public function setCreatedAt(DateTime $createdAt): void
-    {
-        // Validation logic for createdAt, if needed
-        $this->createdAt = $createdAt;
-    }
-
-    public function setUpdatedAt(DateTime $updatedAt): void
-    {
-        // Validation logic for updatedAt, if needed
-        $this->updatedAt = $updatedAt;
-    }
-
 
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): array

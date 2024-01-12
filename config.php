@@ -7,7 +7,7 @@ defined('APP_DESCRIPTION')                  or define('APP_DESCRIPTION', 'Quinta
 defined('PROJECT_OWNER_NAME')               or define('PROJECT_OWNER_NAME', 'César Araújo');
 defined('PROJECT_OWNER_URL')                or define('PROJECT_OWNER_URL', 'https://CesarAraujo.net');
 defined('PRODUCTION')                       or define('PRODUCTION', false);
-defined('APP_LANG')                         or define('APP_LANG', 'en');
+defined('APP_LANG')                         or define('APP_LANG', 'pt');
 defined('APP_KEYWORDS')                     or define('APP_KEYWORDS', 'Quinta Cardeal');
 
 

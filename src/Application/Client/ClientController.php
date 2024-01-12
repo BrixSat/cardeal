@@ -48,7 +48,7 @@ class ClientController
     }
 
 
-    public function addClient(Request              $request,
+    public function addClient(Request            $request,
                             Response             $response,
                             Environment          $twig,
                             RouteParserInterface $router): Response|Message
@@ -71,10 +71,10 @@ class ClientController
         $tastingDate =new \DateTime( $request->getParsedBody()['tastingDate']);
         $nif = $request->getParsedBody()['nif'];
         $signalAmmount = $request->getParsedBody()['signalAmmount'];
-        $lights = $request->getParsedBody()['lights'];
-        $rooms = $request->getParsedBody()['rooms'];
-        $menu = $request->getParsedBody()['menu'];
-        $fireworks = $request->getParsedBody()['fireworks'];
+        if (isset( $request->getParsedBody()['lights'])) { $lights=1; } else { $lights = 0;}
+        if (isset( $request->getParsedBody()['rooms'])) { $rooms= 1; } else { $rooms = 0;}
+        if (isset( $request->getParsedBody()['menu'])) { $menu = 1; } else { $menu = 0;}
+        if (isset( $request->getParsedBody()['fireworks'])) { $fireworks= 1; } else { $fireworks = 0;}
         $fireType = $request->getParsedBody()['fireType'];
         $observations = $request->getParsedBody()['observations'];
         if(isNull($fireType))
@@ -114,9 +114,7 @@ class ClientController
                 menu: $menu,
                 fireworks: $fireworks,
                 fireType: $fireType,
-                observations: $observations,
-                createdAt:       new \DateTime(),
-                updatedAt:       new \DateTime()
+                observations: $observations
             )
         );
         //$this->logger->info("New user added", ["id" => $user->id]);
@@ -129,7 +127,7 @@ class ClientController
         );*/
 
 
-        return $response->withStatus(301)->withHeader('Location', $router->urlFor('viewUsersList'));
+        return $response->withStatus(301)->withHeader('Location', $router->urlFor('viewClientList'));
     }
 
 }

@@ -12,6 +12,7 @@ use Exception;
 
 readonly class SqlClientRepository implements ClientRepository
 {
+    const dateformat = 'Y-m-d\TH:i:s';
 
     /**
      * @param DatabaseConnection $db
@@ -26,8 +27,9 @@ readonly class SqlClientRepository implements ClientRepository
      */
     public function add(Client $client): bool
     {
+
         $result = $this->db->runWithParams(
-            "INSERT INTO client(
+            "INSERT INTO clients(
                     groomName,
                     brideName,
                     groomBirthDate,
@@ -45,21 +47,19 @@ readonly class SqlClientRepository implements ClientRepository
                     closedDate,
                     tastingDate,
                     nif,
-                    signalAmount,
+                    signalAmmount,
                     lights,
                     rooms,
                     menu,
                     fireworks,
                     fireType,
-                    observations,
-                    createdAt,
-                    updatedAt,
-            ) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);",
+                    observations
+            ) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);",
             [
                 $client->getGroomName(),
                 $client->getBrideName(),
-                $client->getGroomBirthDate(),
-                $client->getBrideBirthDate(),
+                $client->getGroomBirthDate()->format(self::dateformat),
+                $client->getBrideBirthDate()->format(self::dateformat),
                 $client->getGroomEmail(),
                 $client->getBrideEmail(),
                 $client->getGroomPhone(),
@@ -68,10 +68,10 @@ readonly class SqlClientRepository implements ClientRepository
                 $client->getBrideAddress(),
                 $client->getTypeOfEvent(),
                 $client->getCivilOrChurch(),
-                $client->getEventDate(),
+                $client->getEventDate()->format(self::dateformat),
                 $client->getAlternativeDates(),
-                $client->getClosedDate(),
-                $client->getTastingDate(),
+                $client->getClosedDate()->format(self::dateformat),
+                $client->getTastingDate()->format(self::dateformat),
                 $client->getNif(),
                 $client->getSignalAmmount(),
                 $client->getLights(),
@@ -80,8 +80,6 @@ readonly class SqlClientRepository implements ClientRepository
                 $client->getFireworks(),
                 $client->getFireType(),
                 $client->getObservations(),
-                $client->getCreatedAt(),
-                $client->getUpdatedAt(),
             ]);
 
         return true;
@@ -233,10 +231,12 @@ readonly class SqlClientRepository implements ClientRepository
 
     public function findByEmail(string $email): Client
     {
-        $result = $this->db->runWithParams("SELECT * FROM clients where groomEmail = ? or brideEmail= ? limit 1;", [$email, $email]);
+        $result = $this->db->runWithParams(
+            "SELECT * FROM clients where groomEmail = ? or brideEmail= ? limit 1;", [$email, $email]
+        );
 
         if (!isset($result[0])) {
-            throw new ClientNotFoundException();
+            throw new ClientNotFoundException("Client not found with email $email");
         }
 
         return new Client(
@@ -258,15 +258,15 @@ readonly class SqlClientRepository implements ClientRepository
             new \DateTime($result[0]['closedDate']),
             new \DateTime($result[0]['tastingDate']),
             $result[0]['nif'],
-            $result[0]['signalAmount'],
+            $result[0]['signalAmmount'],
             $result[0]['lights'],
             $result[0]['rooms'],
             $result[0]['menu'],
             $result[0]['fireworks'],
             $result[0]['fireType'],
             $result[0]['observations'],
-            new \DateTime($result[0]['created_at']),
-            new \DateTime($result[0]['updated_at'])
+            new \DateTime($result[0]['createdAt']),
+            new \DateTime($result[0]['updatedAt'])
         );
     }
 
