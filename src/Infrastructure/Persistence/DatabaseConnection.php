@@ -8,19 +8,14 @@ use Psr\Log\LoggerInterface;
 
 class DatabaseConnection
 {
-    /**
-     * Connection
-     *
-     * @var PDO
-     */
-    protected PDO $conn;
+    protected ?PDO $conn;
 
     /**
      * PgConnection constructor.
      *
      * @param LoggerInterface $logger
      */
-    function __construct(private readonly LoggerInterface $logger)
+    function __construct (private readonly LoggerInterface $logger)
     {
         $conn_string = sprintf(
             "mysql:host=%s;port=%d;dbname=%s",
@@ -29,21 +24,41 @@ class DatabaseConnection
             DATABASE_NAME
         );
 
-        try{
+        try
+        {
             $this->conn = new PDO($conn_string, DATABASE_USER, DATABASE_PASSWORD);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        }catch (PDOException $exception){
+        }
+        catch (PDOException $exception)
+        {
             $this->logger->error($exception->getMessage());
+            throw $exception;
         }
     }
 
-    public function runWithParams(string $query, $array = []): array|false
+    public function run(string $query, $params = [], $mode = PDO::FETCH_ASSOC): array|false
     {
-        $this->logger->debug("Run query: " . $query);
+        $this->logger->debug("Run query: " . $query, [ 'args' => $params, 'mode' => $mode ]);
 
         $stmt = $this->conn->prepare($query);
-        $stmt->execute($array);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $stmt->execute($params);
+
+        $results = $stmt->fetchAll($mode);
+        $stmt->closeCursor();
+
+        return $results;
+    }
+
+    public function insert (string $query, $params = []): false|string
+    {
+        $this->logger->debug("Run insert query: " . $query, [ 'args' => $params ]);
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->execute($params);
+        $stmt->closeCursor();
+
+        return $this->conn->lastInsertId();
     }
 }

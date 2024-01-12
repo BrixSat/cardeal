@@ -28,7 +28,7 @@ readonly class SqlClientRepository implements ClientRepository
     public function add(Client $client): bool
     {
 
-        $result = $this->db->runWithParams(
+        $result = $this->db->run(
             "INSERT INTO clients(
                     groomName,
                     brideName,
@@ -91,7 +91,7 @@ readonly class SqlClientRepository implements ClientRepository
      */
     public function findAll(): array
     {
-        $result = $this->db->runWithParams("SELECT * FROM clients;", []);
+        $result = $this->db->run("SELECT * FROM clients;", []);
 
         foreach ($result as $index => $line) {
             $result[$index] = new Client(
@@ -113,15 +113,15 @@ readonly class SqlClientRepository implements ClientRepository
                 new \DateTime($line['closedDate']),
                 new \DateTime($line['tastingDate']),
                 $line['nif'],
-                $line['signalAmount'],
+                $line['signalAmmount'],
                 $line['lights'],
                 $line['rooms'],
                 $line['menu'],
                 $line['fireworks'],
                 $line['fireType'],
                 $line['observations'],
-                new \DateTime($line['created_at']),
-                new \DateTime($line['updated_at'])
+                new \DateTime($line['createdAt']),
+                new \DateTime($line['updatedAt'])
             );
         }
         return $result;
@@ -133,7 +133,7 @@ readonly class SqlClientRepository implements ClientRepository
      */
     public function findById(int $id): Client
     {
-        $result = $this->db->runWithParams("SELECT * FROM clients WHERE id = ?;", [$id]);
+        $result = $this->db->run("SELECT * FROM clients WHERE id = ?;", [$id]);
 
         if (!isset($result[0])) {
             throw new ClientNotFoundException();
@@ -158,7 +158,7 @@ readonly class SqlClientRepository implements ClientRepository
             new \DateTime($result[0]['closedDate']),
             new \DateTime($result[0]['tastingDate']),
             $result[0]['nif'],
-            $result[0]['signalAmount'],
+            $result[0]['signalAmmount'],
             $result[0]['lights'],
             $result[0]['rooms'],
             $result[0]['menu'],
@@ -176,7 +176,7 @@ readonly class SqlClientRepository implements ClientRepository
      */
     public function findByName(string $name): Client
     {
-        $result = $this->db->runWithParams("SELECT * FROM clients WHERE groomName = ? or brideName= ? limit 1;", [$name, $name]);
+        $result = $this->db->run("SELECT * FROM clients WHERE groomName = ? or brideName= ? limit 1;", [$name, $name]);
 
         if (!isset($result[0])) {
             throw new ClientNotFoundException();
@@ -201,7 +201,7 @@ readonly class SqlClientRepository implements ClientRepository
             new \DateTime($result[0]['closedDate']),
             new \DateTime($result[0]['tastingDate']),
             $result[0]['nif'],
-            $result[0]['signalAmount'],
+            $result[0]['signalAmmount'],
             $result[0]['lights'],
             $result[0]['rooms'],
             $result[0]['menu'],
@@ -215,7 +215,7 @@ readonly class SqlClientRepository implements ClientRepository
 
     public function findByEmail(string $email): Client
     {
-        $result = $this->db->runWithParams(
+        $result = $this->db->run(
             "SELECT * FROM clients where groomEmail = ? or brideEmail= ? limit 1;", [$email, $email]
         );
 
@@ -249,8 +249,8 @@ readonly class SqlClientRepository implements ClientRepository
             $result[0]['fireworks'],
             $result[0]['fireType'],
             $result[0]['observations'],
-            new \DateTime($result[0]['createdAt']),
-            new \DateTime($result[0]['updatedAt'])
+            new \DateTime($result[0]['created_at']),
+            new \DateTime($result[0]['updated_at'])
         );
     }
 
@@ -259,7 +259,7 @@ readonly class SqlClientRepository implements ClientRepository
     public function delete(int $clientId): bool
     {
         if($clientId == 1) return false;
-        $result = $this->db->runWithParams("DELETE FROM clients WHERE id = ?;", [$clientId]);
+        $result = $this->db->run("DELETE FROM clients WHERE id = ?;", [$clientId]);
         return true;
     }
 
