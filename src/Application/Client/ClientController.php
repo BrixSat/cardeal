@@ -54,12 +54,12 @@ class ClientController
                             RouteParserInterface $router): Response|Message
     {
         $groomName = $request->getParsedBody()['groomName'];
-        $groomBirthDate = new \DateTime($request->getParsedBody()['groomBirthdate']);
+        $groomBirthDate = new \DateTime($request->getParsedBody()['groomBirthDate']);
         $groomEmail = $request->getParsedBody()['groomEmail'];
         $groomPhone = $request->getParsedBody()['groomPhone'];
         $groomAddress = $request->getParsedBody()['groomAddress'];
         $brideName = $request->getParsedBody()['brideName'];
-        $brideBirthDate = new \DateTime($request->getParsedBody()['brideBirthdate']);
+        $brideBirthDate = new \DateTime($request->getParsedBody()['brideBirthDate']);
         $brideEmail = $request->getParsedBody()['brideEmail'];
         $bridePhone = $request->getParsedBody()['bridePhone'];
         $brideAddress = $request->getParsedBody()['brideAddress'];
@@ -93,8 +93,8 @@ class ClientController
                 id: -1,
                 groomName: $groomName,
                 brideName: $brideName,
-                groomBirthdate: $groomBirthDate,
-                brideBirthdate: $brideBirthDate,
+                groomBirthDate: $groomBirthDate,
+                brideBirthDate: $brideBirthDate,
                 groomEmail: $groomEmail,
                 brideEmail: $brideEmail,
                 groomPhone: $groomPhone,
@@ -117,17 +117,10 @@ class ClientController
                 observations: $observations
             )
         );
-        //$this->logger->info("New user added", ["id" => $user->id]);
+
         $this->logger->info("New user added", []);
 
-        /*EmailHandler::SendWelcomeEmail(
-            $user,
-            $router->fullUrlFor($request->getUri(),'home',['id'=>$user->id,'recoverPassword'=>$recoverPassword]),
-            $twig
-        );*/
-
-
-        return $response->withStatus(301)->withHeader('Location', $router->urlFor('viewClientList'));
+        return $response->withStatus(301)->withHeader('Location', $router->urlFor('viewClientsList'));
     }
 
 }

@@ -83,22 +83,6 @@ readonly class SqlClientRepository implements ClientRepository
             ]);
 
         return true;
-        /*if (!isset($result[0])) {
-            throw new ClientNotFoundException();
-        }
-
-        return new Client(
-            $result[0]['id'],
-            $result[0]['clientname'],
-            $result[0]['firstName'],
-            $result[0]['lastName'],
-            $result[0]['password'],
-            $result[0]['recoverPassword'],
-            $result[0]['email'],
-            $result[0]['jobTitle'],
-            new \DateTime($result[0]['created_at']),
-            new \DateTime($result[0]['updated_at']),
-        );*/
     }
 
     /**

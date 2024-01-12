@@ -111,7 +111,7 @@ return function (App $app) {
                 ->setName('viewAddUserForm');
 
             $group->get('/list', [ClientController::class, 'viewClientsList'])
-                ->setName('viewUsersList');
+                ->setName('viewClientsList');
         });
 
         $group->get('/profile/{id}', [UserController::class, 'viewUserProfile'])

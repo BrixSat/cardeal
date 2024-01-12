@@ -29,8 +29,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-6">
-                                        <label for="groomBirthdate" class="text-fader required">Data nascimento</label>
-                                        <input class="form-control required" type="text" name="groomBirthdate" id="groomBirthdate"  data-provide="datepicker" data-date-today-highlight="true">
+                                        <label for="groomBirthDate" class="text-fader required">Data nascimento</label>
+                                        <input class="form-control required" type="text" name="groomBirthDate" id="groomBirthDate"  data-provide="datepicker" data-date-today-highlight="true">
                                     </div>
 
                                     <div class="form-group col-md-6">
@@ -62,8 +62,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-6">
-                                        <label for="brideBirthdate" class="text-fader required">Data nascimento</label>
-                                        <input class="form-control required" type="text" name="brideBirthdate" id="brideBirthdate"  data-provide="datepicker" data-date-today-highlight="true">
+                                        <label for="brideBirthDate" class="text-fader required">Data nascimento</label>
+                                        <input class="form-control required" type="text" name="brideBirthDate" id="brideBirthDate"  data-provide="datepicker" data-date-today-highlight="true">
                                     </div>
 
                                     <div class="form-group col-md-6">
@@ -91,7 +91,7 @@
                                     <div class="form-group col-md-6">
                                         <label for="typeOfEvent" class="text-fader required">Tipo de evento</label>
                                           <select class="form-control required" data-provide="selectpicker" id="typeOfEvent" name="typeOfEvent">
-                                            <option selected>Selecione uma opção</option>
+                                            <option value="0" "selected>Selecione uma opção</option>
                                             <option value="1">Casamento</option>
                                             <option value="2">Batizado</option>
                                             <option value="3">Comunhão</option>
@@ -104,7 +104,7 @@
                                     <div class="form-group col-md-6">
                                         <label for="civilOrChurch" class="text-fader">Civil ou religioso</label>
                                         <select class="form-control" data-provide="selectpicker" id="civilOrChurch" name="civilOrChurch">
-                                            <option selected>Selecione uma opção</option>
+                                            <option value="0" "selected>Selecione uma opção</option>
                                             <option value="1">Civil</option>
                                             <option value="2">Religioso</option>
                                           </select>
@@ -238,7 +238,7 @@
             $("form").submit(function(event) {
                 if (!validateForm()) {
                     event.preventDefault();
-                    alert("Please fill in all required fields before submitting.");
+                    alert("Deve preencher todos os campos obrigatorios.");
                 }
             });
         });
