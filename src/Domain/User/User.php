@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\User;
 
+use DateTimeInterface;
 use JsonSerializable;
 
 class User implements JsonSerializable
@@ -46,7 +47,6 @@ class User implements JsonSerializable
     }
 
 
-    #[\ReturnTypeWillChange]
     public function jsonSerialize(): array
     {
         return [
@@ -55,8 +55,8 @@ class User implements JsonSerializable
             'firstName' => $this->firstName,
             'lastName' => $this->lastName,
             'email' => $this->email,
-            'createdAt' => $this->createdAt->format(\DateTime::ATOM),
-            'updatedAt' => $this->updatedAt->format(\DateTime::ATOM),
+            'createdAt' => $this->createdAt->format(DateTimeInterface::ATOM),
+            'updatedAt' => $this->updatedAt->format(DateTimeInterface::ATOM),
         ];
     }
 }

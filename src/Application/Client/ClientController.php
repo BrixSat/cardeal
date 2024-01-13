@@ -48,73 +48,54 @@ class ClientController
     }
 
 
-    public function addClient(Request            $request,
-                            Response             $response,
-                            Environment          $twig,
-                            RouteParserInterface $router): Response|Message
+    /**
+     * @throws \Exception
+     */
+    public function addClient(Request              $request,
+                              Response             $response,
+                              RouteParserInterface $router): Response|Message
     {
-        $groomName = $request->getParsedBody()['groomName'];
-        $groomBirthDate = new \DateTime($request->getParsedBody()['groomBirthDate']);
+
         $groomEmail = $request->getParsedBody()['groomEmail'];
-        $groomPhone = $request->getParsedBody()['groomPhone'];
-        $groomAddress = $request->getParsedBody()['groomAddress'];
-        $brideName = $request->getParsedBody()['brideName'];
-        $brideBirthDate = new \DateTime($request->getParsedBody()['brideBirthDate']);
-        $brideEmail = $request->getParsedBody()['brideEmail'];
-        $bridePhone = $request->getParsedBody()['bridePhone'];
-        $brideAddress = $request->getParsedBody()['brideAddress'];
-        $typeOfEvent = $request->getParsedBody()['typeOfEvent'];
-        $civilOrChurch = $request->getParsedBody()['civilOrChurch'];
-        $eventDate = new \DateTime($request->getParsedBody()['eventDate']);
-        $alternativeDates = $request->getParsedBody()['alternativeDates'];
-        $closedDate = new \DateTime($request->getParsedBody()['closedDate']);
-        $tastingDate =new \DateTime( $request->getParsedBody()['tastingDate']);
-        $nif = $request->getParsedBody()['nif'];
-        $signalAmmount = $request->getParsedBody()['signalAmmount'];
+
         if (isset( $request->getParsedBody()['lights'])) { $lights=1; } else { $lights = 0;}
         if (isset( $request->getParsedBody()['rooms'])) { $rooms= 1; } else { $rooms = 0;}
         if (isset( $request->getParsedBody()['menu'])) { $menu = 1; } else { $menu = 0;}
         if (isset( $request->getParsedBody()['fireworks'])) { $fireworks= 1; } else { $fireworks = 0;}
-        $fireType = $request->getParsedBody()['fireType'];
-        $observations = $request->getParsedBody()['observations'];
-        if(isNull($fireType))
-        {
-            $fireType="";
-        }
+
         try {
             $this->clientRepository->findByEmail($groomEmail);
             throw new InvalidArgumentException("Client Already exist");
-        } catch (ClientNotFoundException $ignore) {
-        }
+        } catch (ClientNotFoundException) { }
 
 
-        $user = $this->clientRepository->add(
+        $this->clientRepository->add(
             new Client(
-                id: -1,
-                groomName: $groomName,
-                brideName: $brideName,
-                groomBirthDate: $groomBirthDate,
-                brideBirthDate: $brideBirthDate,
-                groomEmail: $groomEmail,
-                brideEmail: $brideEmail,
-                groomPhone: $groomPhone,
-                bridePhone: $bridePhone,
-                groomAddress: $groomAddress,
-                brideAddress: $brideAddress,
-                typeOfEvent: $typeOfEvent,
-                civilOrChurch: $civilOrChurch,
-                eventDate: $eventDate,
-                alternativeDates: $alternativeDates,
-                closedDate: $closedDate,
-                tastingDate: $tastingDate,
-                nif: $nif,
-                signalAmmount: $signalAmmount,
-                lights: $lights,
-                rooms: $rooms,
-                menu: $menu,
-                fireworks: $fireworks,
-                fireType: $fireType,
-                observations: $observations
+                id              : -1,
+                groomName       : $request->getParsedBody()['groomName'],
+                brideName       : $request->getParsedBody()['brideName'],
+                groomBirthDate  : new \DateTime($request->getParsedBody()['groomBirthDate']),
+                brideBirthDate  : new \DateTime($request->getParsedBody()['brideBirthDate']),
+                groomEmail      : $groomEmail,
+                brideEmail      : $request->getParsedBody()['brideEmail'],
+                groomPhone      : $request->getParsedBody()['groomPhone'],
+                bridePhone      : $request->getParsedBody()['bridePhone'],
+                groomAddress    : $request->getParsedBody()['groomAddress'],
+                brideAddress    : $request->getParsedBody()['brideAddress'],
+                typeOfEvent     : $request->getParsedBody()['typeOfEvent'],
+                civilOrChurch   : $request->getParsedBody()['civilOrChurch'],
+                eventDate       : new \DateTime($request->getParsedBody()['eventDate']),
+                alternativeDates: $request->getParsedBody()['alternativeDates'],
+                closedDate      : new \DateTime($request->getParsedBody()['closedDate']),
+                tastingDate     : new \DateTime( $request->getParsedBody()['tastingDate']),
+                nif             : $request->getParsedBody()['nif'],
+                signalAmount    : $request->getParsedBody()[ 'signalAmmount'],
+                lights          : $lights,
+                rooms           : $rooms,
+                menu            : $menu,
+                fireworks       : $fireworks,
+                fireType        : $request->getParsedBody()['fireType'] ?? '',
+                observations    : $request->getParsedBody()['observations']
             )
         );
 

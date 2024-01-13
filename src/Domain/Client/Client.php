@@ -4,17 +4,14 @@ declare(strict_types=1);
 
 namespace App\Domain\Client;
 
-
 use DateTime;
+use DateTimeInterface;
 use JsonSerializable;
-use function PHPUnit\Framework\isNull;
 
 class Client implements JsonSerializable
 {
     private string     $groomName;
-    private string     $groomSurname;
     private string     $brideName;
-    private string     $brideSurname;
     private DateTime   $groomBirthDate;
     private DateTime   $brideBirthDate;
     private string     $groomEmail;
@@ -30,7 +27,7 @@ class Client implements JsonSerializable
     private String     $alternativeDates;
     private DateTime   $tastingDate;
     private string     $nif;
-    private string     $signalAmmount;
+    private string     $signalAmount;
     private int       $lights;
     private int       $rooms;
     private int       $menu;
@@ -38,35 +35,35 @@ class Client implements JsonSerializable
     private string     $fireType;
     private string     $observations;
 
-    public function __construct(
-                      readonly ?int       $id,
-                      string     $groomName,
-                      string     $brideName,
-                      DateTime   $groomBirthDate,
-                      DateTime   $brideBirthDate,
-                      string     $groomEmail,
-                      string     $brideEmail,
-                      string     $groomPhone,
-                      string     $bridePhone,
-                      string     $groomAddress,
-                      string     $brideAddress,
-                      int        $typeOfEvent,
-                      int        $civilOrChurch,
-                      DateTime   $eventDate,
-                      string     $alternativeDates,
-                      DateTime   $closedDate,
-                      DateTime   $tastingDate,
-                      string     $nif,
-                      string     $signalAmmount,
-                      int        $lights,
-                      int        $rooms,
-                      int        $menu,
-                      int        $fireworks,
-                      string     $fireType,
-                      string     $observations,
-                      public readonly ?Datetime $createdAt = new DateTime('now'),
-                      public readonly ?Datetime $updatedAt = new DateTime('now'))
-
+    public function __construct (
+        public readonly ?int      $id,
+        string                    $groomName,
+        string                    $brideName,
+        DateTime                  $groomBirthDate,
+        DateTime                  $brideBirthDate,
+        string                    $groomEmail,
+        string                    $brideEmail,
+        string                    $groomPhone,
+        string                    $bridePhone,
+        string                    $groomAddress,
+        string                    $brideAddress,
+        int                       $typeOfEvent,
+        int                       $civilOrChurch,
+        DateTime                  $eventDate,
+        string                    $alternativeDates,
+        DateTime                  $closedDate,
+        DateTime                  $tastingDate,
+        string                    $nif,
+        string                    $signalAmount,
+        int                       $lights,
+        int                       $rooms,
+        int                       $menu,
+        int                       $fireworks,
+        string                    $fireType,
+        string                    $observations,
+        public readonly ?Datetime $createdAt = new DateTime('now'),
+        public readonly ?Datetime $updatedAt = new DateTime('now')
+    )
     {
         $this->setGroomName($groomName);
         $this->setBrideName($brideName);
@@ -85,7 +82,7 @@ class Client implements JsonSerializable
         $this->setClosedDate($closedDate);
         $this->setTastingDate($tastingDate);
         $this->setNif($nif);
-        $this->setSignalAmmount($signalAmmount);
+        $this->setSignalAmount($signalAmount);
         $this->setLights($lights);
         $this->setRooms($rooms);
         $this->setMenu($menu);
@@ -101,14 +98,6 @@ class Client implements JsonSerializable
     public function getBrideName(): string
     {
         return $this->brideName;
-    }
-    public function getGroomBirthdate(): DateTime
-    {
-        return $this->groomBirthDate;
-    }
-    public function getBrideBirthdate(): DateTime
-    {
-        return $this->brideBirthDate;
     }
     public function getGroomEmail(): string
     {
@@ -183,21 +172,13 @@ class Client implements JsonSerializable
     {
         return $this->fireType;
     }
-    public function getSignalAmmount(): string
+    public function getSignalAmount(): string
     {
-        return $this->signalAmmount;
+        return $this->signalAmount;
     }
     public function getObservations(): string
     {
         return $this->observations;
-    }
-    public function getCreatedAt(): DateTime
-    {
-        return $this->createdAt;
-    }
-    public function getUpdatedAt(): DateTime
-    {
-        return $this->updatedAt;
     }
 
     private function validateName(string $name, string $fieldName): void
@@ -210,9 +191,9 @@ class Client implements JsonSerializable
 
     private function validateDate(DateTime $date, string $fieldName): void
     {
-        if ($date === false || !$date instanceof DateTime) {
+        /*if ($date > new DateTime('now')) {
             throw new \InvalidArgumentException("$fieldName must be a valid DateTime.");
-        }
+        }*/
     }
     private function validateEmail(string $email, string $fieldName): void
     {
@@ -229,15 +210,15 @@ class Client implements JsonSerializable
         }
     }
 
-    private function validateNif(string $nif, string $fieldName): void
+    private function validateNif(string $nif): void
     {
-        if (isNull($nif) || $nif == "")
+        if (empty($nif))
         {
             return ;
         }
         // Basic validation for demonstration, adjust as needed
         if (!preg_match('/^[0-9]{9}$/', $nif)) {
-            throw new \InvalidArgumentException("$fieldName must be a valid fiscal number (NIF).");
+            throw new \InvalidArgumentException("nif must be a valid fiscal number (NIF).");
         }
     }
 
@@ -249,22 +230,10 @@ class Client implements JsonSerializable
         $this->groomName = $groomName;
     }
 
-    public function setGroomSurname(string $groomSurname): void
-    {
-        $this->validateName($groomSurname, 'groomSurname');
-        $this->groomSurname = $groomSurname;
-    }
-
     public function setBrideName(string $brideName): void
     {
         $this->validateName($brideName, 'brideName');
         $this->brideName = $brideName;
-    }
-
-    public function setBrideSurname(string $brideSurname): void
-    {
-        $this->validateName($brideSurname, 'brideSurname');
-        $this->brideSurname = $brideSurname;
     }
 
     public function setGroomBirthdate(DateTime $groomBirthDate): void
@@ -354,14 +323,14 @@ class Client implements JsonSerializable
 
     public function setNif(string $nif): void
     {
-        $this->validateNif($nif, 'nif');
+        $this->validateNif($nif);
         $this->nif = $nif;
     }
 
-    public function setSignalAmmount(string $signalAmmount): void
+    public function setSignalAmount(string $signalAmount): void
     {
-        // Validation logic for signalAmmount, if needed
-        $this->signalAmmount = $signalAmmount;
+        // Validation logic for signalAmount, if needed
+        $this->signalAmount = $signalAmount;
     }
 
     public function setLights(int $lights): void
@@ -400,39 +369,36 @@ class Client implements JsonSerializable
         $this->observations = $observations;
     }
 
-    #[\ReturnTypeWillChange]
     public function jsonSerialize(): array
     {
         return [
-            'id' => $this->id,
-            'groomName' => $this->groomName,
-            'groomSurname' => $this->groomSurname,
-            'brideName' => $this->brideName,
-            'brideSurname' => $this->brideSurname,
-            'groomBirthDate' => $this->groomBirthDate->format(\DateTime::ATOM),
-            'brideBirthDate' => $this->brideBirthDate->format(\DateTime::ATOM),
-            'groomEmail' => $this->groomEmail,
-            'brideEmail' => $this->brideEmail,
-            'groomPhone' => $this->groomPhone,
-            'bridePhone' => $this->bridePhone,
-            'groomAddress' => $this->groomAddress,
-            'brideAddress' => $this->brideAddress,
-            'typeOfEvent' => $this->typeOfEvent,
-            'civilOrChurch' => $this->civilOrChurch,
-            'eventYear' => $this->eventYear->format(\DateTime::ATOM),
-            'eventDate' => $this->eventDate->format(\DateTime::ATOM),
-            'closedDate' => $this->closedDate->format(\DateTime::ATOM),
-            'tastingDate' => $this->tastingDate->format(\DateTime::ATOM),
-            'nif' => $this->nif,
-            'signalAmmount' => $this->signalAmmount,
-            'lights' => $this->lights,
-            'rooms' => $this->rooms,
-            'menu' => $this->menu,
-            'fire' => $this->fire,
-            'fireType' => $this->fireType,
-            'observations' => $this->observations,
-            'createdAt' => $this->createdAt->format(\DateTime::ATOM),
-            'updatedAt' => $this->updatedAt->format(\DateTime::ATOM),
+            'id'             => $this->id,
+            'groomName'      => $this->groomName,
+            'brideName'      => $this->brideName,
+            'groomBirthDate' => $this->groomBirthDate->format(DateTimeInterface::ATOM),
+            'brideBirthDate' => $this->brideBirthDate->format(DateTimeInterface::ATOM),
+            'groomEmail'     => $this->groomEmail,
+            'brideEmail'     => $this->brideEmail,
+            'groomPhone'     => $this->groomPhone,
+            'bridePhone'     => $this->bridePhone,
+            'groomAddress'   => $this->groomAddress,
+            'brideAddress'   => $this->brideAddress,
+            'typeOfEvent'    => $this->typeOfEvent,
+            'civilOrChurch'  => $this->civilOrChurch,
+            'eventYear'      => $this->eventDate->format('Y'),
+            'eventDate'      => $this->eventDate->format(DateTimeInterface::ATOM),
+            'closedDate'     => $this->closedDate->format(DateTimeInterface::ATOM),
+            'tastingDate'    => $this->tastingDate->format(DateTimeInterface::ATOM),
+            'nif'            => $this->nif,
+            'signalAmount'  => $this->signalAmount,
+            'lights'         => $this->lights,
+            'rooms'          => $this->rooms,
+            'menu'           => $this->menu,
+            'fireworks'      => $this->fireworks,
+            'fireType'       => $this->fireType,
+            'observations'   => $this->observations,
+            'createdAt'      => $this->createdAt->format(DateTimeInterface::ATOM),
+            'updatedAt'      => $this->updatedAt->format(DateTimeInterface::ATOM),
         ];
     }
 }
