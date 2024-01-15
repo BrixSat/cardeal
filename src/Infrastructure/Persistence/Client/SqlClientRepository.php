@@ -8,27 +8,18 @@ use App\Domain\Client\Client;
 use App\Domain\Client\ClientNotFoundException;
 use App\Domain\Client\ClientRepository;
 use App\Infrastructure\Persistence\DatabaseConnection;
+use DateTime;
 use Exception;
 
 readonly class SqlClientRepository implements ClientRepository
 {
     const dateformat = 'Y-m-d\TH:i:s';
 
-    /**
-     * @param DatabaseConnection $db
-     */
     public function __construct(private DatabaseConnection $db) { }
 
-    /**
-     * @param Client $client
-     *
-     * @return true
-     * @throws Exception
-     */
     public function add(Client $client): bool
     {
-
-        $result = $this->db->run(
+        $id = $this->db->insert(
             "INSERT INTO clients(
                     groomName,
                     brideName,
@@ -73,7 +64,7 @@ readonly class SqlClientRepository implements ClientRepository
                 $client->getClosedDate()->format(self::dateformat),
                 $client->getTastingDate()->format(self::dateformat),
                 $client->getNif(),
-                $client->getSignalAmmount(),
+                $client->getSignalAmount(),
                 $client->getLights(),
                 $client->getRooms(),
                 $client->getMenu(),
@@ -82,7 +73,7 @@ readonly class SqlClientRepository implements ClientRepository
                 $client->getObservations(),
             ]);
 
-        return true;
+        return $id !== false;
     }
 
     /**
@@ -91,38 +82,10 @@ readonly class SqlClientRepository implements ClientRepository
      */
     public function findAll(): array
     {
-        $result = $this->db->run("SELECT * FROM clients;", []);
+        $result = $this->db->run("SELECT * FROM clients;");
 
         foreach ($result as $index => $line) {
-            $result[$index] = new Client(
-                $line['id'],
-                $line['groomName'],
-                $line['brideName'],
-                new \DateTime($line['groomBirthDate']),
-                new \DateTime($line['brideBirthDate']),
-                $line['groomEmail'],
-                $line['brideEmail'],
-                $line['groomPhone'],
-                $line['bridePhone'],
-                $line['groomAddress'],
-                $line['brideAddress'],
-                $line['typeOfEvent'],
-                $line['civilOrChurch'],
-                new \DateTime($line['eventDate']),
-                $line['alternativeDates'],
-                new \DateTime($line['closedDate']),
-                new \DateTime($line['tastingDate']),
-                $line['nif'],
-                $line['signalAmmount'],
-                $line['lights'],
-                $line['rooms'],
-                $line['menu'],
-                $line['fireworks'],
-                $line['fireType'],
-                $line['observations'],
-                new \DateTime($line['createdAt']),
-                new \DateTime($line['updatedAt'])
-            );
+            $result[$index] = self::fromDBtoClient($result[0]);
         }
         return $result;
     }
@@ -139,35 +102,7 @@ readonly class SqlClientRepository implements ClientRepository
             throw new ClientNotFoundException();
         }
 
-        return new Client(
-            $result[0]['id'],
-            $result[0]['groomName'],
-            $result[0]['brideName'],
-            new \DateTime($result[0]['groomBirthDate']),
-            new \DateTime($result[0]['brideBirthDate']),
-            $result[0]['groomEmail'],
-            $result[0]['brideEmail'],
-            $result[0]['groomPhone'],
-            $result[0]['bridePhone'],
-            $result[0]['groomAddress'],
-            $result[0]['brideAddress'],
-            $result[0]['typeOfEvent'],
-            $result[0]['civilOrChurch'],
-            new \DateTime($result[0]['eventDate']),
-            $result[0]['alternativeDates'],
-            new \DateTime($result[0]['closedDate']),
-            new \DateTime($result[0]['tastingDate']),
-            $result[0]['nif'],
-            $result[0]['signalAmmount'],
-            $result[0]['lights'],
-            $result[0]['rooms'],
-            $result[0]['menu'],
-            $result[0]['fireworks'],
-            $result[0]['fireType'],
-            $result[0]['observations'],
-            new \DateTime($result[0]['created_at']),
-            new \DateTime($result[0]['updated_at'])
-        );
+        return self::fromDBtoClient($result[0]);
     }
 
     /**
@@ -182,37 +117,13 @@ readonly class SqlClientRepository implements ClientRepository
             throw new ClientNotFoundException();
         }
 
-        return new Client(
-            $result[0]['id'],
-            $result[0]['groomName'],
-            $result[0]['brideName'],
-            new \DateTime($result[0]['groomBirthDate']),
-            new \DateTime($result[0]['brideBirthDate']),
-            $result[0]['groomEmail'],
-            $result[0]['brideEmail'],
-            $result[0]['groomPhone'],
-            $result[0]['bridePhone'],
-            $result[0]['groomAddress'],
-            $result[0]['brideAddress'],
-            $result[0]['typeOfEvent'],
-            $result[0]['civilOrChurch'],
-            new \DateTime($result[0]['eventDate']),
-            $result[0]['alternativeDates'],
-            new \DateTime($result[0]['closedDate']),
-            new \DateTime($result[0]['tastingDate']),
-            $result[0]['nif'],
-            $result[0]['signalAmmount'],
-            $result[0]['lights'],
-            $result[0]['rooms'],
-            $result[0]['menu'],
-            $result[0]['fireworks'],
-            $result[0]['fireType'],
-            $result[0]['observations'],
-            new \DateTime($result[0]['created_at']),
-            new \DateTime($result[0]['updated_at'])
-        );
+        return self::fromDBtoClient($result[0]);
     }
 
+    /**
+     * @throws ClientNotFoundException
+     * @throws Exception
+     */
     public function findByEmail(string $email): Client
     {
         $result = $this->db->run(
@@ -223,44 +134,50 @@ readonly class SqlClientRepository implements ClientRepository
             throw new ClientNotFoundException("Client not found with email $email");
         }
 
-        return new Client(
-            $result[0]['id'],
-            $result[0]['groomName'],
-            $result[0]['brideName'],
-            new \DateTime($result[0]['groomBirthDate']),
-            new \DateTime($result[0]['brideBirthDate']),
-            $result[0]['groomEmail'],
-            $result[0]['brideEmail'],
-            $result[0]['groomPhone'],
-            $result[0]['bridePhone'],
-            $result[0]['groomAddress'],
-            $result[0]['brideAddress'],
-            $result[0]['typeOfEvent'],
-            $result[0]['civilOrChurch'],
-            new \DateTime($result[0]['eventDate']),
-            $result[0]['alternativeDates'],
-            new \DateTime($result[0]['closedDate']),
-            new \DateTime($result[0]['tastingDate']),
-            $result[0]['nif'],
-            $result[0]['signalAmmount'],
-            $result[0]['lights'],
-            $result[0]['rooms'],
-            $result[0]['menu'],
-            $result[0]['fireworks'],
-            $result[0]['fireType'],
-            $result[0]['observations'],
-            new \DateTime($result[0]['created_at']),
-            new \DateTime($result[0]['updated_at'])
-        );
+        return self::fromDBtoClient($result[0]);
     }
-
-
 
     public function delete(int $clientId): bool
     {
         if($clientId == 1) return false;
         $result = $this->db->run("DELETE FROM clients WHERE id = ?;", [$clientId]);
         return true;
+    }
+
+    /**
+     * @throws Exception
+     */
+    private static function fromDBtoClient($line): Client
+    {
+        return new Client(
+            $line['id'],
+            $line['groomName'],
+            $line['brideName'],
+            new DateTime($line['groomBirthDate']),
+            new DateTime($line['brideBirthDate']),
+            $line['groomEmail'],
+            $line['brideEmail'],
+            $line['groomPhone'],
+            $line['bridePhone'],
+            $line['groomAddress'],
+            $line['brideAddress'],
+            $line['typeOfEvent'],
+            $line['civilOrChurch'],
+            new DateTime($line['eventDate']),
+            $line['alternativeDates'],
+            new DateTime($line['closedDate']),
+            new DateTime($line['tastingDate']),
+            $line['nif'],
+            $line['signalAmmount'],
+            $line['lights'],
+            $line['rooms'],
+            $line['menu'],
+            $line['fireworks'],
+            $line['fireType'],
+            $line['observations'],
+            new DateTime($line['created_at']),
+            new DateTime($line['updated_at'])
+        );
     }
 
 }

@@ -4,6 +4,8 @@
 create table if not exists user
 (
     id              bigint auto_increment primary key,
+
+
     username        text                                 not null comment 'For login purposes',
     firstName       text                                 null,
     lastName        text                                 null,
