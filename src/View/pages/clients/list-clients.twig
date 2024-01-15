@@ -10,43 +10,79 @@
     <div class="main-content">
         <div class="row">
             <div class="col-12">
+
                 <div class="card">
-                    <h5 class="card-title"><strong>User list</strong></h5>
+                    <h4 class="card-title"><strong>Lista de clientes</strong></h4>
 
-                    <div class="media-list media-list-hover media-list-divided scrollable" style="height: 345px">
+                    <div class="card-body">
 
-                        {% for user in userList %}
-                            <div class="media media-single">
-                                <a href="#">
-                                    <img class="avatar" src="../assets/img/avatar/1.jpg" alt="...">
-                                </a>
+                        <div class="flexbox mb-20">
+                            <div class="lookup">
+                                <input class="w-200px" type="text" name="s" placeholder="Search">
+                            </div>
 
-                                <div class="media-body">
-                                    <h6><a href="#">{{ user.firstName }} {{ user.lastName }} <span class="text-fader">#{{ user.id }}</span></a></h6>
-                                    <small class="text-fader">{{ user.jobTitle }}</small>
+                            <div class="btn-toolbar">
+                                <div class="btn-group btn-group-sm">
+                                    <button class="btn" title="Actualizar" data-provide="tooltip"><i
+                                                class="ion-refresh"></i></button>
+                                    <button class="btn" title="Adicionar Cliente" data-provide="tooltip"><i
+                                                class="ion-plus-round"></i></button>
                                 </div>
 
-                                <div class="media-right">
-                                    <a class="btn btn-sm btn-bold btn-round btn-success w-100px"
-                                       href="app/admin/user/{{ user.id }}">Edit</a>
-
-                                    {%  if user.id != 1 %}
-                                        <button class="btn btn-sm btn-bold btn-round btn-outline btn-danger w-100px"
-                                                value="{{ user.id }}" id="delete-{{ user.id }}" >Delete</button>
-                                    {%  endif %}
+                                <div class="btn-group btn-group-sm ml-2 d-none d-sm-flex">
+                                    <button class="btn dropdown-toggle" data-toggle="dropdown">Exportar</button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item" href="#">CSV</a>
+                                        <a class="dropdown-item" href="#">Text</a>
+                                    </div>
                                 </div>
                             </div>
-                        {% else %}
-                            <div>
-                                No users stored.
-                            </div>
-                        {% endfor %}
+                        </div>
+
+
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Noivo</th>
+                                <th>Noiva</th>
+                                <th>Email Noivo</th>
+                                <th>Tellemóvel Noivo</th>
+                                <th>Data</th>
+                                <th>Degustação</th>
+                                <th>Fecho</th>
+                                <th class="text-center w-100px">Ações</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for client in clientsList %}
+                                <tr>
+                                    <th scope="row">{{ client.id }}</th>
+                                    <td>{{ client.groomName }}</td>
+                                    <td>{{ client.brideName }}</td>
+                                    <td>{{ client.groomEmail }}</td>
+                                    <td>{{ client.groomPhone }}</td>
+                                    <td>{{ client.eventDate|date('d-m-Y')  }}</td>
+                                    <td>{{ client.tastingDate|date('d-m-Y')  }}</td>
+                                    <td>{{ client.closedDate|date('d-m-Y')  }}</td>
+                                    <td class="text-right table-actions">
+                                        <a class="table-action hover-primary" href="app/clients/edit/{{ client.id }}"><i class="ti-pencil"></i></a>
+                                        <a class="table-action hover-danger" href="app/clients/remove/{{ client.id }}"><i class="ti-trash"></i></a>
+                                        <div class="dropdown table-action">
+                                            <span class="dropdown-toggle no-caret hover-primary" data-toggle="dropdown"><i class="ti-more-alt rotate-90"></i></span>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item" href="#"><i class="ti-menu-alt"></i> Detalhes</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
 
                     </div>
-
                 </div>
             </div>
-
         </div>
     </div>
 {% endblock %}

@@ -41,9 +41,15 @@ class ClientController
      */
     public function viewClientsList(Request $request, Response $response, Environment $twig): Response|Message
     {
-        $userList = $this->clientRepository->findAll();
+        $clientsList = $this->clientRepository->findAll();
+        $response->getBody()->write($twig->render('pages/clients/list-clients.twig', ["clientsList" => $clientsList]));
+        return $response->withHeader('Content-Type', 'text/html');
+    }
 
-        $response->getBody()->write($twig->render('pages/admin/list-users.twig', ["userList" => $userList]));
+    public function editClientsList(Request $request, Response $response, Environment $twig): Response|Message
+    {
+        $clientsList = $this->clientRepository->findById((int) $request->getAttribute('id'));
+        $response->getBody()->write($twig->render('pages/clients/edit.twig', ["clientsList" => $clientsList]));
         return $response->withHeader('Content-Type', 'text/html');
     }
 

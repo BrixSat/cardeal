@@ -9,6 +9,11 @@ use Twig\TwigFunction;
 
 class BasePathExtension extends AbstractExtension
 {
+    public function __construct( private readonly  string $basePath)
+    {
+
+    }
+
     public function getFunctions()
     {
         return [
@@ -18,6 +23,7 @@ class BasePathExtension extends AbstractExtension
 
     public function getBasePath()
     {
-       return '/cardeal';
+        return $this->basePath;
+       //return '/cardeal';
     }
 }

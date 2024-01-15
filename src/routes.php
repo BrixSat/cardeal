@@ -112,6 +112,12 @@ return function (App $app) {
 
             $group->get('/list', [ClientController::class, 'viewClientsList'])
                 ->setName('viewClientsList');
+
+            $group->get('/edit/{id}', [ClientController::class, 'editClientsList'])
+                ->setName('editClientsList');
+
+            $group->get('/remove/{id}', [ClientController::class, 'viewClientsList'])
+                ->setName('viewClientsList');
         });
 
         $group->get('/profile/{id}', [UserController::class, 'viewUserProfile'])
