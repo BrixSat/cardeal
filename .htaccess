@@ -1,5 +1,5 @@
 <FilesMatch \.php$>
-#	SetHandler application/x-httpd-php82
+	SetHandler application/x-httpd-php82
 </FilesMatch>
 
 Options All -Indexes

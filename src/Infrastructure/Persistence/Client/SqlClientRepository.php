@@ -175,8 +175,8 @@ readonly class SqlClientRepository implements ClientRepository
             $line['fireworks'],
             $line['fireType'],
             $line['observations'],
-            new DateTime($line['created_at']),
-            new DateTime($line['updated_at'])
+            new DateTime($line['createdAt']),
+            new DateTime($line['updatedAt'])
         );
     }
 

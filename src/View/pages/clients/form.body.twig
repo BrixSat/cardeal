@@ -14,25 +14,26 @@
             </div>
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label for="groomBirthDate" class="text-fader required">Data nascimento</label>
-                    <input class="form-control required" type="text" name="groomBirthDate" id="groomBirthDate"  data-provide="datepicker" data-date-today-highlight="true">
+                    <label for="groomBirthDate" class="text-fader required">Data nascimento a {{ client.groomBirthDate|date('Y-m-d H:i:s') }}
+                    </label>
+                    <input class="form-control required" type="text" name="groomBirthDate" id="groomBirthDate"  data-provide="datepicker" data-date-today-highlight="true" value="{{ client.groomBirthDate ? client.groomBirthDate|date('Y-m-d') : '' }}">
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="groomEmail" class="text-fader required">Email</label>
-                    <input class="form-control required" type="email" name="groomEmail" id="groomEmail">
+                    <input class="form-control required" type="email" name="groomEmail" id="groomEmail" value="{{ client.groomEmail | default("") }}">
                 </div>
             </div>
 
             <div class="row">
                 <div class="form-group col-md-6">
                     <label for="groomPhone" class="text-fader required">Telemóvel</label>
-                    <input class="form-control required" type="tel" name="groomPhone" id="groomPhone">
+                    <input class="form-control required" type="tel" name="groomPhone" id="groomPhone" value="{{ client.groomPhone | default("") }}">
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="groomAddress" class="text-fader required">Morada</label>
-                    <input class="form-control required" type="text" name="groomAddress" id="groomAddress">
+                    <input class="form-control required" type="text" name="groomAddress" id="groomAddress" value="{{ client.groomAddress | default("") }}">
                 </div>
             </div>
 
@@ -42,30 +43,30 @@
             <div class="row">
                 <div class="form-group col-md-12">
                     <label for="brideName" class="text-fader required">Nome</label>
-                    <input class="form-control required" type="text" name="brideName" id="brideName">
+                    <input class="form-control required" type="text" name="brideName" id="brideName" value="{{ client.brideName | default("") }}">
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-md-6">
                     <label for="brideBirthDate" class="text-fader required">Data nascimento</label>
-                    <input class="form-control required" type="text" name="brideBirthDate" id="brideBirthDate"  data-provide="datepicker" data-date-today-highlight="true">
+                    <input class="form-control required" type="text" name="brideBirthDate" id="brideBirthDate"  data-provide="datepicker" data-date-today-highlight="true" value="{{ (client.brideBirthDate |date('d-m-Y')) | default("") }}">
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="brideEmail" class="text-fader required">Email</label>
-                    <input class="form-control required" type="email" name="brideEmail" id="brideEmail">
+                    <input class="form-control required" type="email" name="brideEmail" id="brideEmail" value="{{ client.brideEmail | default("") }}">
                 </div>
             </div>
 
             <div class="row">
                 <div class="form-group col-md-6">
                     <label for="bridePhone" class="text-fade required">Telemóvel</label>
-                    <input class="form-control required" type="tel" name="bridePhone" id="bridePhone">
+                    <input class="form-control required" type="tel" name="bridePhone" id="bridePhone" value="{{ client.bridePhone | default("") }}">
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="brideAddress" class="text-fader">Morada</label>
-                    <input class="form-control" type="text" name="brideAddress" id="brideAddress">
+                    <input class="form-control" type="text" name="brideAddress" id="brideAddress" value="{{ client.brideAddress | default("") }}">
                 </div>
             </div>
 
@@ -76,81 +77,81 @@
                 <div class="form-group col-md-6">
                     <label for="typeOfEvent" class="text-fader required">Tipo de evento</label>
                     <select class="form-control required" data-provide="selectpicker" id="typeOfEvent" name="typeOfEvent">
-                        <option value="0" "selected>Selecione uma opção</option>
-                        <option value="1">Casamento</option>
-                        <option value="2">Batizado</option>
-                        <option value="3">Comunhão</option>
-                        <option value="4">Festa Corporativa</option>
-                        <option value="5">Festa Privativa</option>
-                        <option value="6">Aniversário</option>
+                        <option value="0" {% if client.typeOfEvent == ""  %} selected {% endif %}>Selecione uma opção</option>
+                        <option value="1" {% if client.typeOfEvent == 1 %} selected {% endif %}>Casamento</option>
+                        <option value="2" {% if client.typeOfEvent == 2 %} selected {% endif %}>Batizado</option>
+                        <option value="3" {% if client.typeOfEvent == 3 %} selected {% endif %}>Comunhão</option>
+                        <option value="4" {% if client.typeOfEvent == 4 %} selected {% endif %}>Festa Corporativa</option>
+                        <option value="5" {% if client.typeOfEvent == 5 %} selected {% endif %}>Festa Privativa</option>
+                        <option value="6" {% if client.typeOfEvent == 6 %} selected {% endif %}>Aniversário</option>
                     </select>
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="civilOrChurch" class="text-fader">Civil ou religioso</label>
                     <select class="form-control" data-provide="selectpicker" id="civilOrChurch" name="civilOrChurch">
-                        <option value="0" "selected>Selecione uma opção</option>
-                        <option value="1">Civil</option>
-                        <option value="2">Religioso</option>
+                        <option value="0" {% if client.civilOrChurch != 1 and client.civilOrChurch != 2  %} selected {% endif %}>Selecione uma opção</option>
+                        <option value="1" {% if client.civilOrChurch == 1 %} selected {% endif %}>Civil</option>
+                        <option value="2" {% if client.civilOrChurch == 2 %} selected {% endif %}>Religioso</option>
                     </select>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-md-6">
                     <label for="eventDate" class="text-fader required">Data do evento</label>
-                    <input class="form-control required" type="text" name="eventDate" id="eventDate"  data-provide="datepicker" data-date-today-highlight="true">
+                    <input class="form-control required" type="text" name="eventDate" id="eventDate"  data-provide="datepicker" data-date-today-highlight="true" value="{{ (client.eventDate |date('d-m-Y')) | default("") }}">
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="alternativeDates" class="text-fader">Data(s) alternativa(s)</label>
-                    <input class="form-control" type="text" name="alternativeDates" id="alternativeDates">
+                    <input class="form-control" type="text" name="alternativeDates" id="alternativeDates" value="{{ client.alternativeDates | default("") }}">
                 </div>
             </div>
 
             <div class="row">
                 <div class="form-group col-md-6">
                     <label for="closedDate" class="text-fader">Data Fecho</label>
-                    <input class="form-control" type="text" name="closedDate" id="closedDate"  data-provide="datepicker" data-date-today-highlight="true">
+                    <input class="form-control" type="text" name="closedDate" id="closedDate"  data-provide="datepicker" data-date-today-highlight="true" value="{{ (client.closedDate |date('d-m-Y')) | default("") }}">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="tastingDate" class="text-fader">Data Degustação</label>
-                    <input class="form-control" type="text" name="tastingDate" id="tastingDate"  data-provide="datepicker" data-date-today-highlight="true">
+                    <input class="form-control" type="text" name="tastingDate" id="tastingDate"  data-provide="datepicker" data-date-today-highlight="true" value="{{ (client.tastingDate |date('d-m-Y')) | default("") }}">
                 </div>
 
             </div>
             <div class="row">
                 <div class="form-group col-md-6">
                     <label for="signalAmmount" class="text-fader">Valor do Sinal</label>
-                    <input class="form-control" type="text" name="signalAmmount" id="signalAmmount">
+                    <input class="form-control" type="text" name="signalAmmount" id="signalAmmount" value="{{ client.signalAmmount | default("") }}">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="nif" class="text-fader">N.I.F.</label>
-                    <input class="form-control" type="text" name="nif" id="nif">
+                    <input class="form-control" type="text" name="nif" id="nif" value="{{ client.nif | default("") }}">
                 </div>
             </div>
 
             <div class="row">
                 <div class="form-group col-md-3">
                     <div class="custom-control custom-control-lg custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="lights" name="lights">
+                        <input type="checkbox" class="custom-control-input" id="lights" name="lights" {% if client.lights %} checked {% endif %}>
                         <label class="custom-control-label" for="lights">Luzes</label>
                     </div>
                 </div>
                 <div class="form-group col-md-3">
                     <div class="custom-control custom-control-lg custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="rooms" name="rooms">
+                        <input type="checkbox" class="custom-control-input" id="rooms" name="rooms"  {% if client.rooms %} checked {% endif %}>
                         <label class="custom-control-label" for="rooms">Quartos</label>
                     </div>
                 </div>
                 <div class="form-group col-md-3">
                     <div class="custom-control custom-control-lg custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="menu" name="menu">
+                        <input type="checkbox" class="custom-control-input" id="menu" name="menu"  {% if client.menu %} checked {% endif %}>
                         <label class="custom-control-label" for="menu">Ementa</label>
                     </div>
                 </div>
                 <div class="form-group col-md-3">
                     <div class="custom-control custom-control-lg custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="fireworks" name="fireworks">
+                        <input type="checkbox" class="custom-control-input" id="fireworks" name="fireworks"  {% if client.fireworks %} checked {% endif %}>
                         <label class="custom-control-label" for="menu">Fogo</label>
                     </div>
                 </div>
@@ -159,7 +160,7 @@
             <div class="row">
                 <div class="form-group col-md-12">
                     <label for="observations" class="text-fader">Observações</label>
-                    <textarea id="observations" name="observations" data-provide="summernote" data-min-height="150"></textarea>
+                    <textarea id="observations" name="observations" data-provide="summernote" data-min-height="150">{{ client.observations | default("") }}</textarea>
                 </div>
             </div>
 

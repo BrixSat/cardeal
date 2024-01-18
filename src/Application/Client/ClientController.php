@@ -48,8 +48,8 @@ class ClientController
 
     public function editClientsList(Request $request, Response $response, Environment $twig): Response|Message
     {
-        $clientsList = $this->clientRepository->findById((int) $request->getAttribute('id'));
-        $response->getBody()->write($twig->render('pages/clients/edit.twig', ["clientsList" => $clientsList]));
+        $client = $this->clientRepository->findById((int) $request->getAttribute('id'));
+        $response->getBody()->write($twig->render('pages/clients/edit.twig', ["client" => $client]));
         return $response->withHeader('Content-Type', 'text/html');
     }
 
