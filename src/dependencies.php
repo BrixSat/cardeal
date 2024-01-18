@@ -16,6 +16,7 @@ use Slim\Csrf\Guard;
 use Slim\Interfaces\ErrorHandlerInterface;
 use Slim\Interfaces\RouteParserInterface;
 use Twig\Environment;
+use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
 
 $containerBuilder = new ContainerBuilder();
@@ -54,13 +55,14 @@ $containerBuilder->addDefinitions(
         // Configure Twig
         Environment::class => function (Guard $guard, App $app) {
             $loader = new FilesystemLoader(__DIR__ . '/../src/View');
-            $twig = new Environment($loader);
+            $twig = new Environment($loader, [ 'debug' => true]);
             $twig->addGlobal('project_owner_url', PROJECT_OWNER_URL);
             $twig->addGlobal('project_owner_name', PROJECT_OWNER_NAME);
             $twig->addGlobal('app_name', APP_NAME);
             $twig->addGlobal('app_description', APP_DESCRIPTION);
             $twig->addExtension(new CsrfExtension($guard));
             $twig->addExtension(new BasePathExtension($app->getBasePath()));
+            $twig->addExtension(new DebugExtension());
             return $twig;
         },
 

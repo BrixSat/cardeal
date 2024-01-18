@@ -106,15 +106,17 @@ return function (App $app) {
 
         $group->group('/clients', function (RouteCollectorProxy $group)
         {
-
             $group->get('/add', [ClientController::class, 'viewAddClientForm'])
                 ->setName('viewAddUserForm');
 
             $group->get('/list', [ClientController::class, 'viewClientsList'])
                 ->setName('viewClientsList');
 
-            $group->get('/edit/{id}', [ClientController::class, 'editClientsList'])
-                ->setName('editClientsList');
+            $group->get('/edit/{id}', [ClientController::class, 'editClient'])
+                ->setName('editClient');
+
+            $group->post('/edit/{id}', [ClientController::class, 'updateClient'])
+                ->setName('updateClient');
 
             $group->get('/remove/{id}', [ClientController::class, 'viewClientsList'])
                 ->setName('viewClientsList');

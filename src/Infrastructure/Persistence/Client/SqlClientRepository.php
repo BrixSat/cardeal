@@ -76,6 +76,67 @@ readonly class SqlClientRepository implements ClientRepository
         return $id !== false;
     }
 
+    public function update(Client $client): bool
+    {
+        $id = $this->db->insert(
+            "update clients SET
+                    groomName = ? ,
+                    brideName = ? ,
+                    groomBirthDate = ? ,
+                    brideBirthDate = ? ,
+                    groomEmail = ? ,
+                    brideEmail = ? ,
+                    groomPhone = ? ,
+                    bridePhone = ? ,
+                    groomAddress = ? ,
+                    brideAddress = ? ,
+                    typeOfEvent = ? ,
+                    civilOrChurch = ? ,
+                    eventDate = ? ,
+                    alternativeDates = ? ,
+                    closedDate = ? ,
+                    tastingDate = ? ,
+                    nif = ? ,
+                    signalAmmount = ? ,
+                    lights = ? ,
+                    rooms = ? ,
+                    menu = ? ,
+                    fireworks = ? ,
+                    fireType = ? ,
+                    observation = ? where id = ?
+            ) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);",
+            [
+                $client->getGroomName(),
+                $client->getBrideName(),
+                $client->getGroomBirthDate()->format(self::dateformat),
+                $client->getBrideBirthDate()->format(self::dateformat),
+                $client->getGroomEmail(),
+                $client->getBrideEmail(),
+                $client->getGroomPhone(),
+                $client->getBridePhone(),
+                $client->getGroomAddress(),
+                $client->getBrideAddress(),
+                $client->getTypeOfEvent(),
+                $client->getCivilOrChurch(),
+                $client->getEventDate()->format(self::dateformat),
+                $client->getAlternativeDates(),
+                $client->getClosedDate()->format(self::dateformat),
+                $client->getTastingDate()->format(self::dateformat),
+                $client->getNif(),
+                $client->getSignalAmount(),
+                $client->getLights(),
+                $client->getRooms(),
+                $client->getMenu(),
+                $client->getFireworks(),
+                $client->getFireType(),
+                $client->getObservations(),
+                $client->getId()
+            ]);
+
+        return $id !== false;
+    }
+
+
     /**
      * {@inheritdoc}
      * @throws Exception

@@ -67,8 +67,8 @@ class Client implements JsonSerializable
     {
         $this->setGroomName($groomName);
         $this->setBrideName($brideName);
-        $this->setGroomBirthdate($groomBirthDate);
-        $this->setBrideBirthdate($brideBirthDate);
+        $this->setGroomBirthDate($groomBirthDate);
+        $this->setBrideBirthDate($brideBirthDate);
         $this->setGroomEmail($groomEmail);
         $this->setBrideEmail($brideEmail);
         $this->setGroomPhone($groomPhone);
@@ -98,6 +98,14 @@ class Client implements JsonSerializable
     public function getBrideName(): string
     {
         return $this->brideName;
+    }
+    public function getGroomBirthDate(): DateTime
+    {
+        return $this->groomBirthDate;
+    }
+    public function getBrideBirthDate(): DateTime
+    {
+        return $this->brideBirthDate;
     }
     public function getGroomEmail(): string
     {
@@ -180,7 +188,6 @@ class Client implements JsonSerializable
     {
         return $this->observations;
     }
-
     private function validateName(string $name, string $fieldName): void
     {
         $length = strlen($name);
@@ -236,13 +243,13 @@ class Client implements JsonSerializable
         $this->brideName = $brideName;
     }
 
-    public function setGroomBirthdate(DateTime $groomBirthDate): void
+    public function setGroomBirthDate(DateTime $groomBirthDate): void
     {
         $this->validateDate($groomBirthDate, 'groomBirthDate');
         $this->groomBirthDate = $groomBirthDate;
     }
 
-    public function setBrideBirthdate(DateTime $brideBirthDate): void
+    public function setBrideBirthDate(DateTime $brideBirthDate): void
     {
         $this->validateDate($brideBirthDate, 'brideBirthDate');
         $this->brideBirthDate = $brideBirthDate;

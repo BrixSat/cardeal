@@ -11,7 +11,8 @@
     <div class="main-content">
         <div class="row">
             <div class="col-12">
-                <form class="card" method="post" action="secure/api/clients/add">
+                <form class="card" method="post" action="app/clients/edit/{{ client.id }}">
+                    <input type="hidden" name="id" value="{{ client.id }}">
                     <h4 class="card-title"><strong>Editar cliente #{{ client.id }}</strong></h4>
 
                     {% include 'pages/clients/form.body.twig' %}

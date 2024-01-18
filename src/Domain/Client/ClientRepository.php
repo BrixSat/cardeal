@@ -37,6 +37,8 @@ interface ClientRepository
 
     public function add(Client $client): bool;
 
+    public function update(Client $client): bool;
+
     public function delete(int $clientId):bool;
 
 }

@@ -46,13 +46,59 @@ class ClientController
         return $response->withHeader('Content-Type', 'text/html');
     }
 
-    public function editClientsList(Request $request, Response $response, Environment $twig): Response|Message
+    public function editClient(Request $request, Response $response, Environment $twig): Response|Message
     {
         $client = $this->clientRepository->findById((int) $request->getAttribute('id'));
         $response->getBody()->write($twig->render('pages/clients/edit.twig', ["client" => $client]));
         return $response->withHeader('Content-Type', 'text/html');
     }
 
+    public function updateClient(Request $request, Response $response, Environment $twig): Response|Message
+    {
+        try {
+            $client = $this->clientRepository->findById((int) $request->getAttribute('id'));
+        } catch (ClientNotFoundException) { }
+
+        if (isset( $request->getParsedBody()['lights'])) { $lights=1; } else { $lights = 0;}
+        if (isset( $request->getParsedBody()['rooms'])) { $rooms= 1; } else { $rooms = 0;}
+        if (isset( $request->getParsedBody()['menu'])) { $menu = 1; } else { $menu = 0;}
+        if (isset( $request->getParsedBody()['fireworks'])) { $fireworks= 1; } else { $fireworks = 0;}
+
+        $this->clientRepository->update(
+            new Client(
+                id              : $request->getAttribute('id'),
+                groomName       : $request->getParsedBody()['groomName'],
+                brideName       : $request->getParsedBody()['brideName'],
+                groomBirthDate  : new \DateTime($request->getParsedBody()['groomBirthDate']),
+                brideBirthDate  : new \DateTime($request->getParsedBody()['brideBirthDate']),
+                groomEmail      : $groomEmail,
+                brideEmail      : $request->getParsedBody()['brideEmail'],
+                groomPhone      : $request->getParsedBody()['groomPhone'],
+                bridePhone      : $request->getParsedBody()['bridePhone'],
+                groomAddress    : $request->getParsedBody()['groomAddress'],
+                brideAddress    : $request->getParsedBody()['brideAddress'],
+                typeOfEvent     : $request->getParsedBody()['typeOfEvent'],
+                civilOrChurch   : $request->getParsedBody()['civilOrChurch'],
+                eventDate       : new \DateTime($request->getParsedBody()['eventDate']),
+                alternativeDates: $request->getParsedBody()['alternativeDates'],
+                closedDate      : new \DateTime($request->getParsedBody()['closedDate']),
+                tastingDate     : new \DateTime( $request->getParsedBody()['tastingDate']),
+                nif             : $request->getParsedBody()['nif'],
+                signalAmount    : $request->getParsedBody()[ 'signalAmmount'],
+                lights          : $lights,
+                rooms           : $rooms,
+                menu            : $menu,
+                fireworks       : $fireworks,
+                fireType        : $request->getParsedBody()['fireType'] ?? '',
+                observations    : $request->getParsedBody()['observations']
+            )
+        );
+
+
+
+        $response->getBody()->write($twig->render('pages/clients/edit.twig', ["client" => $client]));
+        return $response->withHeader('Content-Type', 'text/html');
+    }
 
     /**
      * @throws \Exception
@@ -71,6 +117,7 @@ class ClientController
 
         try {
             $this->clientRepository->findByEmail($groomEmail);
+//            $this->clientRepository->findByEmail($brideEmail);
             throw new InvalidArgumentException("Client Already exist");
         } catch (ClientNotFoundException) { }
 

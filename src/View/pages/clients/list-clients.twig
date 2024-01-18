@@ -62,9 +62,9 @@
                                     <td>{{ client.brideName }}</td>
                                     <td>{{ client.groomEmail }}</td>
                                     <td>{{ client.groomPhone }}</td>
-                                    <td>{{ client.eventDate|date('d-m-Y')  }}</td>
-                                    <td>{{ client.tastingDate|date('d-m-Y')  }}</td>
-                                    <td>{{ client.closedDate|date('d-m-Y')  }}</td>
+                                    <td>{{ client.eventDate|date('d/m/Y')  }}</td>
+                                    <td>{{ client.tastingDate|date('d/m/Y')  }}</td>
+                                    <td>{{ client.closedDate|date('d/m/Y')  }}</td>
                                     <td class="text-right table-actions">
                                         <a class="table-action hover-primary" href="app/clients/edit/{{ client.id }}"><i class="ti-pencil"></i></a>
                                         <a class="table-action hover-danger" href="app/clients/remove/{{ client.id }}"><i class="ti-trash"></i></a>
