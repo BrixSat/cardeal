@@ -35,6 +35,43 @@ class Client implements JsonSerializable
     private string     $fireType;
     private string     $observations;
 
+
+    public static function formToClient (array $form, int $id = -1): self
+    {
+        if (isset($form[ 'lights' ]))       $lights = 1;    else $lights = 0;
+        if (isset($form[ 'rooms' ]))        $rooms = 1;     else $rooms = 0;
+        if (isset($form[ 'menu' ]))         $menu = 1;      else $menu = 0;
+        if (isset($form[ 'fireworks' ]))    $fireworks = 1; else $fireworks = 0;
+
+        return new Client(
+            id              : $id,
+            groomName       : $form[ 'groomName' ],
+            brideName       : $form[ 'brideName' ],
+            groomBirthDate  : DateTime::createFromFormat('d/m/Y', $form[ 'groomBirthDate' ]),
+            brideBirthDate  : DateTime::createFromFormat('d/m/Y', $form[ 'brideBirthDate' ]),
+            groomEmail      : $form[ 'groomEmail' ],
+            brideEmail      : $form[ 'brideEmail' ],
+            groomPhone      : $form[ 'groomPhone' ],
+            bridePhone      : $form[ 'bridePhone' ],
+            groomAddress    : $form[ 'groomAddress' ],
+            brideAddress    : $form[ 'brideAddress' ],
+            typeOfEvent     : $form[ 'typeOfEvent' ],
+            civilOrChurch   : $form[ 'civilOrChurch' ],
+            eventDate       : DateTime::createFromFormat('d/m/Y', $form[ 'eventDate' ]),
+            alternativeDates: $form[ 'alternativeDates' ],
+            closedDate      : DateTime::createFromFormat('d/m/Y', $form[ 'closedDate' ]),
+            tastingDate     : DateTime::createFromFormat('d/m/Y', $form[ 'tastingDate' ]),
+            nif             : $form[ 'nif' ],
+            signalAmount    : $form[ 'signalAmmount' ],
+            lights          : $lights,
+            rooms           : $rooms,
+            menu            : $menu,
+            fireworks       : $fireworks,
+            fireType        : $form[ 'fireType' ] ?? '',
+            observations    : $form[ 'observations' ]
+        );
+    }
+
     public function __construct (
         public readonly ?int      $id,
         string                    $groomName,
