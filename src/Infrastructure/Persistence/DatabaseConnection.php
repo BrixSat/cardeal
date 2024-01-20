@@ -78,13 +78,16 @@ class DatabaseConnection
         return $this->conn->lastInsertId();
     }
 
+    /**
+     * @throws Exception
+     */
     public function update (string $query, $params = []): false|string
     {
         $this->logger->debug("Run update query: " . $query, [ 'args' => $params ]);
 
-        $stmt = $this->conn->prepare($query);
+        $stmt = $this->prepare($query, $params);
 
-        $stmt->execute($params);
+        $stmt->execute();
         $stmt->closeCursor();
 
         return $this->conn->lastInsertId();

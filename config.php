@@ -25,18 +25,18 @@ defined('LOGGER_INTERNAL_CONFIGS')          or define('LOGGER_INTERNAL_CONFIGS',
 ]);
 
 // db
-defined('DATABASE_HOST')		            or define('DATABASE_HOST', '127.0.0.1');
-defined('DATABASE_NAME')		            or define('DATABASE_NAME', 'cardeal');
-defined('DATABASE_USER')		            or define('DATABASE_USER', 'xarevision');
-defined('DATABASE_PASSWORD')		        or define('DATABASE_PASSWORD', '123.123.');
+defined('DATABASE_HOST')		            or define('DATABASE_HOST', '192.168.1.64');
+defined('DATABASE_NAME')		            or define('DATABASE_NAME', 'slim');
+defined('DATABASE_USER')		            or define('DATABASE_USER', 'root');
+defined('DATABASE_PASSWORD')		        or define('DATABASE_PASSWORD', 'password');
 defined('DATABASE_PORT')		            or define('DATABASE_PORT', 3306);
 
 // JWT
-defined('ALGORITHM')			or define('ALGORITHM', 'HS256');
-defined('TYPE')				or define('TYPE', 'JWT');
-defined('ISSUER')			or define('ISSUER', '127.0.0.1');
-defined('AUDIENCE')			or define('AUDIENCE', [ISSUER]);
-defined('SECRET')			or define('SECRET', 'LetsGoBusy');
+defined('ALGORITHM')			    or define('ALGORITHM', 'HS256');
+defined('TYPE')				    or define('TYPE', 'JWT');
+defined('ISSUER')			        or define('ISSUER', '127.0.0.1');
+defined('AUDIENCE')			    or define('AUDIENCE', [ISSUER]);
+defined('SECRET')			        or define('SECRET', 'LetsGoBusy');
 defined('EXPIRATION_TIME_SECONDS')	or define('EXPIRATION_TIME_SECONDS', 2 * 60 * 60); // 2h
 defined('NOT_BEFORE_SECONDS')		or define('NOT_BEFORE_SECONDS', 0);
 

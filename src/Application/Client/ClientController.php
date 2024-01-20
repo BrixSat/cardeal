@@ -15,7 +15,6 @@ use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
-use function PHPUnit\Framework\isNull;
 
 class ClientController
 {

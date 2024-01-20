@@ -104,13 +104,13 @@ readonly class SqlClientRepository implements ClientRepository
                     menu = ? ,
                     fireworks = ? ,
                     fireType = ? ,
-                    observation = ? where id = ?
-            ) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);",
+                    observations = ? 
+                WHERE id = ? ;",
             [
                 $client->getGroomName(),
                 $client->getBrideName(),
-                $client->getGroomBirthDate()->format(self::dateformat),
-                $client->getBrideBirthDate()->format(self::dateformat),
+                $client->getGroomBirthDate(),
+                $client->getBrideBirthDate(),
                 $client->getGroomEmail(),
                 $client->getBrideEmail(),
                 $client->getGroomPhone(),
@@ -119,10 +119,10 @@ readonly class SqlClientRepository implements ClientRepository
                 $client->getBrideAddress(),
                 $client->getTypeOfEvent(),
                 $client->getCivilOrChurch(),
-                $client->getEventDate()->format(self::dateformat),
+                $client->getEventDate(),
                 $client->getAlternativeDates(),
-                $client->getClosedDate()->format(self::dateformat),
-                $client->getTastingDate()->format(self::dateformat),
+                $client->getClosedDate(),
+                $client->getTastingDate(),
                 $client->getNif(),
                 $client->getSignalAmount(),
                 $client->getLights(),
@@ -131,7 +131,7 @@ readonly class SqlClientRepository implements ClientRepository
                 $client->getFireworks(),
                 $client->getFireType(),
                 $client->getObservations(),
-                $client->getId()
+                $client->id
             ]);
 
         return $id !== false;
@@ -237,8 +237,8 @@ readonly class SqlClientRepository implements ClientRepository
             $line['fireworks'],
             $line['fireType'],
             $line['observations'],
-            new DateTime($line['createdAt']),
-            new DateTime($line['updatedAt'])
+            new DateTime($line['created_at']),
+            new DateTime($line['updated_at'])
         );
     }
 
