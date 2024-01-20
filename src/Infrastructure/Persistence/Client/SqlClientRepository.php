@@ -13,10 +13,11 @@ use Exception;
 
 readonly class SqlClientRepository implements ClientRepository
 {
-    const dateformat = 'Y-m-d\TH:i:s';
-
     public function __construct(private DatabaseConnection $db) { }
 
+    /**
+     * @throws Exception
+     */
     public function add(Client $client): bool
     {
         $id = $this->db->insert(
@@ -49,8 +50,8 @@ readonly class SqlClientRepository implements ClientRepository
             [
                 $client->getGroomName(),
                 $client->getBrideName(),
-                $client->getGroomBirthDate()->format(self::dateformat),
-                $client->getBrideBirthDate()->format(self::dateformat),
+                $client->getGroomBirthDate(),
+                $client->getBrideBirthDate(),
                 $client->getGroomEmail(),
                 $client->getBrideEmail(),
                 $client->getGroomPhone(),
@@ -59,10 +60,10 @@ readonly class SqlClientRepository implements ClientRepository
                 $client->getBrideAddress(),
                 $client->getTypeOfEvent(),
                 $client->getCivilOrChurch(),
-                $client->getEventDate()->format(self::dateformat),
+                $client->getEventDate(),
                 $client->getAlternativeDates(),
-                $client->getClosedDate()->format(self::dateformat),
-                $client->getTastingDate()->format(self::dateformat),
+                $client->getClosedDate(),
+                $client->getTastingDate(),
                 $client->getNif(),
                 $client->getSignalAmount(),
                 $client->getLights(),

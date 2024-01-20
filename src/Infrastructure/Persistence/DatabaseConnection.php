@@ -2,8 +2,11 @@
 
 namespace App\Infrastructure\Persistence;
 
+use DateTime;
+use Exception;
 use PDO;
 use PDOException;
+use PDOStatement;
 use Psr\Log\LoggerInterface;
 
 class DatabaseConnection
@@ -36,13 +39,20 @@ class DatabaseConnection
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public function run(string $query, $params = [], $mode = PDO::FETCH_ASSOC): array|false
     {
-        $this->logger->debug("Run query: " . $query, [ 'args' => $params, 'mode' => $mode ]);
+        $this->logger->debug("query mode run", [
+            'query' => $query,
+            'args'  => $params,
+            'mode'  => $mode,
+        ]);
 
-        $stmt = $this->conn->prepare($query);
+        $stmt = $this->prepare($query, $params);
 
-        $stmt->execute($params);
+        $stmt->execute();
 
         $results = $stmt->fetchAll($mode);
         $stmt->closeCursor();
@@ -50,13 +60,19 @@ class DatabaseConnection
         return $results;
     }
 
+    /**
+     * @throws Exception
+     */
     public function insert (string $query, $params = []): false|string
     {
-        $this->logger->debug("Run insert query: " . $query, [ 'args' => $params ]);
+        $this->logger->debug("query mode insert", [
+            'query' => $query,
+            'args'  => $params
+        ]);
 
-        $stmt = $this->conn->prepare($query);
+        $stmt = $this->prepare($query, $params);
 
-        $stmt->execute($params);
+        $stmt->execute();
         $stmt->closeCursor();
 
         return $this->conn->lastInsertId();
@@ -72,5 +88,50 @@ class DatabaseConnection
         $stmt->closeCursor();
 
         return $this->conn->lastInsertId();
+    }
+
+    /**
+     * @param string $query
+     * @param array  $params
+     *
+     * @return false|PDOStatement
+     * @throws Exception
+     */
+    private function prepare (string $query, array $params = []): false|PDOStatement
+    {
+        $stmt = $this->conn->prepare($query);
+
+        foreach ($params as $key => $element)
+        {
+            $this->logger->debug("bindParam", [
+                'key' => $key,
+                'element' => $element,
+                'type' => gettype($element)
+            ]);
+
+            switch (gettype($element))
+            {
+                case 'integer':
+                    $added = $stmt->bindParam(gettype($key) == 'integer' ? $key + 1 : $key, $params[$key], PDO::PARAM_INT);
+                    break;
+                case 'boolean':
+                    $added = $stmt->bindParam(gettype($key) == 'integer' ? $key + 1 : $key, $params[$key], PDO::PARAM_BOOL);
+                    break;
+                default:
+                    if ($element instanceof DateTime)
+                    {
+                        $params[$key] = $element->format('Y-m-d\TH:i:s');
+                    }
+
+                    $added = $stmt->bindParam(gettype($key) == 'integer' ? $key + 1 : $key, $params[$key]);
+            }
+
+            if (!$added)
+            {
+                throw new Exception("Failed to add");
+            }
+        }
+
+        return $stmt;
     }
 }
