@@ -60,6 +60,8 @@ $containerBuilder->addDefinitions(
             $twig->addGlobal('project_owner_name', PROJECT_OWNER_NAME);
             $twig->addGlobal('app_name', APP_NAME);
             $twig->addGlobal('app_description', APP_DESCRIPTION);
+            $twig->addGlobal('app_version', VERSION_APP);
+            $twig->addGlobal('date_version', VERSION_DATE);
             $twig->addExtension(new CsrfExtension($guard));
             $twig->addExtension(new BasePathExtension($app->getBasePath()));
             $twig->addExtension(new DebugExtension());
