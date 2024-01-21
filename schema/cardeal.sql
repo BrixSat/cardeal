@@ -1,8 +1,8 @@
--- MariaDB dump 10.19  Distrib 10.11.3-MariaDB, for debian-linux-gnu (x86_64)
+-- MariaDB dump 10.19  Distrib 10.11.4-MariaDB, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: cardeal
 -- ------------------------------------------------------
--- Server version	10.11.3-MariaDB-1
+-- Server version	10.11.4-MariaDB-1~deb12u1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -25,9 +25,7 @@ DROP TABLE IF EXISTS `clients`;
 CREATE TABLE `clients` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `groomName` varchar(255) NOT NULL,
-  `groomSurname` varchar(255) NOT NULL,
   `brideName` varchar(255) NOT NULL,
-  `brideSurname` varchar(255) NOT NULL,
   `groomBirthDate` datetime NOT NULL,
   `brideBirthDate` datetime NOT NULL,
   `groomEmail` varchar(255) NOT NULL,
@@ -38,22 +36,22 @@ CREATE TABLE `clients` (
   `brideAddress` varchar(255) NOT NULL,
   `typeOfEvent` int(11) NOT NULL,
   `civilOrChurch` int(11) NOT NULL,
-  `eventYear` datetime NOT NULL,
   `eventDate` datetime NOT NULL,
+  `alternativeDates` varchar(255) NOT NULL,
   `closedDate` datetime NOT NULL,
   `tastingDate` datetime NOT NULL,
   `nif` varchar(20) NOT NULL,
-  `signalAmount` varchar(255) NOT NULL,
+  `signalAmmount` varchar(255) NOT NULL,
   `lights` tinyint(1) NOT NULL,
   `rooms` tinyint(1) NOT NULL,
   `menu` tinyint(1) NOT NULL,
-  `fire` tinyint(1) NOT NULL,
+  `fireworks` tinyint(1) NOT NULL,
   `fireType` varchar(255) NOT NULL,
   `observations` text NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,6 +60,8 @@ CREATE TABLE `clients` (
 
 LOCK TABLES `clients` WRITE;
 /*!40000 ALTER TABLE `clients` DISABLE KEYS */;
+INSERT INTO `clients` VALUES
+(1,'César Silva Araújo','Laura Margarida Soares Pacheco da Cunha','2024-01-22 00:00:00','2024-01-24 00:00:00','cesarsilvaaraujo@gmail.com','lauracunha385@gmail.com','913932989','913932988','rua dr ricardo severo n 81','',1,1,'2024-01-17 00:00:00','','2024-01-12 14:17:43','2024-01-12 14:17:43','','',0,1,0,0,'','','2024-01-12 14:17:45','2024-01-12 14:17:45');
 /*!40000 ALTER TABLE `clients` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -173,4 +173,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-24 20:17:28
+-- Dump completed on 2024-01-12 14:32:01

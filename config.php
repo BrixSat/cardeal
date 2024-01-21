@@ -2,6 +2,8 @@
 
 use Monolog\Level;
 
+require(__DIR__ . '/version.php');
+
 defined('APP_NAME')                         or define('APP_NAME', 'Quinta Cardeal');
 defined('APP_DESCRIPTION')                  or define('APP_DESCRIPTION', 'Quinta Cardeal');
 defined('PROJECT_OWNER_NAME')               or define('PROJECT_OWNER_NAME', 'César Araújo');
@@ -25,10 +27,10 @@ defined('LOGGER_INTERNAL_CONFIGS')          or define('LOGGER_INTERNAL_CONFIGS',
 ]);
 
 // db
-defined('DATABASE_HOST')		            or define('DATABASE_HOST', '192.168.1.64');
-defined('DATABASE_NAME')		            or define('DATABASE_NAME', 'slim');
-defined('DATABASE_USER')		            or define('DATABASE_USER', 'root');
-defined('DATABASE_PASSWORD')		        or define('DATABASE_PASSWORD', 'password');
+defined('DATABASE_HOST')		            or define('DATABASE_HOST', '127.0.0.1');
+defined('DATABASE_NAME')		            or define('DATABASE_NAME', 'cardeal');
+defined('DATABASE_USER')		            or define('DATABASE_USER', 'xarevision');
+defined('DATABASE_PASSWORD')		        or define('DATABASE_PASSWORD', '123.123.');
 defined('DATABASE_PORT')		            or define('DATABASE_PORT', 3306);
 
 // JWT

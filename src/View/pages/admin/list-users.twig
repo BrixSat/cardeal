@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <h5 class="card-title"><strong>User list</strong></h5>
+                    <h5 class="card-title"><strong>Lista de utilizadores</strong></h5>
 
                     <div class="media-list media-list-hover media-list-divided scrollable" style="height: 345px">
 
@@ -28,11 +28,11 @@
 
                                 <div class="media-right">
                                     <a class="btn btn-sm btn-bold btn-round btn-success w-100px"
-                                       href="app/admin/user/{{ user.id }}">Edit</a>
+                                       href="app/admin/user/{{ user.id }}">Editar</a>
 
                                     {%  if user.id != 1 %}
                                         <button class="btn btn-sm btn-bold btn-round btn-outline btn-danger w-100px"
-                                           value="{{ user.id }}" id="delete-{{ user.id }}" >Delete</button>
+                                           value="{{ user.id }}" id="delete-{{ user.id }}" >Apagar</button>
                                     {%  endif %}
                                 </div>
                             </div>

@@ -12,47 +12,47 @@
         <div class="row">
             <div class="col-12">
                 <form class="card" method="post" action="secure/api/users">
-                    <h4 class="card-title"><strong>New Account</strong></h4>
+                    <h4 class="card-title"><strong>Novo utilizador</strong></h4>
 
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <h5 class="text-light fw-400">Account Information</h5>
+                                <h5 class="text-light fw-400">Informação do utilizador</h5>
                                 <br>
 
                                 <div class="row">
                                     <div class="form-group col-md-6">
-                                        <label class="text-fader">First name</label>
-                                        <input class="form-control" type="text" name="firstName" id="firstName">
+                                        <label class="text-fader required">Primeiro nome</label>
+                                        <input class="form-control required" type="text" name="firstName" id="firstName">
                                     </div>
 
                                     <div class="form-group col-md-6">
-                                        <label class="text-fader">Last name</label>
-                                        <input class="form-control" type="text" name="lastName" id="lastName">
+                                        <label class="text-fader required">Último nome</label>
+                                        <input class="form-control required" type="text" name="lastName" id="lastName">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="text-fader">Email</label>
-                                    <input class="form-control" type="email" name="email" id="email">
+                                    <label class="text-fader required">Email</label>
+                                    <input class="form-control required" type="email" name="email" id="email">
                                 </div>
 
                                 <br>
                                 <h5 class="text-light fw-100">&nbsp;</h5>
                                 <br>
 
-                                <h5 class="text-light fw-400">Change Password</h5>
+                                <h5 class="text-light fw-400">Password de acesso</h5>
                                 <br>
 
                                 <div class="form-group">
-                                    <label class="text-fader">New password</label>
-                                    <input type="password" class="form-control" id="password" name="password"
+                                    <label class="text-fader required">Password</label>
+                                    <input type="password" class="form-control required" id="password" name="password"
                                             minlength="8" autocomplete="off" required >
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="text-fader">Confirm new password</label>
-                                    <input type="password" class="form-control" id="password-conf"
+                                    <label class="text-fader required">Confirmar password</label>
+                                    <input type="password" class="form-control required" id="password-conf"
                                            minlength="8" autocomplete="off" required >
                                 </div>
 
@@ -62,7 +62,7 @@
                                 <input type="hidden" name="{{csrf.keys.value}}" value="{{csrf.value}}">
 
                                 <button class="btn btn-block btn-primary" id="save"
-                                        type="submit" disabled>Save Changes</button>
+                                        type="submit" disabled>Guardar alterações</button>
                             </div>
                         </div>
                     </div>
@@ -75,5 +75,42 @@
 
 {% endblock %}
 {% block script %}
-    <script src="{{ base_path() }}/assets/js/admin/add-user.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Function to check if all required fields are filled
+            function validateForm() {
+                var isValid = true;
+                $(".required").each(function() {
+                    if (!$(this).is("label") && !$(this).is("div"))
+                    {
+                        if ( $( this ).val().trim() === "" )
+                        {
+                            isValid = false;
+                            console.log( this );
+                            console.log( $( this ).val() );
+                            return false; // Exit the loop early if any field is empty
+                        }
+                    }
+                });
+                return isValid;
+            }
+
+            // Attach an event handler to the input elements with class "required" to check validity when losing focus
+            $(".required").on("blur", function() {
+                if (!validateForm()) {
+                    $("#save").prop("disabled", true);
+                } else {
+                    $("#save").prop("disabled", false);
+                }
+            });
+
+            // Prevent the form from submitting if not valid
+            $("form").submit(function(event) {
+                if (!validateForm()) {
+                    event.preventDefault();
+                    alert("Deve preencher todos os campos obrigatorios.");
+                }
+            });
+        });
+    </script>
 {% endblock %}
