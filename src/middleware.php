@@ -22,13 +22,13 @@ return function (App $app) {
     // Add Routing Middleware
     $app->addRoutingMiddleware();
 
-    $app->addErrorMiddleware(true, true, true);
     $app->add(BasePathMiddleware::class);
     $app->add(SessionMiddleware::class);
     $app->add(NoCacheMiddleware::class);
 
 
     // Add Error Middleware
+    //$app->addErrorMiddleware(true, true, true);
     $errorMiddleware = $app->addErrorMiddleware(DISPLAY_ERRORS, LOGGER_REGISTER_ERRORS, LOGGER_REGISTER_ERRORS_DETAILS);
     $errorMiddleware->setDefaultErrorHandler(ErrorHandlerInterface::class);
 

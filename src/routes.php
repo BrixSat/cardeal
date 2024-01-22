@@ -29,12 +29,12 @@ return function (App $app) {
     $app->get('/404[/]', function (Request $request, Response $response, Environment $twig) {
         $response->getBody()->write($twig->render('error/404.twig'));
         return $response->withHeader('Content-Type', 'text/html');
-    });
+    })->setName('404');
 
     $app->get('/500[/]', function (Request $request, Response $response, Environment $twig) {
         $response->getBody()->write($twig->render('error/500.twig'));
         return $response->withHeader('Content-Type', 'text/html');
-    });
+    })->setName('500');
 
     $app->get('/', function (Request $request, Response $response, RouteParserInterface $router){
         return $response->withStatus(301)

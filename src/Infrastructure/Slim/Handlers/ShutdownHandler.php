@@ -14,20 +14,17 @@ class ShutdownHandler
 
     private HttpErrorHandler $errorHandler;
 
-    private bool $displayErrorDetails;
-
     public function __construct(
         Request $request,
-        HttpErrorHandler $errorHandler,
-        bool $displayErrorDetails
+        HttpErrorHandler $errorHandler
     ) {
         $this->request = $request;
         $this->errorHandler = $errorHandler;
-        $this->displayErrorDetails = $displayErrorDetails;
     }
 
-    public function __invoke()
+    public function __invoke(): void
     {
+
         $error = error_get_last();
         if (!$error) {
             return;
@@ -38,9 +35,9 @@ class ShutdownHandler
         $response = $this->errorHandler->__invoke(
             $this->request,
             $exception,
-            $this->displayErrorDetails,
-            false,
-            false,
+            DISPLAY_ERRORS,
+            LOGGER_REGISTER_ERRORS,
+            LOGGER_REGISTER_ERRORS_DETAILS
         );
 
         $responseEmitter = new ResponseEmitter();

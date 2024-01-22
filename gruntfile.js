@@ -25,7 +25,7 @@ module.exports = function(grunt) {
     banner: '/*!\n' +
             ' * <%= pkg.banner_name %> v<%= pkg.version %> (<%= pkg.homepage %>)\n' +
             ' * Copyright <%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
-            ' * Licensed under the Themeforest Standard Licenses\n' +
+            ' * Licensed under the MIT License\n' +
             ' * <%= grunt.template.today("yyyy-mm-dd") %>\n' +
             ' */\n',
 

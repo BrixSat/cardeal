@@ -31,6 +31,7 @@ class DatabaseConnection
         {
             $this->conn = new PDO($conn_string, DATABASE_USER, DATABASE_PASSWORD);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->conn->setAttribute(PDO::ATTR_TIMEOUT, 2);
         }
         catch (PDOException $exception)
         {

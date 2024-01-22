@@ -37,7 +37,8 @@ $containerBuilder->addDefinitions(
             return $logger;
         },
 
-        ErrorHandlerInterface::class => fn(App $app, LoggerInterface $logger) => new HttpErrorHandler($app->getCallableResolver(), $app->getResponseFactory(), $logger),
+        ErrorHandlerInterface::class => fn(App $app, LoggerInterface $logger, RouteParserInterface $router)
+            => new HttpErrorHandler($app->getCallableResolver(), $app->getResponseFactory(), $router, $logger),
 
         Guard::class => function (App $app, LoggerInterface $logger)
         {

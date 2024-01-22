@@ -48,7 +48,7 @@ $serverRequestCreator = ServerRequestCreatorFactory::create();
 $request = $serverRequestCreator->createServerRequestFromGlobals();
 
 // Create Shutdown Handler
-$shutdownHandler = new ShutdownHandler($request, $container->get(ErrorHandlerInterface::class), DISPLAY_ERRORS);
+$shutdownHandler = new ShutdownHandler($request, $container->get(ErrorHandlerInterface::class));
 register_shutdown_function($shutdownHandler);
 
 
