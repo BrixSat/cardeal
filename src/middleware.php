@@ -8,7 +8,6 @@ use App\Infrastructure\Slim\Middleware\RequestLoggingMiddleware;
 use App\Infrastructure\Slim\Middleware\SessionMiddleware;
 use Slim\App;
 use Slim\Interfaces\ErrorHandlerInterface;
-use Slim\Views\TwigMiddleware;
 
 /*
  * This middleware will be called in reverse order, so:

@@ -7,6 +7,7 @@ namespace App\Infrastructure\Persistence\User;
 use App\Domain\User\User;
 use App\Domain\User\UserNotFoundException;
 use App\Domain\User\UserRepository;
+use App\Infrastructure\DomainException\InvalidArgumentException;
 use App\Infrastructure\Persistence\DatabaseConnection;
 use Exception;
 
@@ -21,13 +22,16 @@ readonly class SqlUserRepository implements UserRepository
     /**
      * @param User $user
      *
-     * @return true
+     * @return User
+     * @throws InvalidArgumentException
      * @throws Exception
      */
-    public function add(User $user): bool
+    public function add(User $user): User
     {
         $result = $this->db->insert(
-            "INSERT INTO user(username, firstName, lastName, email, password, jobTitle) values (?,?,?,?,?,?);",
+            "INSERT INTO user(
+                        username, firstName, lastName, email, password, jobTitle
+                    ) VALUES (?,?,?,?,?,?);",
             [
                 $user->getUsername(),
                 $user->getFirstName(),
@@ -37,23 +41,11 @@ readonly class SqlUserRepository implements UserRepository
                 $user->jobTitle
             ]);
 
-        return true;
-        /*if (!isset($result[0])) {
-            throw new UserNotFoundException();
-        }
+        if ($result === false) throw new InvalidArgumentException('user',"Failed to insert user");
 
-        return new User(
-            $result[0]['id'],
-            $result[0]['username'],
-            $result[0]['firstName'],
-            $result[0]['lastName'],
-            $result[0]['password'],
-            $result[0]['recoverPassword'],
-            $result[0]['email'],
-            $result[0]['jobTitle'],
-            new \DateTime($result[0]['created_at']),
-            new \DateTime($result[0]['updated_at']),
-        );*/
+        $user->id = (int)$result;
+
+        return $user;
     }
 
     /**
@@ -62,22 +54,12 @@ readonly class SqlUserRepository implements UserRepository
      */
     public function findAll(): array
     {
-        $result = $this->db->run("SELECT * FROM user;", []);
+        $result = $this->db->run("SELECT * FROM user;");
 
         foreach ($result as $index => $line) {
-            $result[$index] = new User(
-                $line['id'],
-                $line['username'],
-                $line['firstName'],
-                $line['lastName'],
-                $line['password'],
-                $line['recoverPassword'],
-                $line['email'],
-                $line['jobTitle'],
-                new \DateTime($line['created_at']),
-                new \DateTime($line['updated_at'])
-            );
+            $result[$index] = self::entityToObject($line);
         }
+
         return $result;
     }
 
@@ -89,22 +71,9 @@ readonly class SqlUserRepository implements UserRepository
     {
         $result = $this->db->run("SELECT * FROM user WHERE id = ?;", [$id]);
 
-        if (!isset($result[0])) {
-            throw new UserNotFoundException();
-        }
+        if ($result === false || !isset($result[0])) throw new UserNotFoundException();
 
-        return new User(
-            $result[0]['id'],
-            $result[0]['username'],
-            $result[0]['firstName'],
-            $result[0]['lastName'],
-            $result[0]['password'],
-            $result[0]['recoverPassword'],
-            $result[0]['email'],
-            $result[0]['jobTitle'],
-            new \DateTime($result[0]['created_at']),
-            new \DateTime($result[0]['updated_at']),
-        );
+        return self::entityToObject($result[0]);
     }
 
     /**
@@ -115,53 +84,30 @@ readonly class SqlUserRepository implements UserRepository
     {
         $result = $this->db->run("SELECT * FROM user WHERE username = ? limit 1;", [$username]);
 
-        if (!isset($result[0])) {
-            throw new UserNotFoundException();
-        }
+        if (!isset($result[0])) throw new UserNotFoundException();
 
-        return new User(
-            $result[0]['id'],
-            $result[0]['username'],
-            $result[0]['firstName'],
-            $result[0]['lastName'],
-            $result[0]['password'],
-            $result[0]['recoverPassword'],
-            $result[0]['email'],
-            $result[0]['jobTitle'],
-            new \DateTime($result[0]['created_at']),
-            new \DateTime($result[0]['updated_at']),
-        );
+        return self::entityToObject($result[0]);
     }
 
+    /**
+     * @throws UserNotFoundException
+     * @throws Exception
+     */
     public function findByEmail(string $email): User
     {
         $result = $this->db->run("SELECT * FROM user where email = ? limit 1;", [$email]);
 
-        if (!isset($result[0])) {
-            throw new UserNotFoundException();
-        }
+        if (!isset($result[0])) throw new UserNotFoundException();
 
-        return new User(
-            $result[0]['id'],
-            $result[0]['username'],
-            $result[0]['firstName'],
-            $result[0]['lastName'],
-            $result[0]['password'],
-            $result[0]['recoverPassword'],
-            $result[0]['email'],
-            $result[0]['jobTitle'],
-            new \DateTime($result[0]['created_at']),
-            new \DateTime($result[0]['updated_at']),
-        );
+        return self::entityToObject($result[0]);
     }
 
     public function updateUserPassword(User $user, string $newHash): bool
     {
         $result = $this->db->run("update user set password = ? WHERE id = ?;", [$newHash, $user->id]);
 
-        if (!isset($result[0])) {
-            return false;
-        }
+        if ($result === false) return false;
+
         return true;
     }
 
@@ -175,9 +121,8 @@ readonly class SqlUserRepository implements UserRepository
             ]
         );
 
-        if (!isset($result[0])) {
-            return false;
-        }
+        if (!isset($result[0])) return false;
+
         return true;
     }
 
@@ -186,25 +131,28 @@ readonly class SqlUserRepository implements UserRepository
         if($userId == 1) return false;
         $result = $this->db->run("DELETE FROM user WHERE id = ?;", [$userId]);
 
-        return true;
+        return $result !== false;
     }
 
-   /* public function getUserPermissions(User $user): bool
+    /**
+     * This functions converts data base entity in to class object.
+     *
+     * @throws Exception
+     */
+    private static function entityToObject ($entity): User
     {
-        $result = $this->db->run(
-            "SELECT MAX(IF(permission = 'ADMIN', 1, 0)) AS admin,
-		                    MAX(IF(permission = 'LIST_USER', 1, 0)) AS list_users,
-		                    MAX(IF(permission = 'EDIT_USER', 1, 0)) AS edit_user
-                    FROM user_permissions
-                    WHERE userid = ?
-                    GROUP BY userid",
-            [$user->id]
+        return new User(
+            $entity['id'],
+            $entity['username'],
+            $entity['firstName'],
+            $entity['lastName'],
+            $entity['password'],
+            $entity['recoverPassword'],
+            $entity['email'],
+            $entity['jobTitle'],
+            new \DateTime($entity['created_at']),
+            new \DateTime($entity['updated_at']),
         );
-
-        if (!isset($result[0])) {
-            return false;
-        }
-        return true;
-    }*/
+    }
 
 }

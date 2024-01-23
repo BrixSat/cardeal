@@ -46,7 +46,7 @@ class ShutdownHandler
 
     private function getErrorMessage(array $error): string
     {
-        if (!$this->displayErrorDetails) {
+        if (!DISPLAY_ERRORS) {
             return 'An error while processing your request. Please try again later.';
         }
 

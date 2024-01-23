@@ -12,7 +12,7 @@ final class GeneratedConfig
 	public const EXTENSIONS = array (
   'jangregor/phpstan-prophecy' => 
   array (
-    'install_path' => '/var/www/html/cardeal/vendor/jangregor/phpstan-prophecy',
+    'install_path' => '/Users/mauro.maia/Documents/sandbox/cardeal/vendor/jangregor/phpstan-prophecy',
     'relative_install_path' => '../../../jangregor/phpstan-prophecy',
     'extra' => 
     array (
