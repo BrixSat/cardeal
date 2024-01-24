@@ -60,8 +60,6 @@ return function (App $app) {
         $group->get('/recover/{id}/{recoverPassword}', [LoginController::class, 'viewLoginReset'])
             ->setName('viewLoginReset');
 
-        //$group->post('/signup', [LoginController::class, 'getSignupPage'])
-        //      ->setName('doLoginReset');
     })->add(Guard::class);
 
     $app->group('/logout', function (RouteCollectorProxy $group) {

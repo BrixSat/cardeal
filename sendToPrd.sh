@@ -1,5 +1,7 @@
 #!/bin/bash
+
 set -eo pipefail
+
 # Read the current version and date from the PHP file
 current_version=$(grep "define('VERSION_APP'" "version.php" | awk -F "'" '{print $4}' )
 current_date=$(   grep "define('VERSION_DATE'" "version.php" | awk -F "'" '{print $4}'| sed 's/\//\\\//g')
@@ -21,5 +23,10 @@ sed -i "s/define('VERSION_DATE', '$current_date')/define('VERSION_DATE', '$new_d
 
 echo "Version incremented to $formatted_version, Date updated to $new_date"
 
+php composer.phar update -W --no-interaction --ignore-platform-reqs --no-dev --prefer-dist
 
-rsync -av --exclude='cardeal.sql' --exclude='compose-dev.yaml' --exclude='composer.json' --exclude='composer.lock' --exclude='config.php' --exclude='Dockerfile' --exclude='.eslintrc.json' --exclude='fichas/' --exclude='.git/' --exclude='.gitignore' --exclude='gruntfile.js' --exclude='.htaccess' --exclude='.idea/' --exclude='LICENSE.md' --exclude='logs/' --exclude='package.json' --exclude='package-lock.json' --exclude='README.md' --exclude='schema/' --exclude='sendToPrd.sh' . root@ns1.virtual2.net:/home/cardeal/domains/quintacardeal.com/papa/
+rsync -av --exclude='cardeal.sql' --exclude='compose-dev.yaml' --exclude='composer.json' --exclude='composer.lock' \
+ --exclude='config.php' --exclude='Dockerfile' --exclude='.eslintrc.json' --exclude='fichas/' --exclude='.git/' \
+ --exclude='.gitignore' --exclude='gruntfile.js' --exclude='.htaccess' --exclude='.idea/' --exclude='LICENSE.md' \
+ --exclude='logs/' --exclude='package.json' --exclude='package-lock.json' --exclude='README.md' --exclude='schema/' \
+ --exclude='sendToPrd.sh' . root@ns1.virtual2.net:/home/cardeal/domains/quintacardeal.com/papa/

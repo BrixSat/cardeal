@@ -3,8 +3,8 @@
 namespace App\Application\User;
 
 use App\Domain\User\UserNotFoundException;
-use App\Domain\User\UserRepository;
 use App\Infrastructure\EmailHandler;
+use App\Infrastructure\Persistence\User\SqlUserRepository;
 use App\Infrastructure\Slim\Authentication\Token;
 use App\Infrastructure\Slim\HttpResponse;
 use Psr\Log\LoggerInterface;
@@ -21,14 +21,8 @@ use Twig\Error\SyntaxError;
 class LoginController
 {
     use HttpResponse;
-    private App $app;
 
-    public function __construct(
-        App $app,
-        public LoggerInterface $logger,
-        public UserRepository $userRepository) {
-        $this->app = $app;
-    }
+    public function __construct( public LoggerInterface $logger, public SqlUserRepository $userRepository) { }
 
     /**
      * @throws RuntimeError
@@ -96,7 +90,7 @@ class LoginController
      *
      * @throws LoaderError
      * @throws RuntimeError
-     * @throws SyntaxError
+     * @throws SyntaxError|UserNotFoundException
      */
     public function doLoginRecover(Request $request, Response $response, Environment $twig, RouteParserInterface $router): Response|Message
     {
@@ -124,6 +118,11 @@ class LoginController
     }
 
     /**
+     * @param Request              $request
+     * @param Response             $response
+     * @param RouteParserInterface $router
+     *
+     * @return Response|Message
      * @throws UserNotFoundException
      */
     public function doLoginReset(Request $request, Response $response, RouteParserInterface $router): Response|Message
@@ -147,9 +146,14 @@ class LoginController
     }
 
     /**
-     * @throws UserNotFoundException
+     * @param Request              $request
+     * @param Response             $response
+     * @param RouteParserInterface $router
+     * @param App                  $app
+     *
+     * @return Response|Message
      */
-    public function doLoginValidate(Request $request, Response $response, RouteParserInterface $router)
+    public function doLoginValidate(Request $request, Response $response, RouteParserInterface $router, App $app): Response|Message
     {
         $username = $request->getParsedBody()['username'];
         $password = $request->getParsedBody()['password'];
@@ -158,15 +162,16 @@ class LoginController
         {
             $user = $this->userRepository->findByUsername($username);
         }
-        catch (UserNotFoundException $e)
+        catch (UserNotFoundException)
         {
             $this->logger->warning("Invalid login user password");
             return $response->withStatus(401);
         }
+
         if (password_verify($password, $user->password)) {
             $token = new Token($user->getUsername());
             $token->encode();
-            setcookie("token", $token->token, time() + 3600, empty($this->app->getBasePath()) ? '/' : $this->app->getBasePath());
+            setcookie("token", $token->token, time() + 3600, empty($app->getBasePath()) ? '/' : $app->getBasePath());
             return $response->withStatus(301)->withHeader('Location', $router->urlFor('home'));
         } else {
             $this->logger->warning("Invalid login user password");
@@ -174,6 +179,13 @@ class LoginController
         }
     }
 
+    /**
+     * @param Request              $request
+     * @param Response             $response
+     * @param RouteParserInterface $router
+     *
+     * @return Response|Message
+     */
     public function doLogout(Request $request, Response $response, RouteParserInterface $router): Response|Message
     {
         setcookie("token", "", 0, "");

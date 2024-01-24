@@ -6,16 +6,18 @@ namespace App\Infrastructure\Persistence\Client;
 
 use App\Domain\Client\Client;
 use App\Domain\Client\ClientNotFoundException;
-use App\Domain\Client\ClientRepository;
 use App\Infrastructure\Persistence\DatabaseConnection;
 use DateTime;
 use Exception;
 
-readonly class SqlClientRepository implements ClientRepository
+readonly class SqlClientRepository
 {
     public function __construct(private DatabaseConnection $db) { }
 
     /**
+     * @param Client $client
+     *
+     * @return bool
      * @throws Exception
      */
     public function add(Client $client): bool
@@ -139,7 +141,7 @@ readonly class SqlClientRepository implements ClientRepository
 
 
     /**
-     * {@inheritdoc}
+     * @return array
      * @throws Exception
      */
     public function findAll(): array
@@ -153,8 +155,10 @@ readonly class SqlClientRepository implements ClientRepository
     }
 
     /**
-     * {@inheritdoc}
-     * @throws Exception
+     * @param int $id
+     *
+     * @return Client
+     * @throws ClientNotFoundException
      */
     public function findById(int $id): Client
     {
@@ -168,8 +172,10 @@ readonly class SqlClientRepository implements ClientRepository
     }
 
     /**
-     * {@inheritdoc}
-     * @throws Exception
+     * @param string $name
+     *
+     * @return Client
+     * @throws ClientNotFoundException
      */
     public function findByName(string $name): Client
     {
@@ -183,8 +189,10 @@ readonly class SqlClientRepository implements ClientRepository
     }
 
     /**
+     * @param string $email
+     *
+     * @return Client
      * @throws ClientNotFoundException
-     * @throws Exception
      */
     public function findByEmail(string $email): Client
     {
@@ -207,6 +215,9 @@ readonly class SqlClientRepository implements ClientRepository
     }
 
     /**
+     * @param $line
+     *
+     * @return Client
      * @throws Exception
      */
     private static function fromDBtoClient($line): Client

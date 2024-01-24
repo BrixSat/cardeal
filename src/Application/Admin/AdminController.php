@@ -4,7 +4,7 @@ namespace App\Application\Admin;
 
 use App\Domain\User\User;
 use App\Domain\User\UserNotFoundException;
-use App\Domain\User\UserRepository;
+use App\Infrastructure\Persistence\User\SqlUserRepository;
 use App\Infrastructure\Slim\HttpResponse;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
@@ -21,12 +21,17 @@ class AdminController
 {
     use HttpResponse;
 
-    public function __construct(public LoggerInterface $logger, public UserRepository $userRepository) { }
+    public function __construct(public LoggerInterface $logger, public SqlUserRepository $userRepository) { }
 
     /**
+     * @param Request     $request
+     * @param Response    $response
+     * @param Environment $twig
+     *
+     * @return Response|Message
+     * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
-     * @throws LoaderError
      */
     public function viewAddUserForm(Request $request, Response $response, Environment $twig): Response|Message
     {
@@ -35,9 +40,14 @@ class AdminController
     }
 
     /**
+     * @param Request     $request
+     * @param Response    $response
+     * @param Environment $twig
+     *
+     * @return Response|Message
+     * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
-     * @throws LoaderError
      */
     public function viewUsersList(Request $request, Response $response, Environment $twig): Response|Message
     {
@@ -47,10 +57,16 @@ class AdminController
         return $response->withHeader('Content-Type', 'text/html');
     }
 
-
+    /**
+     * @param Request              $request
+     * @param Response             $response
+     * @param RouteParserInterface $router
+     *
+     * @return Response|Message
+     * @throws \App\Infrastructure\DomainException\InvalidArgumentException
+     */
     public function addUser(Request              $request,
                             Response             $response,
-                            Environment          $twig,
                             RouteParserInterface $router): Response|Message
     {
         $firstName = $request->getParsedBody()['firstName'];
@@ -61,9 +77,7 @@ class AdminController
         try {
             $this->userRepository->findByEmail($email);
             throw new InvalidArgumentException("User Already exist");
-        } catch (UserNotFoundException $ignore) {
-        }
-
+        } catch (UserNotFoundException $ignore) { }
 
         $passwordHash = password_hash($password, null);
 
@@ -81,8 +95,7 @@ class AdminController
                 updatedAt:       null
             )
         );
-        //$this->logger->info("New user added", ["id" => $user->id]);
-        $this->logger->info("New user added", []);
+        $this->logger->info("New user added", ["id" => $user->id]);
 
         /*EmailHandler::SendWelcomeEmail(
             $user,
@@ -90,8 +103,8 @@ class AdminController
             $twig
         );*/
 
-
-        return $response->withStatus(301)->withHeader('Location', $router->urlFor('viewUsersList'));
+        return $response->withStatus(301)
+                        ->withHeader('Location', $router->urlFor('viewUsersList'));
     }
 
 }

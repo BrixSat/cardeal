@@ -4,7 +4,6 @@ namespace App\Application\Planning;
 
 use App\Domain\User\User;
 use App\Domain\User\UserNotFoundException;
-use App\Domain\User\UserRepository;
 use App\Infrastructure\Slim\HttpResponse;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
@@ -21,7 +20,7 @@ class PlanningController
 {
     use HttpResponse;
 
-    public function __construct(public LoggerInterface $logger, public UserRepository $userRepository) { }
+    public function __construct(public LoggerInterface $logger, public SqlUserRepository $userRepository) { }
 
     /**
      * @throws RuntimeError

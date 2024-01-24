@@ -7,9 +7,12 @@ use Slim\Psr7\Response;
 
 trait HttpResponse
 {
-
     /**
+     * @param Response          $response
      * @param object|array|null $data
+     * @param int               $statusCode
+     *
+     * @return Response
      */
     protected function respondWithData(Response     $response,
                                        object|array $data = null,
@@ -20,6 +23,12 @@ trait HttpResponse
         return $this->respond($response, $payload);
     }
 
+    /**
+     * @param Response      $response
+     * @param ActionPayload $payload
+     *
+     * @return Response
+     */
     protected function respond(Response $response, ActionPayload $payload): Response
     {
         $json = json_encode($payload, JSON_PRETTY_PRINT);

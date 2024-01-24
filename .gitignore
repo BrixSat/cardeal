@@ -12,9 +12,6 @@ nbproject/
 .phpunit.result.cache
 cache.properties
 .php_cs.cache
-# Composer
-composer.phar
-composer.lock
 
 vendor/
 node_modules/

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Client;
 
+use App\Infrastructure\DomainException\InvalidArgumentException;
 use DateTime;
 use DateTimeInterface;
 use JsonSerializable;
@@ -225,24 +226,33 @@ class Client implements JsonSerializable
     {
         return $this->observations;
     }
+
+    /**
+     * @param string $name
+     * @param string $fieldName
+     *
+     * @return void
+     * @throws InvalidArgumentException
+     */
     private function validateName(string $name, string $fieldName): void
     {
         $length = strlen($name);
         if ($length < 5 || $length > 255) {
-            throw new \InvalidArgumentException("$fieldName must be between 5 and 255 characters.");
+            throw new InvalidArgumentException($fieldName, "$fieldName must be between 5 and 255 characters.");
         }
     }
 
-    private function validateDate(DateTime $date, string $fieldName): void
-    {
-        /*if ($date > new DateTime('now')) {
-            throw new \InvalidArgumentException("$fieldName must be a valid DateTime.");
-        }*/
-    }
+    /**
+     * @param string $email
+     * @param string $fieldName
+     *
+     * @return void
+     * @throws InvalidArgumentException
+     */
     private function validateEmail(string $email, string $fieldName): void
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new \InvalidArgumentException("$fieldName must be a valid email address.");
+            throw new InvalidArgumentException($fieldName,"$fieldName must be a valid email address.");
         }
     }
 
@@ -268,27 +278,55 @@ class Client implements JsonSerializable
 
     // Setters with validations
 
+    /**
+     * @param string $groomName
+     *
+     * @return void
+     * @throws InvalidArgumentException
+     */
     public function setGroomName(string $groomName): void
     {
         $this->validateName($groomName, 'groomName');
         $this->groomName = $groomName;
     }
 
+    /**
+     * @param string $brideName
+     *
+     * @return void
+     * @throws InvalidArgumentException
+     */
     public function setBrideName(string $brideName): void
     {
         $this->validateName($brideName, 'brideName');
         $this->brideName = $brideName;
     }
 
+    /**
+     * @param DateTime $groomBirthDate
+     *
+     * @return void
+     * @throws InvalidArgumentException
+     */
     public function setGroomBirthDate(DateTime $groomBirthDate): void
     {
-        $this->validateDate($groomBirthDate, 'groomBirthDate');
+        if ($groomBirthDate < new DateTime('now')) {
+            throw new InvalidArgumentException('groomBirthDate', "'groomBirthDate' must be a valid DateTime.");
+        }
         $this->groomBirthDate = $groomBirthDate;
     }
 
+    /**
+     * @param DateTime $brideBirthDate
+     *
+     * @return void
+     * @throws InvalidArgumentException
+     */
     public function setBrideBirthDate(DateTime $brideBirthDate): void
     {
-        $this->validateDate($brideBirthDate, 'brideBirthDate');
+        if ($brideBirthDate < new DateTime('now')) {
+            throw new InvalidArgumentException('brideBirthDate', "'brideBirthDate' must be a valid DateTime.");
+        }
         $this->brideBirthDate = $brideBirthDate;
     }
 
@@ -343,7 +381,6 @@ class Client implements JsonSerializable
 
     public function setEventDate(DateTime $eventDate): void
     {
-        $this->validateDate($eventDate, 'eventDate');
         $this->eventDate = $eventDate;
     }
 
@@ -355,13 +392,11 @@ class Client implements JsonSerializable
 
     public function setClosedDate(DateTime $closedDate): void
     {
-        $this->validateDate($closedDate, 'closedDate');
         $this->closedDate = $closedDate;
     }
 
     public function setTastingDate(DateTime $tastingDate): void
     {
-        $this->validateDate($tastingDate, 'tastingDate');
         $this->tastingDate = $tastingDate;
     }
 

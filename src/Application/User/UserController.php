@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Application\User;
 
 use App\Domain\User\UserNotFoundException;
-use App\Domain\User\UserRepository;
+use App\Infrastructure\Persistence\User\SqlUserRepository;
 use App\Infrastructure\Slim\HttpResponse;
+use Exception;
 use Psr\Log\LoggerInterface;
 use Slim\Psr7\Message;
 use Slim\Psr7\Request;
@@ -20,7 +21,7 @@ class UserController
 {
     use HttpResponse;
 
-    public function __construct(public LoggerInterface $logger, public UserRepository $userRepository) { }
+    public function __construct(public LoggerInterface $logger, public SqlUserRepository $userRepository) { }
 
     /**
      * @param Request     $request
@@ -43,11 +44,12 @@ class UserController
     }
 
     /**
-     * @param Request $request
-     * @param Response $response
+     * @param Request     $request
+     * @param Response    $response
      * @param Environment $twig
      *
      * @return Response|Message
+     * @throws Exception
      */
     public function deleteUserProfile(Request $request, Response $response, Environment $twig): Response|Message
     {

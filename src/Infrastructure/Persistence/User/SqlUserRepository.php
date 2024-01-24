@@ -6,12 +6,11 @@ namespace App\Infrastructure\Persistence\User;
 
 use App\Domain\User\User;
 use App\Domain\User\UserNotFoundException;
-use App\Domain\User\UserRepository;
 use App\Infrastructure\DomainException\InvalidArgumentException;
 use App\Infrastructure\Persistence\DatabaseConnection;
 use Exception;
 
-readonly class SqlUserRepository implements UserRepository
+readonly class SqlUserRepository
 {
 
     /**
@@ -49,7 +48,7 @@ readonly class SqlUserRepository implements UserRepository
     }
 
     /**
-     * {@inheritdoc}
+     * @return array
      * @throws Exception
      */
     public function findAll(): array
@@ -64,8 +63,10 @@ readonly class SqlUserRepository implements UserRepository
     }
 
     /**
-     * {@inheritdoc}
-     * @throws Exception
+     * @param int $id
+     *
+     * @return User
+     * @throws UserNotFoundException
      */
     public function findById(int $id): User
     {
@@ -77,8 +78,10 @@ readonly class SqlUserRepository implements UserRepository
     }
 
     /**
-     * {@inheritdoc}
-     * @throws Exception
+     * @param string $username
+     *
+     * @return User
+     * @throws UserNotFoundException
      */
     public function findByUsername(string $username): User
     {
@@ -90,8 +93,10 @@ readonly class SqlUserRepository implements UserRepository
     }
 
     /**
+     * @param string $email
+     *
+     * @return User
      * @throws UserNotFoundException
-     * @throws Exception
      */
     public function findByEmail(string $email): User
     {
@@ -102,6 +107,13 @@ readonly class SqlUserRepository implements UserRepository
         return self::entityToObject($result[0]);
     }
 
+    /**
+     * @param User   $user
+     * @param string $newHash
+     *
+     * @return bool
+     * @throws Exception
+     */
     public function updateUserPassword(User $user, string $newHash): bool
     {
         $result = $this->db->run("update user set password = ? WHERE id = ?;", [$newHash, $user->id]);
@@ -111,6 +123,13 @@ readonly class SqlUserRepository implements UserRepository
         return true;
     }
 
+    /**
+     * @param User   $user
+     * @param string $newHash
+     *
+     * @return bool
+     * @throws Exception
+     */
     public function updateUserRecoverPassword(User $user, string $newHash): bool
     {
         $result = $this->db->run(
@@ -126,6 +145,12 @@ readonly class SqlUserRepository implements UserRepository
         return true;
     }
 
+    /**
+     * @param int $userId
+     *
+     * @return bool
+     * @throws Exception
+     */
     public function delete(int $userId): bool
     {
         if($userId == 1) return false;

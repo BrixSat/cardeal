@@ -2,9 +2,10 @@
 namespace App\Application\Client;
 
 use App\Domain\Client\ClientNotFoundException;
-use App\Domain\Client\ClientRepository;
 use App\Domain\Client\Client;
+use App\Infrastructure\Persistence\Client\SqlClientRepository;
 use App\Infrastructure\Slim\HttpResponse;
+use Exception;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Slim\Interfaces\RouteParserInterface;
@@ -20,12 +21,17 @@ class ClientController
 {
     use HttpResponse;
 
-    public function __construct(public LoggerInterface $logger, public ClientRepository $clientRepository) { }
+    public function __construct(public LoggerInterface $logger, public SqlClientRepository $clientRepository) { }
 
     /**
+     * @param Request     $request
+     * @param Response    $response
+     * @param Environment $twig
+     *
+     * @return Response|Message
+     * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
-     * @throws LoaderError
      */
     public function viewAddClientForm(Request $request, Response $response, Environment $twig): Response|Message
     {
@@ -34,9 +40,14 @@ class ClientController
     }
 
     /**
+     * @param Request     $request
+     * @param Response    $response
+     * @param Environment $twig
+     *
+     * @return Response|Message
+     * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
-     * @throws LoaderError
      */
     public function viewClientsList(Request $request, Response $response, Environment $twig): Response|Message
     {
@@ -45,6 +56,17 @@ class ClientController
         return $response->withHeader('Content-Type', 'text/html');
     }
 
+    /**
+     * @param Request     $request
+     * @param Response    $response
+     * @param Environment $twig
+     *
+     * @return Response|Message
+     * @throws ClientNotFoundException
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     public function editClient(Request $request, Response $response, Environment $twig): Response|Message
     {
         $client = $this->clientRepository->findById((int) $request->getAttribute('id'));
@@ -53,10 +75,15 @@ class ClientController
     }
 
     /**
-     * @throws SyntaxError
-     * @throws RuntimeError
+     * @param Request     $request
+     * @param Response    $response
+     * @param Environment $twig
+     *
+     * @return Response|Message
      * @throws ClientNotFoundException
      * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function updateClient(Request $request, Response $response, Environment $twig): Response|Message
     {
@@ -71,7 +98,12 @@ class ClientController
     }
 
     /**
-     * @throws \Exception
+     * @param Request              $request
+     * @param Response             $response
+     * @param RouteParserInterface $router
+     *
+     * @return Response|Message
+     * @throws Exception
      */
     public function addClient(Request              $request,
                               Response             $response,
