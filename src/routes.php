@@ -36,6 +36,7 @@ return function (App $app) {
         return $response->withHeader('Content-Type', 'text/html');
     })->setName('500');
 
+
     $app->get('/', function (Request $request, Response $response, RouteParserInterface $router){
         return $response->withStatus(301)
             ->withHeader('Location', $router->urlFor('viewLoginAuth'));

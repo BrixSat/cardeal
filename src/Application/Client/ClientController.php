@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Application\Client;
 
 use App\Domain\Client\ClientNotFoundException;
@@ -21,11 +22,13 @@ class ClientController
 {
     use HttpResponse;
 
-    public function __construct(public LoggerInterface $logger, public SqlClientRepository $clientRepository) { }
+    public function __construct(public LoggerInterface $logger, public SqlClientRepository $clientRepository)
+    {
+    }
 
     /**
-     * @param Request     $request
-     * @param Response    $response
+     * @param Request $request
+     * @param Response $response
      * @param Environment $twig
      *
      * @return Response|Message
@@ -40,8 +43,8 @@ class ClientController
     }
 
     /**
-     * @param Request     $request
-     * @param Response    $response
+     * @param Request $request
+     * @param Response $response
      * @param Environment $twig
      *
      * @return Response|Message
@@ -57,8 +60,8 @@ class ClientController
     }
 
     /**
-     * @param Request     $request
-     * @param Response    $response
+     * @param Request $request
+     * @param Response $response
      * @param Environment $twig
      *
      * @return Response|Message
@@ -69,14 +72,14 @@ class ClientController
      */
     public function editClient(Request $request, Response $response, Environment $twig): Response|Message
     {
-        $client = $this->clientRepository->findById((int) $request->getAttribute('id'));
+        $client = $this->clientRepository->findById((int)$request->getAttribute('id'));
         $response->getBody()->write($twig->render('pages/clients/edit.twig', ["client" => $client]));
         return $response->withHeader('Content-Type', 'text/html');
     }
 
     /**
-     * @param Request     $request
-     * @param Response    $response
+     * @param Request $request
+     * @param Response $response
      * @param Environment $twig
      *
      * @return Response|Message
@@ -87,7 +90,7 @@ class ClientController
      */
     public function updateClient(Request $request, Response $response, Environment $twig): Response|Message
     {
-        $client = $this->clientRepository->findById((int) $request->getAttribute('id'));
+        $client = $this->clientRepository->findById((int)$request->getAttribute('id'));
 
         $this->clientRepository->update(
             Client::formToClient($request->getParsedBody(), $client->id)
@@ -98,34 +101,55 @@ class ClientController
     }
 
     /**
-     * @param Request              $request
-     * @param Response             $response
+     * @param Request $request
+     * @param Response $response
      * @param RouteParserInterface $router
      *
      * @return Response|Message
      * @throws Exception
      */
-    public function addClient(Request              $request,
-                              Response             $response,
-                              RouteParserInterface $router): Response|Message
+    public function addClient(
+        Request              $request,
+        Response             $response,
+        RouteParserInterface $router
+    ): Response|Message
     {
-        $groomEmail = $request->getParsedBody()['groomEmail'];
 
-        try {
-            $this->clientRepository->findByEmail($groomEmail);
-//            $this->clientRepository->findByEmail($brideEmail);
-            throw new InvalidArgumentException("Client Already exist");
+        $groomEmail = $request->getParsedBody()[ 'groomEmail' ];
+
+        try
+        {
+            $client = $this->clientRepository->findByEmail($groomEmail);
+            if ($client != false && $client->getGroomEmail() != "")
+            {
+                $json = ['error' => true, 'message' => "Já existe um noivo com esse email!"];
+                $response->getBody()->write(json_encode($json));
+                return $response;
+            }
+
         } catch (ClientNotFoundException) { }
-
-
-        $this->clientRepository->add(
-            Client::formToClient($request->getParsedBody())
-        );
-
-        $this->logger->info("New user added", []);
-
-        return $response->withStatus(301)->withHeader('Location', $router->urlFor('viewClientsList'));
+        catch (Exception $e)
+        {
+            $this->logger->error("Error adding user: " . $e->getMessage());
+            $json = ['error' => true, 'message' => $e->getMessage()];
+            $response->getBody()->write(json_encode($json));
+            return $response;
+        }
+        try
+        {
+            $this->clientRepository->add(
+                Client::formToClient($request->getParsedBody())
+            );
+            $this->logger->info("New user added", []);
+            return $response->withStatus(301)->withHeader('Location', $router->urlFor('viewClientsList'));
+        }
+        catch (Exception $e)
+        {
+            $json = ['error' => true, 'message' => $e->getMessage()];
+            $this->logger->error("Error adding user: " . $e->getMessage());
+            $response->getBody()->write(json_encode($json));
+            return $response;
+        }
     }
-
 }
 

@@ -67,7 +67,7 @@
                                     <td>{{ client.closedDate|date('d/m/Y')  }}</td>
                                     <td class="text-right table-actions">
                                         <a class="table-action hover-primary" href="app/clients/edit/{{ client.id }}"><i class="ti-pencil"></i></a>
-                                        <a class="table-action hover-danger" href="app/clients/remove/{{ client.id }}"><i class="ti-trash"></i></a>
+                                        <a class="table-action hover-danger" href="#" onclick="deleteClient('{{ client.id }}', '{{ client.groomName }}','{{ client.brideName }}');"><i class="ti-trash"></i></a>
                                         <div class="dropdown table-action">
                                             <span class="dropdown-toggle no-caret hover-primary" data-toggle="dropdown"><i class="ti-more-alt rotate-90"></i></span>
                                             <div class="dropdown-menu dropdown-menu-right">
@@ -85,7 +85,33 @@
             </div>
         </div>
     </div>
+
+
+
 {% endblock %}
 {% block script %}
-    <script src="{{ base_path() }}/assets/js/admin/list-user.min.js"></script>
+<script data-provide="sweetalert">
+    function deleteClient(id, groomName, brideName)
+    {
+        swal({
+            title: 'Tem a certeza que deseja apagar o cliente ' + id + '?',
+            html: "Noivo: " +  groomName + '<br>Noiva: ' + brideName,
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then(function(result) {
+            console.log(result);
+            if (result.value === true)
+            {
+                swal(
+                    'Apagado com sucesso!',
+                    'O cliente foi apagado com sucesso.',
+                    'success'
+                );
+            }
+        });
+    }
+</script>
 {% endblock %}

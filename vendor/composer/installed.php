@@ -3,7 +3,7 @@
         'name' => 'mfm/slim-skeleton',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'ada0631c9be72583821fd7d61ac6ef23ab55721c',
+        'reference' => '6ca1cb2012042c639afd65cafe64ab8aab23d0e4',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -40,7 +40,7 @@
         'mfm/slim-skeleton' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'ada0631c9be72583821fd7d61ac6ef23ab55721c',
+            'reference' => '6ca1cb2012042c639afd65cafe64ab8aab23d0e4',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

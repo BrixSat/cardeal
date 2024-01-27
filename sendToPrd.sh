@@ -30,3 +30,6 @@ rsync -av --exclude='cardeal.sql' --exclude='compose-dev.yaml' --exclude='compos
  --exclude='.gitignore' --exclude='gruntfile.js' --exclude='.htaccess' --exclude='.idea/' --exclude='LICENSE.md' \
  --exclude='logs/' --exclude='package.json' --exclude='package-lock.json' --exclude='README.md' --exclude='schema/' \
  --exclude='sendToPrd.sh' . root@ns1.virtual2.net:/home/cardeal/domains/quintacardeal.com/papa/
+
+
+ssh root@ns1.virtual2.net "cd /home/cardeal/domains/quintacardeal.com/papa/ ; ls -lha ; chown cardeal:cardeal . -R"
