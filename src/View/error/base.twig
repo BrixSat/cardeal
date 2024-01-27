@@ -1,61 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app_lang }}">
 
 <head>
-    {% block head %}
-        <title>{{ app_name }}</title>
-        <base href="{{ base_path() }}/"/>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="{{ app_description }}">
+    <base href="{{ base_path() }}/"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="{{ app_description }}">
+    <meta name="keywords" content="{{ app_keywords }}">
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,300i"
-              rel="stylesheet">
+    <!-- Fonts -->
+    <link href="assets/css/fonts.css" rel="stylesheet">
 
-        <!-- Styles -->
-        <link href="assets/css/core.min.css" rel="stylesheet">
-        <link href="assets/css/app.css" rel="stylesheet">
-        <link href="assets/css/style.css" rel="stylesheet">
+    <!-- Styles -->
+    <link href="assets/css/core.min.css" rel="stylesheet">
+    <link href="assets/css/app.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
 
-        <!-- Favicons -->
-        <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
-        <link rel="icon" href="assets/img/favicon.ico">
-    {% endblock %}
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+    <link rel="icon" href="assets/img/favicon.png">
+
+    <meta http-equiv="Cache-Control" content="no-cache"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0" />
+
+    {% block head %} {% endblock %}
 </head>
 
 <body>
 
-<div class="row no-margin h-fullscreen" style="padding-top: 10%">
-
-    <div class="col-12">
-        <div class="card card-transparent mx-auto text-center">
-
-            {% block content %}{% endblock %}
-
-            <br>
-
-            <ul class="nav nav-primary nav-dotted nav-dot-separated justify-content-center fs-14">
-                <li class="nav-item">
-                    <a class="nav-link" href="mailto:dev@maurofilipemaia.dev">Report problem</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="">Return home</a>
-                </li>
-            </ul>
+<!-- Preloader -->
+{% block preloader %}
+    <div class="preloader">
+        <div class="spinner-dots">
+            <span class="dot1"></span>
+            <span class="dot2"></span>
+            <span class="dot3"></span>
         </div>
     </div>
+{% endblock %}
 
-    {{ source('footer.twig') }}
-
-</div>
-
+<main class="main-container">
+    <div class="main-content">
+        <div class="row no-margin">
+            <div class="col-12">
+                <div class="card card-transparent mx-auto text-center">
+                    {% block content %}{% endblock %}
+                    <br>
+                    <ul class="nav nav-primary nav-dotted nav-dot-separated justify-content-center fs-14">
+                        <li class="nav-item">
+                            <a class="nav-link" href="mailto:dev@maurofilipemaia.dev">Report problem</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Return home</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main container -->
+    {{ include('footer.twig') }}
+</main>
+<!-- Main container -->
 
 <!-- Scripts -->
-<script src="assets/js/core.min.js"></script>
-<script src="assets/js/app.js"></script>
-<script src="assets/js/script.js"></script>
-
+<script src="{{ base_path() }}/assets/js/core.min.js"></script>
+<script src="{{ base_path() }}/assets/js/app.js"></script>
+<script src="{{ base_path() }}/assets/js/script.js"></script>
+{% block script %}
+{% endblock %}
 </body>
-
 </html>

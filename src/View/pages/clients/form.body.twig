@@ -98,7 +98,7 @@
             <div class="row">
                 <div class="form-group col-md-6">
                     <label for="eventDate" class="text-fader required">Data do evento</label>
-                    <input class="form-control required" type="text" name="eventDate" id="eventDate"  data-provide="datepicker" data-date-format="dd/mm/yyyy"  data-date-today-highlight="true" value="{{ (client.eventDate |date('d-m-Y')) | default("") }}">
+                    <input class="form-control required" type="text" name="eventDate" id="eventDate"  data-provide="datepicker" data-date-format="dd/mm/yyyy"  data-date-today-highlight="true" value="{{ (client.eventDate |date('d/m/Y')) | default("") }}">
                 </div>
 
                 <div class="form-group col-md-6">
@@ -110,11 +110,11 @@
             <div class="row">
                 <div class="form-group col-md-6">
                     <label for="closedDate" class="text-fader">Data Fecho</label>
-                    <input class="form-control" type="text" name="closedDate" id="closedDate"  data-provide="datepicker" data-date-format="dd/mm/yyyy"  data-date-today-highlight="true" value="{{ (client.closedDate |date('d-m-Y')) | default("") }}">
+                    <input class="form-control" type="text" name="closedDate" id="closedDate"  data-provide="datepicker" data-date-format="dd/mm/yyyy"  data-date-today-highlight="true" value="{{ (client.closedDate |date('d/m/Y')) | default("") }}">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="tastingDate" class="text-fader">Data Degustação</label>
-                    <input class="form-control" type="text" name="tastingDate" id="tastingDate"  data-provide="datepicker" data-date-format="dd/mm/yyyy"  data-date-today-highlight="true" value="{{ (client.tastingDate |date('d-m-Y')) | default("") }}">
+                    <input class="form-control" type="text" name="tastingDate" id="tastingDate"  data-provide="datepicker" data-date-format="dd/mm/yyyy"  data-date-today-highlight="true" value="{{ (client.tastingDate |date('d/m/Y')) | default("") }}">
                 </div>
 
             </div>

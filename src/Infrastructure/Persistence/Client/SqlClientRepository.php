@@ -149,7 +149,7 @@ readonly class SqlClientRepository
         $result = $this->db->run("SELECT * FROM clients;");
 
         foreach ($result as $index => $line) {
-            $result[$index] = self::fromDBtoClient($result[0]);
+            $result[$index] = self::fromDBtoClient($line);
         }
         return $result;
     }

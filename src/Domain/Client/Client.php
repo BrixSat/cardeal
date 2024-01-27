@@ -237,7 +237,7 @@ class Client implements JsonSerializable
     private function validateName(string $name, string $fieldName): void
     {
         $length = strlen($name);
-        if ($length < 5 || $length > 255) {
+        if ($length < 3 || $length > 255) {
             throw new InvalidArgumentException($fieldName, "$fieldName must be between 5 and 255 characters.");
         }
     }
@@ -310,7 +310,7 @@ class Client implements JsonSerializable
      */
     public function setGroomBirthDate(DateTime $groomBirthDate): void
     {
-        if ($groomBirthDate < new DateTime('now')) {
+        if ($groomBirthDate > new DateTime('now')) {
             throw new InvalidArgumentException('groomBirthDate', "'groomBirthDate' must be a valid DateTime.");
         }
         $this->groomBirthDate = $groomBirthDate;
@@ -324,7 +324,7 @@ class Client implements JsonSerializable
      */
     public function setBrideBirthDate(DateTime $brideBirthDate): void
     {
-        if ($brideBirthDate < new DateTime('now')) {
+        if ($brideBirthDate > new DateTime('now')) {
             throw new InvalidArgumentException('brideBirthDate', "'brideBirthDate' must be a valid DateTime.");
         }
         $this->brideBirthDate = $brideBirthDate;
