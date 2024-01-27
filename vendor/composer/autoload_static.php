@@ -8,7 +8,6 @@ class ComposerStaticInit0445ca4551910ce157c3ab264ccc1c96
 {
     public static $files = array (
         '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
-        '9b38cf48e83f5d8f60375221cd213eee' => __DIR__ . '/..' . '/phpstan/phpstan/bootstrap.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         'b33e3d135e5d9e47d845c576147bda89' => __DIR__ . '/..' . '/php-di/php-di/src/functions.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
@@ -37,7 +36,6 @@ class ComposerStaticInit0445ca4551910ce157c3ab264ccc1c96
             'Psr\\Http\\Server\\' => 16,
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Container\\' => 14,
-            'PHPStan\\ExtensionInstaller\\' => 27,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
         'M' => 
@@ -47,10 +45,6 @@ class ComposerStaticInit0445ca4551910ce157c3ab264ccc1c96
         'L' => 
         array (
             'Laravel\\SerializableClosure\\' => 28,
-        ),
-        'J' => 
-        array (
-            'JanGregor\\Prophecy\\' => 19,
         ),
         'I' => 
         array (
@@ -120,10 +114,6 @@ class ComposerStaticInit0445ca4551910ce157c3ab264ccc1c96
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
         ),
-        'PHPStan\\ExtensionInstaller\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/phpstan/extension-installer/src',
-        ),
         'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
@@ -135,10 +125,6 @@ class ComposerStaticInit0445ca4551910ce157c3ab264ccc1c96
         'Laravel\\SerializableClosure\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel/serializable-closure/src',
-        ),
-        'JanGregor\\Prophecy\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/jangregor/phpstan-prophecy/src',
         ),
         'Invoker\\' => 
         array (
