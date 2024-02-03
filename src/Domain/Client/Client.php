@@ -43,13 +43,30 @@ class Client implements JsonSerializable
         if (isset($form[ 'rooms' ]))        $rooms = 1;     else $rooms = 0;
         if (isset($form[ 'menu' ]))         $menu = 1;      else $menu = 0;
         if (isset($form[ 'fireworks' ]))    $fireworks = 1; else $fireworks = 0;
+        if ($form[ 'groomBirthDate'] == null)
+        {
+            $groomBirthDate = "01/01/1970";
+        }
+        else
+        {
+            $groomBirthDate = $form[ 'groomBirthDate'];
+        }
+
+        if ($form[ 'brideBirthDate'] == null)
+        {
+            $brideBirthDate = "01/01/1970";
+        }
+        else
+        {
+            $brideBirthDate = $form[ 'brideBirthDate'];
+        }
 
         return new Client(
             id              : $id,
             groomName       : $form[ 'groomName' ],
             brideName       : $form[ 'brideName' ],
-            groomBirthDate  : DateTime::createFromFormat('d/m/Y', $form[ 'groomBirthDate' ]),
-            brideBirthDate  : DateTime::createFromFormat('d/m/Y', $form[ 'brideBirthDate' ]),
+            groomBirthDate  : DateTime::createFromFormat('d/m/Y', $groomBirthDate),
+            brideBirthDate  : DateTime::createFromFormat('d/m/Y', $brideBirthDate),
             groomEmail      : $form[ 'groomEmail' ],
             brideEmail      : $form[ 'brideEmail' ],
             groomPhone      : $form[ 'groomPhone' ],
@@ -237,9 +254,9 @@ class Client implements JsonSerializable
     private function validateName(string $name, string $fieldName): void
     {
         $length = strlen($name);
-        if ($length < 3 || $length > 255) {
+        /*if ($length < 3 || $length > 255) {
             throw new InvalidArgumentException($fieldName, "$fieldName must be between 5 and 255 characters.");
-        }
+        }*/
     }
 
     /**
@@ -338,19 +355,19 @@ class Client implements JsonSerializable
 
     public function setBrideEmail(string $brideEmail): void
     {
-        $this->validateEmail($brideEmail, 'brideEmail');
+      //  $this->validateEmail($brideEmail, 'brideEmail');
         $this->brideEmail = $brideEmail;
     }
 
     public function setGroomPhone(string $groomPhone): void
     {
-        $this->validatePhone($groomPhone, 'groomPhone');
+      //  $this->validatePhone($groomPhone, 'groomPhone');
         $this->groomPhone = $groomPhone;
     }
 
     public function setBridePhone(string $bridePhone): void
     {
-        $this->validatePhone($bridePhone, 'bridePhone');
+        //$this->validatePhone($bridePhone, 'bridePhone');
         $this->bridePhone = $bridePhone;
     }
 

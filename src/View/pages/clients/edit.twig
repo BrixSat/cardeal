@@ -11,7 +11,7 @@
     <div class="main-content">
         <div class="row">
             <div class="col-12">
-                <form class="card" method="post" action="app/clients/edit/{{ client.id }}">
+                <form class="card" id="myForm" method="post" action="app/clients/edit/{{ client.id }}">
                     <input type="hidden" name="id" value="{{ client.id }}">
                     <h4 class="card-title"><strong>Editar cliente #{{ client.id }}</strong></h4>
 
@@ -48,12 +48,17 @@
 
             // Attach an event handler to the input elements with class "required" to check validity when losing focus
             $(".required").on("blur", function() {
+              submitStatus();
+            });
+
+            function submitStatus()
+            {
                 if (!validateForm()) {
                     $("#save").prop("disabled", true);
                 } else {
                     $("#save").prop("disabled", false);
                 }
-            });
+            }
 
             // Prevent the form from submitting if not valid
             $("form").submit(function(event) {
@@ -62,6 +67,8 @@
                     alert("Deve preencher todos os campos obrigatorios.");
                 }
             });
+
+            setTimeout(submitStatus, 1000);
         });
     </script>
 {% endblock %}

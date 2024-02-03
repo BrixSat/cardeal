@@ -14,8 +14,8 @@
             </div>
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label for="groomBirthDate" class="text-fader required">Data nascimento - {{ client.groomBirthDate|date('d/m/Y')  }}</label>
-                    <input class="form-control required" type="text" name="groomBirthDate" id="groomBirthDate"  data-provide="datepicker" data-date-format="dd/mm/yyyy"  data-date-today-highlight="true" value="{{ client.groomBirthDate|date('d/m/Y')  }}">
+                    <label for="groomBirthDate" class="text-fader">Data nascimento</label>
+                    <input class="form-control" type="text" name="groomBirthDate" id="groomBirthDate" data-provide="datepicker" data-date-format="dd/mm/yyyy"  data-date-today-highlight="true" value="{{ (client.groomBirthDate | date('d/m/Y')) | default("") }}">
                 </div>
 
                 <div class="form-group col-md-6">
@@ -26,13 +26,13 @@
 
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label for="groomPhone" class="text-fader required">Telemóvel</label>
-                    <input class="form-control required" type="tel" name="groomPhone" id="groomPhone" value="{{ client.groomPhone | default("") }}">
+                    <label for="groomPhone" class="text-fader">Telemóvel</label>
+                    <input class="form-control" type="tel" name="groomPhone" id="groomPhone" value="{{ client.groomPhone | default("") }}">
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="groomAddress" class="text-fader required">Morada</label>
-                    <input class="form-control required" type="text" name="groomAddress" id="groomAddress" value="{{ client.groomAddress | default("") }}">
+                    <label for="groomAddress" class="text-fader">Morada</label>
+                    <input class="form-control" type="text" name="groomAddress" id="groomAddress" value="{{ client.groomAddress | default("") }}">
                 </div>
             </div>
 
@@ -41,26 +41,26 @@
 
             <div class="row">
                 <div class="form-group col-md-12">
-                    <label for="brideName" class="text-fader required">Nome</label>
-                    <input class="form-control required" type="text" name="brideName" id="brideName" value="{{ client.brideName | default("") }}">
+                    <label for="brideName" class="text-fader">Nome</label>
+                    <input class="form-control" type="text" name="brideName" id="brideName" value="{{ client.brideName | default("") }}">
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label for="brideBirthDate" class="text-fader required">Data nascimento</label>
-                    <input class="form-control required" type="text" name="brideBirthDate" id="brideBirthDate"  data-provide="datepicker" data-date-format="dd/mm/yyyy"  data-date-today-highlight="true" value="{{ (client.brideBirthDate | date('d/m/Y')) | default("") }}">
+                    <label for="brideBirthDate" class="text-fader ">Data nascimento</label>
+                    <input class="form-control" type="text" name="brideBirthDate" id="brideBirthDate"  data-provide="datepicker" data-date-format="dd/mm/yyyy"  data-date-today-highlight="true" value="{{ (client.brideBirthDate | date('d/m/Y')) | default("") }}">
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="brideEmail" class="text-fader required">Email</label>
-                    <input class="form-control required" type="email" name="brideEmail" id="brideEmail" value="{{ client.brideEmail | default("") }}">
+                    <label for="brideEmail" class="text-fader">Email</label>
+                    <input class="form-control" type="email" name="brideEmail" id="brideEmail" value="{{ client.brideEmail | default("") }}">
                 </div>
             </div>
 
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label for="bridePhone" class="text-fade required">Telemóvel</label>
-                    <input class="form-control required" type="tel" name="bridePhone" id="bridePhone" value="{{ client.bridePhone | default("") }}">
+                    <label for="bridePhone" class="text-fade">Telemóvel</label>
+                    <input class="form-control" type="tel" name="bridePhone" id="bridePhone" value="{{ client.bridePhone | default("") }}">
                 </div>
 
                 <div class="form-group col-md-6">
@@ -74,8 +74,8 @@
 
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label for="typeOfEvent" class="text-fader required">Tipo de evento</label>
-                    <select class="form-control required" data-provide="selectpicker" id="typeOfEvent" name="typeOfEvent">
+                    <label for="typeOfEvent" class="text-fader">Tipo de evento</label>
+                    <select class="form-control" data-provide="selectpicker" id="typeOfEvent" name="typeOfEvent">
                         <option value="0" {% if client.typeOfEvent == ""  %} selected {% endif %}>Selecione uma opção</option>
                         <option value="1" {% if client.typeOfEvent == 1 %} selected {% endif %}>Casamento</option>
                         <option value="2" {% if client.typeOfEvent == 2 %} selected {% endif %}>Batizado</option>

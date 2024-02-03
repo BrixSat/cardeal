@@ -96,6 +96,8 @@ class ClientController
             Client::formToClient($request->getParsedBody(), $client->id)
         );
 
+        $client = $this->clientRepository->findById((int)$request->getAttribute('id'));
+
         $response->getBody()->write($twig->render('pages/clients/edit.twig', ["client" => $client]));
         return $response->withHeader('Content-Type', 'text/html');
     }
